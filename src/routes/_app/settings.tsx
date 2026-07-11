@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, LogOut } from "lucide-react";
+import { Loader2, LogOut, Mail, KeyRound, Shield } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/settings")({
@@ -36,38 +36,60 @@ function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg space-y-6">
+    <div className="mx-auto max-w-2xl space-y-10">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Manage your account.</p>
+        <div className="text-xs font-semibold uppercase tracking-widest text-primary">Account</div>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Settings</h1>
+        <p className="mt-2 text-[15px] text-muted-foreground">Manage your Gigify account.</p>
       </div>
 
-      <div className="rounded-2xl border border-border bg-surface/40 p-5">
-        <div className="text-xs uppercase tracking-wide text-muted-foreground">Account</div>
-        <div className="mt-2 text-sm">{user?.email}</div>
-      </div>
-
-      <form onSubmit={changePassword} className="rounded-2xl border border-border bg-surface/40 p-5 space-y-4">
-        <div>
-          <div className="text-xs uppercase tracking-wide text-muted-foreground">Change password</div>
+      <Section icon={Mail} title="Account" description="Your account details.">
+        <div className="rounded-lg border border-border bg-[#FAFAF7] px-4 py-3 text-sm text-foreground">
+          {user?.email}
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="pw">New password</Label>
-          <Input id="pw" type="password" minLength={6} value={pw}
-            onChange={(e) => setPw(e.target.value)} placeholder="At least 6 characters" />
-        </div>
-        <Button type="submit" disabled={busy || !pw}>
-          {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Update password
-        </Button>
-      </form>
+      </Section>
 
-      <div className="rounded-2xl border border-border bg-surface/40 p-5">
-        <div className="text-xs uppercase tracking-wide text-muted-foreground">Session</div>
-        <Button variant="secondary" onClick={signOut} className="mt-3">
+      <Section icon={KeyRound} title="Change password" description="Update the password used to sign in.">
+        <form onSubmit={changePassword} className="space-y-5">
+          <div className="space-y-2">
+            <Label htmlFor="pw" className="text-sm font-medium">New password</Label>
+            <Input id="pw" type="password" minLength={6} value={pw}
+              onChange={(e) => setPw(e.target.value)} placeholder="At least 6 characters" />
+          </div>
+          <Button type="submit" disabled={busy || !pw}>
+            {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Update password
+          </Button>
+        </form>
+      </Section>
+
+      <Section icon={Shield} title="Session" description="Sign out on this device.">
+        <Button variant="outline" onClick={signOut}>
           <LogOut className="mr-2 h-4 w-4" /> Sign out
         </Button>
-      </div>
+      </Section>
     </div>
+  );
+}
+
+function Section({
+  icon: Icon, title, description, children,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string; description: string; children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-2xl border border-border bg-surface p-7 shadow-xs">
+      <div className="mb-6 flex items-start gap-3">
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/8 text-primary">
+          <Icon className="h-4 w-4" />
+        </div>
+        <div>
+          <h2 className="text-base font-semibold tracking-tight">{title}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+        </div>
+      </div>
+      {children}
+    </section>
   );
 }
