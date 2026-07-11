@@ -38,86 +38,80 @@
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-soft: var(--brand-soft);
+  --color-success: var(--success);
+  --color-danger: var(--destructive);
 
-  --shadow-glow: 0 0 40px -8px oklch(0.72 0.16 235 / 0.35);
-  --shadow-card: 0 1px 0 0 oklch(1 0 0 / 0.04) inset, 0 8px 24px -12px oklch(0 0 0 / 0.6);
+  --shadow-xs: 0 1px 2px 0 rgb(17 17 17 / 0.04);
+  --shadow-sm: 0 1px 2px 0 rgb(17 17 17 / 0.05), 0 1px 3px 0 rgb(17 17 17 / 0.04);
+  --shadow-md: 0 4px 12px -2px rgb(17 17 17 / 0.06), 0 2px 4px -2px rgb(17 17 17 / 0.04);
+  --shadow-lg: 0 12px 32px -8px rgb(17 17 17 / 0.08), 0 4px 8px -4px rgb(17 17 17 / 0.04);
+  --shadow-card: 0 1px 2px 0 rgb(17 17 17 / 0.04), 0 1px 3px 0 rgb(17 17 17 / 0.03);
+  --shadow-elevated: 0 1px 2px 0 rgb(17 17 17 / 0.04), 0 8px 24px -12px rgb(17 17 17 / 0.10);
 }
 
-/* Dark by default — the whole app is dark. */
 :root {
   --radius: 0.75rem;
 
-  --background: oklch(0.145 0 0);          /* #0B0B0B-ish */
-  --foreground: oklch(0.97 0 0);
+  --background: #FAFAF7;
+  --foreground: #111111;
 
-  --surface: oklch(0.19 0 0);              /* elevated card */
-  --surface-hi: oklch(0.23 0 0);           /* hovered / higher */
+  --surface: #FFFFFF;
+  --surface-hi: #FFFFFF;
 
-  --card: var(--surface);
-  --card-foreground: var(--foreground);
-  --popover: oklch(0.17 0 0);
-  --popover-foreground: var(--foreground);
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  --popover: #FFFFFF;
+  --popover-foreground: #111111;
 
-  --brand: oklch(0.72 0.16 235);           /* sky-500 area */
-  --brand-foreground: oklch(0.14 0 0);
-  --brand-soft: oklch(0.72 0.16 235 / 0.12);
+  --brand: #2563EB;
+  --brand-foreground: #FFFFFF;
+  --brand-soft: rgb(37 99 235 / 0.08);
 
-  --primary: var(--brand);
-  --primary-foreground: var(--brand-foreground);
+  --primary: #2563EB;
+  --primary-foreground: #FFFFFF;
 
-  --secondary: oklch(0.24 0 0);
-  --secondary-foreground: oklch(0.97 0 0);
+  --secondary: #F3F4F2;
+  --secondary-foreground: #111111;
 
-  --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.68 0 0);
+  --muted: #F3F4F2;
+  --muted-foreground: #6B7280;
 
-  --accent: oklch(0.26 0 0);
-  --accent-foreground: oklch(0.97 0 0);
+  --accent: #F3F4F2;
+  --accent-foreground: #111111;
 
-  --destructive: oklch(0.62 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
+  --success: #16A34A;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
 
-  --border: oklch(1 0 0 / 0.08);
-  --input: oklch(1 0 0 / 0.10);
-  --ring: oklch(0.72 0.16 235 / 0.5);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.97 0 0);
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: rgb(37 99 235 / 0.35);
 }
 
 @layer base {
   * { border-color: var(--color-border); }
-  html, body { background-color: var(--color-background); color: var(--color-foreground); }
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
   body {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    letter-spacing: -0.011em;
   }
+  h1, h2, h3, h4 { letter-spacing: -0.022em; }
   ::selection { background: var(--brand-soft); color: var(--foreground); }
 }
 
-@utility bg-grid {
-  background-image:
-    linear-gradient(to right, oklch(1 0 0 / 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(1 0 0 / 0.04) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
-
-@utility bg-radial-brand {
-  background-image: radial-gradient(ellipse 60% 50% at 50% 0%, oklch(0.72 0.16 235 / 0.18), transparent 60%);
-}
-
-@utility text-gradient-brand {
-  background: linear-gradient(180deg, oklch(0.98 0 0), oklch(0.75 0.02 240));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+@utility bg-dot {
+  background-image: radial-gradient(rgb(17 17 17 / 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @utility animate-fade-up { animation: fade-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
@@ -127,7 +121,7 @@
   100% { background-position: 200% 0; }
 }
 @utility shimmer {
-  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.06), transparent);
+  background: linear-gradient(90deg, #F3F4F2, #E9EAE6, #F3F4F2);
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;
 }

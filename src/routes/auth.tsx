@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -57,38 +57,40 @@ function AuthPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4">
-      <div className="absolute inset-0 bg-grid opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
-      <div className="absolute inset-0 bg-radial-brand" />
-      <div className="relative w-full max-w-sm animate-fade-up">
-        <Link to="/" className="mb-8 flex items-center justify-center gap-2">
-          <div className="grid h-9 w-9 place-items-center rounded-lg bg-brand/15 text-brand ring-1 ring-inset ring-brand/30">
+    <div className="relative flex min-h-screen items-center justify-center bg-background px-4 py-12">
+      <Link to="/" className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <ArrowLeft className="h-4 w-4" /> Back
+      </Link>
+
+      <div className="w-full max-w-[400px] animate-fade-up">
+        <Link to="/" className="mb-10 flex items-center justify-center gap-2.5">
+          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm">
             <Sparkles className="h-4 w-4" />
           </div>
-          <span className="text-xl font-bold tracking-tight">Gigify</span>
+          <span className="text-lg font-semibold tracking-tight">Gigify</span>
         </Link>
 
-        <div className="rounded-2xl border border-border bg-surface/60 p-6 shadow-card backdrop-blur">
-          <h1 className="text-xl font-semibold tracking-tight">
+        <div className="rounded-2xl border border-border bg-surface p-8 shadow-sm">
+          <h1 className="text-2xl font-semibold tracking-tight">
             {mode === "signin" ? "Welcome back" : "Create your account"}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {mode === "signin" ? "Sign in to keep winning gigs." : "Free — 5 proposals per month."}
+          <p className="mt-2 text-sm text-muted-foreground">
+            {mode === "signin" ? "Sign in to keep winning gigs." : "Free forever — 5 proposals per month."}
           </p>
 
-          <form onSubmit={onSubmit} className="mt-6 space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="email">Email</Label>
+          <form onSubmit={onSubmit} className="mt-8 space-y-5">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium text-foreground">Email address</Label>
               <Input id="email" type="email" required value={email}
                 onChange={(e) => setEmail(e.target.value)} placeholder="you@work.com" autoComplete="email" />
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="password">Password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium text-foreground">Password</Label>
               <Input id="password" type="password" required minLength={6} value={password}
-                onChange={(e) => setPassword(e.target.value)} placeholder="••••••••"
+                onChange={(e) => setPassword(e.target.value)} placeholder="At least 6 characters"
                 autoComplete={mode === "signin" ? "current-password" : "new-password"} />
             </div>
-            <Button type="submit" className="w-full" disabled={busy}>
+            <Button type="submit" className="h-11 w-full" disabled={busy}>
               {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {mode === "signin" ? "Sign in" : "Create account"}
             </Button>
@@ -97,15 +99,19 @@ function AuthPage() {
           <div className="mt-6 text-center text-sm text-muted-foreground">
             {mode === "signin" ? (
               <>Don't have an account?{" "}
-                <button className="text-brand hover:underline" onClick={() => setMode("signup")}>Sign up</button>
+                <button className="font-medium text-primary hover:underline" onClick={() => setMode("signup")}>Sign up</button>
               </>
             ) : (
               <>Already have an account?{" "}
-                <button className="text-brand hover:underline" onClick={() => setMode("signin")}>Sign in</button>
+                <button className="font-medium text-primary hover:underline" onClick={() => setMode("signin")}>Sign in</button>
               </>
             )}
           </div>
         </div>
+
+        <p className="mt-6 text-center text-xs text-muted-foreground">
+          By continuing you agree to our Terms and Privacy Policy.
+        </p>
       </div>
     </div>
   );
