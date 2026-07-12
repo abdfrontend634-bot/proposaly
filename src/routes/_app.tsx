@@ -2,7 +2,16 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, LayoutDashboard, History, Settings as SettingsIcon, LogOut, Loader2, Menu, X } from "lucide-react";
+import {
+  Sparkles,
+  LayoutDashboard,
+  History,
+  Settings as SettingsIcon,
+  LogOut,
+  Loader2,
+  Menu,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -46,9 +55,7 @@ function AppShell() {
 
       <div className="flex">
         <Sidebar />
-        {mobileOpen && (
-          <MobileSidebar onClose={() => setMobileOpen(false)} />
-        )}
+        {mobileOpen && <MobileSidebar onClose={() => setMobileOpen(false)} />}
 
         <main className="min-h-[calc(100vh-3.5rem)] flex-1 lg:min-h-screen">
           <div className="mx-auto max-w-5xl px-6 pb-10 pt-8 lg:px-10 lg:pb-14 lg:pt-10">
@@ -124,7 +131,11 @@ function Sidebar() {
             <div className="truncate text-xs font-medium text-foreground">{user?.email}</div>
             <div className="text-[11px] text-muted-foreground">Free plan</div>
           </div>
-          <button onClick={signOut} className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground" aria-label="Sign out">
+          <button
+            onClick={signOut}
+            className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            aria-label="Sign out"
+          >
             <LogOut className="h-4 w-4" />
           </button>
         </div>
@@ -146,22 +157,34 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
       <div className="absolute inset-0 bg-black/20" onClick={onClose} />
       <div className="absolute right-0 top-0 h-full w-72 bg-surface shadow-lg">
         <div className="flex h-14 items-center justify-between border-b border-border px-4">
-          <div className="flex items-center gap-2"><Logo /><span className="text-sm font-semibold">Gigify</span></div>
-          <Button variant="ghost" size="icon" onClick={onClose}><X className="h-5 w-5" /></Button>
+          <div className="flex items-center gap-2">
+            <Logo />
+            <span className="text-sm font-semibold">Gigify</span>
+          </div>
+          <Button variant="ghost" size="icon" onClick={onClose}>
+            <X className="h-5 w-5" />
+          </Button>
         </div>
         <nav className="space-y-0.5 p-3">
           {NAV.map((l) => {
             const active = pathname === l.to;
             return (
-              <Link key={l.to} to={l.to} onClick={onClose}
+              <Link
+                key={l.to}
+                to={l.to}
+                onClick={onClose}
                 className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium ${
                   active ? "bg-primary/8 text-primary" : "text-muted-foreground hover:bg-muted"
-                }`}>
+                }`}
+              >
                 <l.icon className="h-4 w-4" /> {l.label}
               </Link>
             );
           })}
-          <button onClick={signOut} className="mt-4 flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted">
+          <button
+            onClick={signOut}
+            className="mt-4 flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted"
+          >
             <LogOut className="h-4 w-4" /> Sign out
           </button>
         </nav>

@@ -1,5 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check, Sparkles, Zap, Target, ShieldCheck, Clock, FileText, ChevronDown } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Sparkles,
+  Zap,
+  Target,
+  ShieldCheck,
+  Clock,
+  FileText,
+  ChevronDown,
+} from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -32,12 +42,21 @@ function Header() {
           <span className="text-[17px] font-semibold tracking-tight">Gigify</span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-          <a href="#how" className="transition-colors hover:text-foreground">How it works</a>
-          <a href="#pricing" className="transition-colors hover:text-foreground">Pricing</a>
-          <a href="#faq" className="transition-colors hover:text-foreground">FAQ</a>
+          <a href="#how" className="transition-colors hover:text-foreground">
+            How it works
+          </a>
+          <a href="#pricing" className="transition-colors hover:text-foreground">
+            Pricing
+          </a>
+          <a href="#faq" className="transition-colors hover:text-foreground">
+            FAQ
+          </a>
         </nav>
         <div className="flex items-center gap-2">
-          <Link to="/auth" className="hidden text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:block">
+          <Link
+            to="/auth"
+            className="hidden text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:block"
+          >
             Sign in
           </Link>
           <Button asChild size="sm" className="h-9 px-4">
@@ -71,7 +90,8 @@ function Hero() {
           <span className="text-muted-foreground">Write fewer proposals.</span>
         </h1>
         <p className="animate-fade-up mx-auto mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
-          Paste the job post, pick your platform and tone, and ship a tailored proposal in under 10 seconds.
+          Paste the job post, pick your platform and tone, and ship a tailored proposal in under 10
+          seconds.
         </p>
         <div className="animate-fade-up mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button asChild size="lg" className="group">
@@ -80,14 +100,23 @@ function Hero() {
               <ArrowRight className="ml-0.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
-          <a href="#how" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <a
+            href="#how"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
             See how it works →
           </a>
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#16A34A]" /> No credit card</span>
-          <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#16A34A]" /> 5 free proposals / month</span>
-          <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#16A34A]" /> Cancel anytime</span>
+          <span className="inline-flex items-center gap-1.5">
+            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> No credit card
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> 5 free proposals / month
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> Cancel anytime
+          </span>
         </div>
 
         <div className="animate-fade-up mx-auto mt-20 max-w-3xl">
@@ -96,15 +125,25 @@ function Hero() {
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
-              <div className="ml-3 text-[11px] font-medium text-muted-foreground">Gigify — Upwork proposal</div>
+              <div className="ml-3 text-[11px] font-medium text-muted-foreground">
+                Gigify — Upwork proposal
+              </div>
             </div>
             <div className="p-8 text-left">
               <p className="text-[15px] leading-[1.7] text-foreground">
-                Hi there — I saw your project and it aligns perfectly with what I do best. I specialize in delivering high-quality work with clear communication, fast turnaround, and a <span className="font-medium text-primary">results-driven approach</span> that helps clients move forward with confidence.
+                Hi there — I saw your project and it aligns perfectly with what I do best. I
+                specialize in delivering high-quality work with clear communication, fast
+                turnaround, and a{" "}
+                <span className="font-medium text-primary">results-driven approach</span> that helps
+                clients move forward with confidence.
               </p>
               <div className="mt-6 flex items-center gap-2 border-t border-border pt-5">
-                <div className="rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">Upwork</div>
-                <div className="rounded-md bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">Professional</div>
+                <div className="rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
+                  Upwork
+                </div>
+                <div className="rounded-md bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                  Professional
+                </div>
                 <div className="ml-auto text-[11px] text-muted-foreground">Generated in 8.2s</div>
               </div>
             </div>
@@ -137,21 +176,42 @@ function LogoBar() {
 
 function HowItWorks() {
   const steps = [
-    { icon: Target, title: "Paste the job", body: "Drop any Upwork, Fiverr or Freelancer posting into Gigify." },
-    { icon: Sparkles, title: "Pick tone & platform", body: "Professional, Friendly, or Confident — tuned to each marketplace." },
-    { icon: Zap, title: "Generate & send", body: "A tailored proposal in seconds. Edit inline, copy, or export as PDF." },
+    {
+      icon: Target,
+      title: "Paste the job",
+      body: "Drop any Upwork, Fiverr or Freelancer posting into Gigify.",
+    },
+    {
+      icon: Sparkles,
+      title: "Pick tone & platform",
+      body: "Professional, Friendly, or Confident — tuned to each marketplace.",
+    },
+    {
+      icon: Zap,
+      title: "Generate & send",
+      body: "A tailored proposal in seconds. Edit inline, copy, or export as PDF.",
+    },
   ];
   return (
     <section id="how" className="py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-primary">Workflow</div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Three steps. Zero busywork.</h2>
-          <p className="mt-5 text-lg text-muted-foreground">Built for freelancers who bid all day.</p>
+          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Workflow
+          </div>
+          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+            Three steps. Zero busywork.
+          </h2>
+          <p className="mt-5 text-lg text-muted-foreground">
+            Built for freelancers who bid all day.
+          </p>
         </div>
         <div className="mt-16 grid gap-6 sm:grid-cols-3">
           {steps.map((s, i) => (
-            <div key={s.title} className="group rounded-2xl border border-border bg-surface p-8 shadow-xs transition-all hover:shadow-md hover:-translate-y-0.5">
+            <div
+              key={s.title}
+              className="group rounded-2xl border border-border bg-surface p-8 shadow-xs transition-all hover:shadow-md hover:-translate-y-0.5"
+            >
               <div className="mb-6 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
                 <s.icon className="h-5 w-5" />
               </div>
@@ -168,24 +228,48 @@ function HowItWorks() {
 
 function Testimonials() {
   const quotes = [
-    { name: "Sarah Chen", role: "Full-stack Developer", quote: "I went from writing 3 proposals a day to 15. My response rate doubled." },
-    { name: "Marcus Reid", role: "Brand Designer", quote: "The tone controls actually work. My Fiverr proposals sound like me — but sharper." },
-    { name: "Priya Patel", role: "SEO Consultant", quote: "Landed two retainers in the first week. This paid for itself instantly." },
+    {
+      name: "Sarah Chen",
+      role: "Full-stack Developer",
+      quote: "I went from writing 3 proposals a day to 15. My response rate doubled.",
+    },
+    {
+      name: "Marcus Reid",
+      role: "Brand Designer",
+      quote: "The tone controls actually work. My Fiverr proposals sound like me — but sharper.",
+    },
+    {
+      name: "Priya Patel",
+      role: "SEO Consultant",
+      quote: "Landed two retainers in the first week. This paid for itself instantly.",
+    },
   ];
   return (
     <section className="border-t border-border/70 bg-surface/40 py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-primary">Loved by freelancers</div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Real proposals. Real wins.</h2>
+          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Loved by freelancers
+          </div>
+          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+            Real proposals. Real wins.
+          </h2>
         </div>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {quotes.map((q) => (
-            <figure key={q.name} className="rounded-2xl border border-border bg-surface p-8 shadow-xs">
-              <blockquote className="text-[15px] leading-relaxed text-foreground">"{q.quote}"</blockquote>
+            <figure
+              key={q.name}
+              className="rounded-2xl border border-border bg-surface p-8 shadow-xs"
+            >
+              <blockquote className="text-[15px] leading-relaxed text-foreground">
+                "{q.quote}"
+              </blockquote>
               <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
                 <div className="grid h-10 w-10 place-items-center rounded-full bg-muted text-sm font-semibold text-foreground">
-                  {q.name.split(" ").map((n) => n[0]).join("")}
+                  {q.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </div>
                 <div>
                   <div className="text-sm font-medium text-foreground">{q.name}</div>
@@ -205,23 +289,39 @@ function Pricing() {
     <section id="pricing" className="py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-primary">Pricing</div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Simple, transparent pricing.</h2>
-          <p className="mt-5 text-lg text-muted-foreground">Start free. Upgrade when you're winning.</p>
+          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Pricing
+          </div>
+          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+            Simple, transparent pricing.
+          </h2>
+          <p className="mt-5 text-lg text-muted-foreground">
+            Start free. Upgrade when you're winning.
+          </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-3xl gap-6 md:grid-cols-2">
           <PriceCard
             name="Free"
             price="$0"
             blurb="Perfect for trying it out."
-            features={["5 proposals / month", "All platforms & tones", "Save to history", "PDF export"]}
+            features={[
+              "5 proposals / month",
+              "All platforms & tones",
+              "Save to history",
+              "PDF export",
+            ]}
             cta="Start free"
           />
           <PriceCard
             name="Pro"
             price="$12"
             blurb="For freelancers bidding daily."
-            features={["Unlimited proposals", "Priority AI model", "Extended history", "Priority support"]}
+            features={[
+              "Unlimited proposals",
+              "Priority AI model",
+              "Extended history",
+              "Priority support",
+            ]}
             highlighted
             cta="Coming soon"
             disabled
@@ -233,10 +333,21 @@ function Pricing() {
 }
 
 function PriceCard({
-  name, price, blurb, features, cta, highlighted, disabled,
+  name,
+  price,
+  blurb,
+  features,
+  cta,
+  highlighted,
+  disabled,
 }: {
-  name: string; price: string; blurb: string; features: string[];
-  cta: string; highlighted?: boolean; disabled?: boolean;
+  name: string;
+  price: string;
+  blurb: string;
+  features: string[];
+  cta: string;
+  highlighted?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <div
@@ -267,7 +378,13 @@ function PriceCard({
           </li>
         ))}
       </ul>
-      <Button asChild className="mt-10 w-full" variant={highlighted ? "default" : "outline"} disabled={disabled} size="lg">
+      <Button
+        asChild
+        className="mt-10 w-full"
+        variant={highlighted ? "default" : "outline"}
+        disabled={disabled}
+        size="lg"
+      >
         {disabled ? <span>{cta}</span> : <Link to="/auth">{cta}</Link>}
       </Button>
     </div>
@@ -276,10 +393,22 @@ function PriceCard({
 
 function FAQ() {
   const items = [
-    { q: "How does the free plan work?", a: "You get 5 AI-generated proposals every calendar month. No credit card, no strings." },
-    { q: "Which platforms are supported?", a: "Upwork, Fiverr, and Freelancer are tuned in. Any generated proposal works everywhere." },
-    { q: "Can I edit the generated proposal?", a: "Yes — every proposal is editable inline before you copy, save, or export as PDF." },
-    { q: "Is my data private?", a: "Your proposals and job descriptions are only visible to you. We never share your data." },
+    {
+      q: "How does the free plan work?",
+      a: "You get 5 AI-generated proposals every calendar month. No credit card, no strings.",
+    },
+    {
+      q: "Which platforms are supported?",
+      a: "Upwork, Fiverr, and Freelancer are tuned in. Any generated proposal works everywhere.",
+    },
+    {
+      q: "Can I edit the generated proposal?",
+      a: "Yes — every proposal is editable inline before you copy, save, or export as PDF.",
+    },
+    {
+      q: "Is my data private?",
+      a: "Your proposals and job descriptions are only visible to you. We never share your data.",
+    },
   ];
   const [open, setOpen] = useState<number | null>(0);
   return (
@@ -287,7 +416,9 @@ function FAQ() {
       <div className="mx-auto max-w-3xl px-6">
         <div className="text-center">
           <div className="text-xs font-semibold uppercase tracking-widest text-primary">FAQ</div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Frequently asked questions</h2>
+          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+            Frequently asked questions
+          </h2>
         </div>
         <div className="mt-14 divide-y divide-border rounded-2xl border border-border bg-surface">
           {items.map((it, i) => {
@@ -299,9 +430,15 @@ function FAQ() {
                   className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-muted/40"
                 >
                   <span className="text-[15px] font-medium text-foreground">{it.q}</span>
-                  <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  />
                 </button>
-                {isOpen && <div className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{it.a}</div>}
+                {isOpen && (
+                  <div className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">
+                    {it.a}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -316,7 +453,9 @@ function CTA() {
     <section className="py-28">
       <div className="mx-auto max-w-4xl px-6">
         <div className="rounded-3xl border border-border bg-surface px-8 py-16 text-center shadow-sm sm:px-16">
-          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">Stop writing from scratch.</h2>
+          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            Stop writing from scratch.
+          </h2>
           <p className="mx-auto mt-5 max-w-lg text-lg text-muted-foreground">
             Join thousands of freelancers shipping better proposals with Gigify.
           </p>
@@ -327,9 +466,15 @@ function CTA() {
             </Link>
           </Button>
           <div className="mt-6 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5" /> Secure & private</span>
-            <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> Setup in 30 seconds</span>
-            <span className="inline-flex items-center gap-1.5"><FileText className="h-3.5 w-3.5" /> PDF export</span>
+            <span className="inline-flex items-center gap-1.5">
+              <ShieldCheck className="h-3.5 w-3.5" /> Secure & private
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5" /> Setup in 30 seconds
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <FileText className="h-3.5 w-3.5" /> PDF export
+            </span>
           </div>
         </div>
       </div>
@@ -347,10 +492,18 @@ function Footer() {
             <span className="text-sm font-semibold tracking-tight">Gigify</span>
           </div>
           <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-            <a href="#how" className="hover:text-foreground">How it works</a>
-            <a href="#pricing" className="hover:text-foreground">Pricing</a>
-            <a href="#faq" className="hover:text-foreground">FAQ</a>
-            <Link to="/auth" className="hover:text-foreground">Sign in</Link>
+            <a href="#how" className="hover:text-foreground">
+              How it works
+            </a>
+            <a href="#pricing" className="hover:text-foreground">
+              Pricing
+            </a>
+            <a href="#faq" className="hover:text-foreground">
+              FAQ
+            </a>
+            <Link to="/auth" className="hover:text-foreground">
+              Sign in
+            </Link>
           </div>
         </div>
         <div className="mt-8 flex flex-col-reverse items-start justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">

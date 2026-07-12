@@ -9,7 +9,18 @@ import type { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Loader2, Sparkles, Copy, Download, Save, RefreshCw, Lock, FileText, Zap, Clock } from "lucide-react";
+import {
+  Loader2,
+  Sparkles,
+  Copy,
+  Download,
+  Save,
+  RefreshCw,
+  Lock,
+  FileText,
+  Zap,
+  Clock,
+} from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 
@@ -27,7 +38,8 @@ function firstName(user: User | null) {
   if (meta?.full_name) return meta.full_name.split(" ")[0];
   if (meta?.name) return meta.name.split(" ")[0];
   if (user.email) {
-    return user.email.split("@")[0]
+    return user.email
+      .split("@")[0]
       .replace(/[._-]/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
   }
@@ -56,7 +68,10 @@ function Dashboard() {
       toast.success("Proposal ready");
     },
     onError: (e: Error) => {
-      if (e.message.startsWith("FREE_LIMIT_REACHED")) { setLimitHit(true); return; }
+      if (e.message.startsWith("FREE_LIMIT_REACHED")) {
+        setLimitHit(true);
+        return;
+      }
       toast.error(e.message);
     },
   });
@@ -66,7 +81,11 @@ function Dashboard() {
     const title = jobDescription.split("\n")[0].slice(0, 80) || "Untitled proposal";
     const { error } = await supabase.from("proposals").insert({
       user_id: (await supabase.auth.getUser()).data.user!.id,
-      title, job_description: jobDescription, platform, tone, content: result,
+      title,
+      job_description: jobDescription,
+      platform,
+      tone,
+      content: result,
     });
     if (error) return toast.error(error.message);
     toast.success("Saved to history");
@@ -85,12 +104,19 @@ function Dashboard() {
     const w = doc.internal.pageSize.getWidth() - margin * 2;
     const lines = doc.splitTextToSize(result, w);
     let y = margin;
-    doc.setFontSize(14); doc.setFont("helvetica", "bold");
-    doc.text(`${platform} proposal`, margin, y); y += 22;
-    doc.setFontSize(11); doc.setFont("helvetica", "normal");
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text(`${platform} proposal`, margin, y);
+    y += 22;
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
     lines.forEach((line: string) => {
-      if (y > doc.internal.pageSize.getHeight() - margin) { doc.addPage(); y = margin; }
-      doc.text(line, margin, y); y += 16;
+      if (y > doc.internal.pageSize.getHeight() - margin) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.text(line, margin, y);
+      y += 16;
     });
     doc.save(`gigify-${platform.toLowerCase()}-proposal.pdf`);
   }
@@ -103,16 +129,26 @@ function Dashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <div className="text-xs font-semibold uppercase tracking-widest text-primary">Generate a proposal</div>
+        <div className="text-xs font-semibold uppercase tracking-widest text-primary">
+          Generate a proposal
+        </div>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">
           Welcome back, {firstName(user)} 👋 Ready to win your next client?
         </h1>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Paste the job, pick your angle, ship it.</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          Paste the job, pick your angle, ship it.
+        </p>
       </div>
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard icon={Zap} label="This month" value={`${used} / ${limit}`} sub={`${remaining} proposals left`} progress={pct} />
+        <StatCard
+          icon={Zap}
+          label="This month"
+          value={`${used} / ${limit}`}
+          sub={`${remaining} proposals left`}
+          progress={pct}
+        />
         <StatCard icon={FileText} label="Current plan" value="Free" sub="5 proposals / month" />
         <StatCard icon={Clock} label="Avg. generation" value="~8s" sub="Powered by AI" />
       </div>
@@ -122,12 +158,16 @@ function Dashboard() {
         <section className="rounded-2xl border border-border bg-surface p-7 shadow-xs">
           <div className="mb-6">
             <h2 className="text-lg font-semibold tracking-tight">Job details</h2>
-            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Paste the full posting for best results.</p>
+            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+              Paste the full posting for best results.
+            </p>
           </div>
 
           <div className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="job" className="text-sm font-medium text-foreground">Job description</Label>
+              <Label htmlFor="job" className="text-sm font-medium text-foreground">
+                Job description
+              </Label>
               <Textarea
                 id="job"
                 value={jobDescription}
@@ -136,7 +176,9 @@ function Dashboard() {
                 className="min-h-[240px] resize-y"
               />
               {jobDescription.trim().length > 0 && jobDescription.trim().length < 20 && (
-                <p className="text-xs leading-relaxed text-muted-foreground">A bit more detail helps — at least 20 characters.</p>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  A bit more detail helps — at least 20 characters.
+                </p>
               )}
             </div>
 
@@ -157,9 +199,15 @@ function Dashboard() {
               onClick={() => generate.mutate()}
             >
               {generate.isPending ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Generating…</>
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating…
+                </>
               ) : (
-                <><Sparkles className="mr-2 h-4 w-4" />Generate proposal</>
+                <>
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Generate proposal
+                </>
               )}
             </Button>
           </div>
@@ -169,16 +217,31 @@ function Dashboard() {
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold tracking-tight">Your proposal</h2>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Edit inline, then copy, save, or export.</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Edit inline, then copy, save, or export.
+              </p>
             </div>
             {result && (
               <div className="flex flex-wrap items-center gap-1">
-                <Button variant="ghost" size="icon" onClick={() => generate.mutate()} disabled={generate.isPending} aria-label="Regenerate">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => generate.mutate()}
+                  disabled={generate.isPending}
+                  aria-label="Regenerate"
+                >
                   <RefreshCw className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="icon" onClick={copy} aria-label="Copy"><Copy className="h-4 w-4" /></Button>
-                <Button variant="ghost" size="icon" onClick={download} aria-label="Download"><Download className="h-4 w-4" /></Button>
-                <Button size="sm" onClick={save}><Save className="mr-1.5 h-3.5 w-3.5" />Save</Button>
+                <Button variant="ghost" size="icon" onClick={copy} aria-label="Copy">
+                  <Copy className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="icon" onClick={download} aria-label="Download">
+                  <Download className="h-4 w-4" />
+                </Button>
+                <Button size="sm" onClick={save}>
+                  <Save className="mr-1.5 h-3.5 w-3.5" />
+                  Save
+                </Button>
               </div>
             )}
           </div>
@@ -204,8 +267,12 @@ function Dashboard() {
                 <div className="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
                   <Sparkles className="h-5 w-5" />
                 </div>
-                <div className="text-sm font-semibold text-foreground">Your proposal will appear here</div>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">Fill in the job details and hit Generate.</p>
+                <div className="text-sm font-semibold text-foreground">
+                  Your proposal will appear here
+                </div>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  Fill in the job details and hit Generate.
+                </p>
               </div>
             </div>
           )}
@@ -218,15 +285,24 @@ function Dashboard() {
 }
 
 function StatCard({
-  icon: Icon, label, value, sub, progress,
+  icon: Icon,
+  label,
+  value,
+  sub,
+  progress,
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  label: string; value: string; sub: string; progress?: number;
+  label: string;
+  value: string;
+  sub: string;
+  progress?: number;
 }) {
   return (
     <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs">
       <div className="flex items-start justify-between">
-        <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
+        <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          {label}
+        </div>
         <div className="grid h-8 w-8 place-items-center rounded-lg bg-primary/8 text-primary">
           <Icon className="h-4 w-4" />
         </div>
@@ -235,7 +311,10 @@ function StatCard({
       <div className="mt-1 text-sm leading-relaxed text-muted-foreground">{sub}</div>
       {progress !== undefined && (
         <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-muted">
-          <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+          <div
+            className="h-full rounded-full bg-primary transition-all"
+            style={{ width: `${progress}%` }}
+          />
         </div>
       )}
     </div>
@@ -243,8 +322,14 @@ function StatCard({
 }
 
 function SegmentedControl<T extends string>({
-  options, value, onChange,
-}: { options: readonly T[]; value: T; onChange: (v: T) => void }) {
+  options,
+  value,
+  onChange,
+}: {
+  options: readonly T[];
+  value: T;
+  onChange: (v: T) => void;
+}) {
   return (
     <div className="grid grid-cols-3 gap-1 rounded-lg border border-border bg-[#FAFAF7] p-1">
       {options.map((o) => {
@@ -277,14 +362,21 @@ function UpgradeDialog({ onClose }: { onClose: () => void }) {
         </div>
         <h2 className="text-xl font-semibold tracking-tight">You've hit the free limit</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          You've used all 5 proposals this month. Upgrade to Pro for unlimited generations, priority AI, and extended history.
+          You've used all 5 proposals this month. Upgrade to Pro for unlimited generations, priority
+          AI, and extended history.
         </p>
         <div className="mt-6 flex gap-2">
-          <Button className="flex-1" disabled>Upgrade to Pro (soon)</Button>
-          <Button variant="outline" onClick={onClose}>Close</Button>
+          <Button className="flex-1" disabled>
+            Upgrade to Pro (soon)
+          </Button>
+          <Button variant="outline" onClick={onClose}>
+            Close
+          </Button>
         </div>
         <div className="mt-5 text-center text-xs text-muted-foreground">
-          <Link to="/history" className="hover:text-foreground">View your saved proposals →</Link>
+          <Link to="/history" className="hover:text-foreground">
+            View your saved proposals →
+          </Link>
         </div>
       </div>
     </div>

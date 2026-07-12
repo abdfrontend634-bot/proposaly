@@ -46,51 +46,54 @@
   --shadow-md: 0 4px 12px -2px rgb(17 17 17 / 0.06), 0 2px 4px -2px rgb(17 17 17 / 0.04);
   --shadow-lg: 0 12px 32px -8px rgb(17 17 17 / 0.08), 0 4px 8px -4px rgb(17 17 17 / 0.04);
   --shadow-card: 0 1px 2px 0 rgb(17 17 17 / 0.04), 0 1px 3px 0 rgb(17 17 17 / 0.03);
-  --shadow-elevated: 0 1px 2px 0 rgb(17 17 17 / 0.04), 0 8px 24px -12px rgb(17 17 17 / 0.10);
+  --shadow-elevated: 0 1px 2px 0 rgb(17 17 17 / 0.04), 0 8px 24px -12px rgb(17 17 17 / 0.1);
 }
 
 :root {
   --radius: 0.75rem;
 
-  --background: #FAFAF7;
+  --background: #fafaf7;
   --foreground: #111111;
 
-  --surface: #FFFFFF;
-  --surface-hi: #FFFFFF;
+  --surface: #ffffff;
+  --surface-hi: #ffffff;
 
-  --card: #FFFFFF;
+  --card: #ffffff;
   --card-foreground: #111111;
-  --popover: #FFFFFF;
+  --popover: #ffffff;
   --popover-foreground: #111111;
 
-  --brand: #2563EB;
-  --brand-foreground: #FFFFFF;
+  --brand: #2563eb;
+  --brand-foreground: #ffffff;
   --brand-soft: rgb(37 99 235 / 0.08);
 
-  --primary: #2563EB;
-  --primary-foreground: #FFFFFF;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
 
-  --secondary: #F3F4F2;
+  --secondary: #f3f4f2;
   --secondary-foreground: #111111;
 
-  --muted: #F3F4F2;
-  --muted-foreground: #6B7280;
+  --muted: #f3f4f2;
+  --muted-foreground: #6b7280;
 
-  --accent: #F3F4F2;
+  --accent: #f3f4f2;
   --accent-foreground: #111111;
 
-  --success: #16A34A;
-  --destructive: #DC2626;
-  --destructive-foreground: #FFFFFF;
+  --success: #16a34a;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
 
-  --border: #E5E7EB;
-  --input: #E5E7EB;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
   --ring: rgb(37 99 235 / 0.35);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
@@ -102,11 +105,17 @@
     letter-spacing: -0.011em;
     line-height: 1.55;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     letter-spacing: -0.022em;
     line-height: 1.15;
   }
-  ::selection { background: var(--brand-soft); color: var(--foreground); }
+  ::selection {
+    background: var(--brand-soft);
+    color: var(--foreground);
+  }
 }
 
 @utility bg-dot {
@@ -115,17 +124,29 @@
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-@utility animate-fade-up { animation: fade-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@utility animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 @utility shimmer {
-  background: linear-gradient(90deg, #F3F4F2, #E9EAE6, #F3F4F2);
+  background: linear-gradient(90deg, #f3f4f2, #e9eae6, #f3f4f2);
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;
 }

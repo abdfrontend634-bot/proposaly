@@ -39,8 +39,12 @@ function SettingsPage() {
     <div className="mx-auto max-w-2xl space-y-8">
       <div>
         <div className="text-xs font-semibold uppercase tracking-widest text-primary">Account</div>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">Settings</h1>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Manage your Gigify account.</p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">
+          Settings
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          Manage your Gigify account.
+        </p>
       </div>
 
       <Section icon={Mail} title="Account" description="Your account details.">
@@ -49,12 +53,24 @@ function SettingsPage() {
         </div>
       </Section>
 
-      <Section icon={KeyRound} title="Change password" description="Update the password used to sign in.">
+      <Section
+        icon={KeyRound}
+        title="Change password"
+        description="Update the password used to sign in."
+      >
         <form onSubmit={changePassword} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="pw" className="text-sm font-medium">New password</Label>
-            <Input id="pw" type="password" minLength={6} value={pw}
-              onChange={(e) => setPw(e.target.value)} placeholder="At least 6 characters" />
+            <Label htmlFor="pw" className="text-sm font-medium">
+              New password
+            </Label>
+            <Input
+              id="pw"
+              type="password"
+              minLength={6}
+              value={pw}
+              onChange={(e) => setPw(e.target.value)}
+              placeholder="At least 6 characters"
+            />
           </div>
           <Button type="submit" disabled={busy || !pw}>
             {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -73,10 +89,15 @@ function SettingsPage() {
 }
 
 function Section({
-  icon: Icon, title, description, children,
+  icon: Icon,
+  title,
+  description,
+  children,
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  title: string; description: string; children: React.ReactNode;
+  title: string;
+  description: string;
+  children: React.ReactNode;
 }) {
   return (
     <section className="rounded-2xl border border-border bg-surface p-7 shadow-xs">
