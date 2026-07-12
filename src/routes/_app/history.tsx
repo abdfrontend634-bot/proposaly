@@ -37,7 +37,9 @@ function HistoryPage() {
     setLoading(false);
   }
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -51,19 +53,27 @@ function HistoryPage() {
     const prev = items;
     setItems((x) => x.filter((i) => i.id !== id));
     const { error } = await supabase.from("proposals").delete().eq("id", id);
-    if (error) { setItems(prev); toast.error(error.message); }
-    else toast.success("Deleted");
+    if (error) {
+      setItems(prev);
+      toast.error(error.message);
+    } else toast.success("Deleted");
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <div className="text-xs font-semibold uppercase tracking-widest text-primary">Archive</div>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Proposal history</h1>
-          <p className="mt-2 text-[15px] text-muted-foreground">Everything you've saved, in one place.</p>
+          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Archive
+          </div>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">
+            Proposal history
+          </h1>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Everything you've saved, in one place.
+          </p>
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm leading-relaxed text-muted-foreground">
           {items.length} {items.length === 1 ? "proposal" : "proposals"}
         </div>
       </div>
@@ -91,7 +101,9 @@ function HistoryPage() {
             {items.length === 0 ? "No proposals saved yet" : "No matches"}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            {items.length === 0 ? "Generate one from the dashboard to get started." : "Try a different search."}
+            {items.length === 0
+              ? "Generate one from the dashboard to get started."
+              : "Try a different search."}
           </p>
         </div>
       ) : (
@@ -106,22 +118,47 @@ function HistoryPage() {
                       onClick={() => setOpenId(open ? null : p.id)}
                       className="flex min-w-0 flex-1 items-center gap-4 text-left"
                     >
-                      <ChevronRight className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-90" : ""}`} />
+                      <ChevronRight
+                        className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-90" : ""}`}
+                      />
                       <div className="min-w-0 flex-1">
-                        <div className="truncate text-sm font-medium text-foreground">{p.title}</div>
+                        <div className="truncate text-sm font-medium text-foreground">
+                          {p.title}
+                        </div>
                         <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                          <span className="rounded-md bg-primary/8 px-2 py-0.5 font-medium text-primary">{p.platform}</span>
+                          <span className="rounded-md bg-primary/8 px-2 py-0.5 font-medium text-primary">
+                            {p.platform}
+                          </span>
                           <span>{p.tone}</span>
                           <span>·</span>
-                          <span>{new Date(p.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}</span>
+                          <span>
+                            {new Date(p.created_at).toLocaleDateString(undefined, {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </span>
                         </div>
                       </div>
                     </button>
                     <div className="flex shrink-0 items-center gap-1">
-                      <Button variant="ghost" size="icon" onClick={() => { navigator.clipboard.writeText(p.content); toast.success("Copied"); }} aria-label="Copy">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          navigator.clipboard.writeText(p.content);
+                          toast.success("Copied");
+                        }}
+                        aria-label="Copy"
+                      >
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" onClick={() => del(p.id)} aria-label="Delete">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => del(p.id)}
+                        aria-label="Delete"
+                      >
                         <Trash2 className="h-4 w-4 text-[#DC2626]" />
                       </Button>
                     </div>
