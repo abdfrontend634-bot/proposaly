@@ -51,7 +51,7 @@ function AppShell() {
         )}
 
         <main className="min-h-[calc(100vh-3.5rem)] flex-1 lg:min-h-screen">
-          <div className="mx-auto max-w-5xl px-6 py-10 lg:px-10 lg:py-14">
+          <div className="mx-auto max-w-5xl px-6 pb-10 pt-8 lg:px-10 lg:pb-14 lg:pt-10">
             <Outlet />
           </div>
         </main>

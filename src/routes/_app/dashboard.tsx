@@ -4,6 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { generateProposal, getUsage } from "@/lib/ai.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth-context";
+import type { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -19,7 +21,21 @@ export const Route = createFileRoute("/_app/dashboard")({
 const PLATFORMS = ["Upwork", "Fiverr", "Freelancer"] as const;
 const TONES = ["Professional", "Friendly", "Confident"] as const;
 
+function firstName(user: User | null) {
+  if (!user) return "there";
+  const meta = user.user_metadata as { full_name?: string; name?: string } | undefined;
+  if (meta?.full_name) return meta.full_name.split(" ")[0];
+  if (meta?.name) return meta.name.split(" ")[0];
+  if (user.email) {
+    return user.email.split("@")[0]
+      .replace(/[._-]/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+  return "there";
+}
+
 function Dashboard() {
+  const { user } = useAuth();
   const [jobDescription, setJobDescription] = useState("");
   const [platform, setPlatform] = useState<(typeof PLATFORMS)[number]>("Upwork");
   const [tone, setTone] = useState<(typeof TONES)[number]>("Professional");
@@ -85,11 +101,13 @@ function Dashboard() {
   const pct = Math.min(100, (used / limit) * 100);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <div>
-        <div className="text-xs font-semibold uppercase tracking-widest text-primary">Workspace</div>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Generate a proposal</h1>
-        <p className="mt-2 text-[15px] text-muted-foreground">Paste the job, pick your angle, ship it.</p>
+        <div className="text-xs font-semibold uppercase tracking-widest text-primary">Generate a proposal</div>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">
+          Welcome back, {firstName(user)} 👋 Ready to win your next client?
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Paste the job, pick your angle, ship it.</p>
       </div>
 
       {/* Stats */}
@@ -103,8 +121,8 @@ function Dashboard() {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
         <section className="rounded-2xl border border-border bg-surface p-7 shadow-xs">
           <div className="mb-6">
-            <h2 className="text-base font-semibold tracking-tight">Job details</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Paste the full posting for best results.</p>
+            <h2 className="text-lg font-semibold tracking-tight">Job details</h2>
+            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Paste the full posting for best results.</p>
           </div>
 
           <div className="space-y-5">
@@ -118,7 +136,7 @@ function Dashboard() {
                 className="min-h-[240px] resize-y"
               />
               {jobDescription.trim().length > 0 && jobDescription.trim().length < 20 && (
-                <p className="text-xs text-muted-foreground">A bit more detail helps — at least 20 characters.</p>
+                <p className="text-xs leading-relaxed text-muted-foreground">A bit more detail helps — at least 20 characters.</p>
               )}
             </div>
 
@@ -148,13 +166,13 @@ function Dashboard() {
         </section>
 
         <section className="rounded-2xl border border-border bg-surface p-7 shadow-xs">
-          <div className="mb-6 flex items-center justify-between gap-3">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-semibold tracking-tight">Your proposal</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Edit inline, then copy, save, or export.</p>
+              <h2 className="text-lg font-semibold tracking-tight">Your proposal</h2>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Edit inline, then copy, save, or export.</p>
             </div>
             {result && (
-              <div className="flex items-center gap-1">
+              <div className="flex flex-wrap items-center gap-1">
                 <Button variant="ghost" size="icon" onClick={() => generate.mutate()} disabled={generate.isPending} aria-label="Regenerate">
                   <RefreshCw className="h-4 w-4" />
                 </Button>
@@ -186,8 +204,8 @@ function Dashboard() {
                 <div className="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
                   <Sparkles className="h-5 w-5" />
                 </div>
-                <div className="text-sm font-medium text-foreground">Your proposal will appear here</div>
-                <p className="mt-1.5 text-sm text-muted-foreground">Fill in the job details and hit Generate.</p>
+                <div className="text-sm font-semibold text-foreground">Your proposal will appear here</div>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">Fill in the job details and hit Generate.</p>
               </div>
             </div>
           )}
@@ -214,7 +232,7 @@ function StatCard({
         </div>
       </div>
       <div className="mt-4 text-2xl font-semibold tracking-tight text-foreground">{value}</div>
-      <div className="mt-1 text-xs text-muted-foreground">{sub}</div>
+      <div className="mt-1 text-sm leading-relaxed text-muted-foreground">{sub}</div>
       {progress !== undefined && (
         <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-muted">
           <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />

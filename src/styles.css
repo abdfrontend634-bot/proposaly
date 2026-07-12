@@ -100,8 +100,12 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
     letter-spacing: -0.011em;
+    line-height: 1.55;
   }
-  h1, h2, h3, h4 { letter-spacing: -0.022em; }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.022em;
+    line-height: 1.15;
+  }
   ::selection { background: var(--brand-soft); color: var(--foreground); }
 }
 

@@ -100,7 +100,7 @@ function Hero() {
             </div>
             <div className="p-8 text-left">
               <p className="text-[15px] leading-[1.7] text-foreground">
-                Hi Alex — I noticed you're rebuilding checkout on Shopify and losing customers at PayPal. I've cut that exact drop-off by <span className="font-medium text-primary">30%</span> for two DTC brands last quarter by rewiring the express-pay flow…
+                Hi there — I saw your project and it aligns perfectly with what I do best. I specialize in delivering high-quality work with clear communication, fast turnaround, and a <span className="font-medium text-primary">results-driven approach</span> that helps clients move forward with confidence.
               </p>
               <div className="mt-6 flex items-center gap-2 border-t border-border pt-5">
                 <div className="rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">Upwork</div>

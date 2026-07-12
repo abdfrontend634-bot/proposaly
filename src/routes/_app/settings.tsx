@@ -36,15 +36,15 @@ function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-10">
+    <div className="mx-auto max-w-2xl space-y-8">
       <div>
         <div className="text-xs font-semibold uppercase tracking-widest text-primary">Account</div>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Settings</h1>
-        <p className="mt-2 text-[15px] text-muted-foreground">Manage your Gigify account.</p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">Settings</h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Manage your Gigify account.</p>
       </div>
 
       <Section icon={Mail} title="Account" description="Your account details.">
-        <div className="rounded-lg border border-border bg-[#FAFAF7] px-4 py-3 text-sm text-foreground">
+        <div className="rounded-lg border border-border bg-[#FAFAF7] px-4 py-3 text-sm font-medium text-foreground">
           {user?.email}
         </div>
       </Section>
@@ -85,8 +85,8 @@ function Section({
           <Icon className="h-4 w-4" />
         </div>
         <div>
-          <h2 className="text-base font-semibold tracking-tight">{title}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+          <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
         </div>
       </div>
       {children}

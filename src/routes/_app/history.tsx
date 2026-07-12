@@ -56,14 +56,14 @@ function HistoryPage() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <div className="text-xs font-semibold uppercase tracking-widest text-primary">Archive</div>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Proposal history</h1>
-          <p className="mt-2 text-[15px] text-muted-foreground">Everything you've saved, in one place.</p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">Proposal history</h1>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Everything you've saved, in one place.</p>
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm leading-relaxed text-muted-foreground">
           {items.length} {items.length === 1 ? "proposal" : "proposals"}
         </div>
       </div>
