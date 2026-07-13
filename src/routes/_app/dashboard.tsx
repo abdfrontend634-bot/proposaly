@@ -76,19 +76,33 @@ function Dashboard() {
     },
   });
 
+  const [saving, setSaving] = useState(false);
   async function save() {
-    if (!result.trim()) return;
-    const title = jobDescription.split("\n")[0].slice(0, 80) || "Untitled proposal";
-    const { error } = await supabase.from("proposals").insert({
-      user_id: (await supabase.auth.getUser()).data.user!.id,
-      title,
-      job_description: jobDescription,
-      platform,
-      tone,
-      content: result,
-    });
-    if (error) return toast.error(error.message);
-    toast.success("Saved to history");
+    if (!result.trim() || saving) return;
+    setSaving(true);
+    try {
+      const { data: userData, error: userErr } = await supabase.auth.getUser();
+      if (userErr || !userData.user) {
+        toast.error("Please sign in again.");
+        return;
+      }
+      const title = jobDescription.split("\n")[0].slice(0, 80) || "Untitled proposal";
+      const { error } = await supabase.from("proposals").insert({
+        user_id: userData.user.id,
+        title,
+        job_description: jobDescription,
+        platform,
+        tone,
+        content: result,
+      });
+      if (error) {
+        toast.error("Couldn't save. Please try again.");
+        return;
+      }
+      toast.success("Saved to history");
+    } finally {
+      setSaving(false);
+    }
   }
 
   function copy() {
