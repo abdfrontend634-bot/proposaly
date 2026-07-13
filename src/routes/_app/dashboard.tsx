@@ -252,8 +252,12 @@ function Dashboard() {
                 <Button variant="ghost" size="icon" onClick={download} aria-label="Download">
                   <Download className="h-4 w-4" />
                 </Button>
-                <Button size="sm" onClick={save}>
-                  <Save className="mr-1.5 h-3.5 w-3.5" />
+                <Button size="sm" onClick={save} disabled={saving}>
+                  {saving ? (
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <Save className="mr-1.5 h-3.5 w-3.5" />
+                  )}
                   Save
                 </Button>
               </div>
