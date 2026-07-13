@@ -75,7 +75,7 @@ function AuthPage() {
             {mode === "signin" ? "Welcome back" : "Create your account"}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {mode === "signin" ? "Sign in to keep winning gigs." : "Free forever — 5 proposals per month."}
+            {mode === "signin" ? "Sign in to keep winning gigs." : "Free forever — 10 proposals per month."}
           </p>
 
           <form onSubmit={onSubmit} className="mt-8 space-y-5">

@@ -76,19 +76,33 @@ function Dashboard() {
     },
   });
 
+  const [saving, setSaving] = useState(false);
   async function save() {
-    if (!result.trim()) return;
-    const title = jobDescription.split("\n")[0].slice(0, 80) || "Untitled proposal";
-    const { error } = await supabase.from("proposals").insert({
-      user_id: (await supabase.auth.getUser()).data.user!.id,
-      title,
-      job_description: jobDescription,
-      platform,
-      tone,
-      content: result,
-    });
-    if (error) return toast.error(error.message);
-    toast.success("Saved to history");
+    if (!result.trim() || saving) return;
+    setSaving(true);
+    try {
+      const { data: userData, error: userErr } = await supabase.auth.getUser();
+      if (userErr || !userData.user) {
+        toast.error("Please sign in again.");
+        return;
+      }
+      const title = jobDescription.split("\n")[0].slice(0, 80) || "Untitled proposal";
+      const { error } = await supabase.from("proposals").insert({
+        user_id: userData.user.id,
+        title,
+        job_description: jobDescription,
+        platform,
+        tone,
+        content: result,
+      });
+      if (error) {
+        toast.error("Couldn't save. Please try again.");
+        return;
+      }
+      toast.success("Saved to history");
+    } finally {
+      setSaving(false);
+    }
   }
 
   function copy() {
@@ -149,7 +163,7 @@ function Dashboard() {
           sub={`${remaining} proposals left`}
           progress={pct}
         />
-        <StatCard icon={FileText} label="Current plan" value="Free" sub="5 proposals / month" />
+        <StatCard icon={FileText} label="Current plan" value="Free" sub="10 proposals / month" />
         <StatCard icon={Clock} label="Avg. generation" value="~8s" sub="Powered by AI" />
       </div>
 
@@ -238,8 +252,12 @@ function Dashboard() {
                 <Button variant="ghost" size="icon" onClick={download} aria-label="Download">
                   <Download className="h-4 w-4" />
                 </Button>
-                <Button size="sm" onClick={save}>
-                  <Save className="mr-1.5 h-3.5 w-3.5" />
+                <Button size="sm" onClick={save} disabled={saving}>
+                  {saving ? (
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <Save className="mr-1.5 h-3.5 w-3.5" />
+                  )}
                   Save
                 </Button>
               </div>
@@ -362,7 +380,7 @@ function UpgradeDialog({ onClose }: { onClose: () => void }) {
         </div>
         <h2 className="text-xl font-semibold tracking-tight">You've hit the free limit</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          You've used all 5 proposals this month. Upgrade to Pro for unlimited generations, priority
+          You've used all 10 proposals this month. Upgrade to Pro for unlimited generations, priority
           AI, and extended history.
         </p>
         <div className="mt-6 flex gap-2">
