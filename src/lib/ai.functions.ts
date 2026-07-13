@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
-const FREE_MONTHLY_LIMIT = 5;
+const FREE_MONTHLY_LIMIT = 10;
 
 const Input = z.object({
   jobDescription: z.string().trim().min(20).max(8000),

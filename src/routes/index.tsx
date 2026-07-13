@@ -112,7 +112,7 @@ function Hero() {
             <Check className="h-3.5 w-3.5 text-[#16A34A]" /> No credit card
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> 5 free proposals / month
+            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> 10 free proposals / month
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Check className="h-3.5 w-3.5 text-[#16A34A]" /> Cancel anytime
@@ -305,7 +305,7 @@ function Pricing() {
             price="$0"
             blurb="Perfect for trying it out."
             features={[
-              "5 proposals / month",
+              "10 proposals / month",
               "All platforms & tones",
               "Save to history",
               "PDF export",
