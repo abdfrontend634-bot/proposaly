@@ -68,6 +68,63 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          cancelled: boolean
+          created_at: string
+          current_period_end: string | null
+          customer_portal_url: string | null
+          ends_at: string | null
+          id: string
+          ls_customer_id: string | null
+          ls_order_id: string | null
+          ls_subscription_id: string | null
+          ls_variant_id: string | null
+          plan: string
+          renews_at: string | null
+          status: string
+          update_payment_method_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancelled?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          customer_portal_url?: string | null
+          ends_at?: string | null
+          id?: string
+          ls_customer_id?: string | null
+          ls_order_id?: string | null
+          ls_subscription_id?: string | null
+          ls_variant_id?: string | null
+          plan?: string
+          renews_at?: string | null
+          status?: string
+          update_payment_method_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancelled?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          customer_portal_url?: string | null
+          ends_at?: string | null
+          id?: string
+          ls_customer_id?: string | null
+          ls_order_id?: string | null
+          ls_subscription_id?: string | null
+          ls_variant_id?: string | null
+          plan?: string
+          renews_at?: string | null
+          status?: string
+          update_payment_method_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
