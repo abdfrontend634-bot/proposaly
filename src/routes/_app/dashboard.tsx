@@ -155,9 +155,10 @@ function Dashboard() {
   }
 
   const used = usage.data?.used ?? 0;
-  const limit = usage.data?.limit ?? 5;
-  const remaining = Math.max(0, limit - used);
-  const pct = Math.min(100, (used / limit) * 100);
+  const limit = usage.data?.limit ?? 10;
+  const isPro = subscription.data?.isPro ?? false;
+  const remaining = isPro ? Infinity : Math.max(0, limit - used);
+  const pct = isPro ? 0 : Math.min(100, (used / limit) * 100);
 
   return (
     <div className="space-y-8">
@@ -178,13 +179,37 @@ function Dashboard() {
         <StatCard
           icon={Zap}
           label="This month"
-          value={`${used} / ${limit}`}
-          sub={`${remaining} proposals left`}
-          progress={pct}
+          value={isPro ? "∞" : `${used} / ${limit}`}
+          sub={isPro ? "Unlimited proposals" : `${remaining} proposals left`}
+          progress={isPro ? undefined : pct}
         />
-        <StatCard icon={FileText} label="Current plan" value="Free" sub="10 proposals / month" />
+        <StatCard
+          icon={isPro ? Crown : FileText}
+          label="Current plan"
+          value={isPro ? "Pro" : "Free"}
+          sub={isPro ? "Unlimited access" : "10 proposals / month"}
+        />
         <StatCard icon={Clock} label="Avg. generation" value="~8s" sub="Powered by AI" />
       </div>
+
+      {!isPro && (
+        <div className="flex items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-4">
+          <div className="flex items-center gap-3">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
+              <Crown className="h-4 w-4" />
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-foreground">Upgrade to Pro</div>
+              <div className="text-sm text-muted-foreground">Unlimited proposals and priority AI.</div>
+            </div>
+          </div>
+          <Button asChild className="shrink-0">
+            <Link to="/upgrade">
+              Upgrade <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      )}
 
       {/* Editor */}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
