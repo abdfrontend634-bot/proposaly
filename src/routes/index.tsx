@@ -323,8 +323,7 @@ function Pricing() {
               "Priority support",
             ]}
             highlighted
-            cta="Coming soon"
-            disabled
+            cta="Get Pro"
           />
         </div>
       </div>
