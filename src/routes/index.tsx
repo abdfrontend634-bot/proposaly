@@ -394,7 +394,7 @@ function FAQ() {
   const items = [
     {
       q: "How does the free plan work?",
-      a: "You get 5 AI-generated proposals every calendar month. No credit card, no strings.",
+      a: "You get 10 AI-generated proposals every calendar month. No credit card, no strings.",
     },
     {
       q: "Which platforms are supported?",
