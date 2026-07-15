@@ -60,8 +60,11 @@ function Dashboard() {
   const qc = useQueryClient();
   const genFn = useServerFn(generateProposal);
   const usageFn = useServerFn(getUsage);
+  const subFn = useServerFn(getSubscription);
+  const checkoutFn = useServerFn(createCheckout);
 
   const usage = useQuery({ queryKey: ["usage"], queryFn: () => usageFn() });
+  const subscription = useQuery({ queryKey: ["subscription"], queryFn: () => subFn() });
 
   const generate = useMutation({
     mutationFn: () => genFn({ data: { jobDescription, platform, tone } }),
@@ -76,6 +79,19 @@ function Dashboard() {
         return;
       }
       toast.error(e.message);
+    },
+  });
+
+  const checkout = useMutation({
+    mutationFn: () => checkoutFn(),
+    onSuccess: (r) => {
+      window.location.href = r.url;
+    },
+    onError: (e: Error) => {
+      const msg = e.message.includes("STORE_ID") || e.message.includes("VARIANT_ID")
+        ? "Billing is still being configured. Please check back later."
+        : e.message;
+      toast.error(msg);
     },
   });
 
