@@ -207,6 +207,15 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
               </Link>
             );
           })}
+          <Link
+            to="/upgrade"
+            onClick={onClose}
+            className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium ${
+              pathname === "/upgrade" ? "bg-primary/8 text-primary" : "text-muted-foreground hover:bg-muted"
+            }`}
+          >
+            <Crown className="h-4 w-4" /> Upgrade
+          </Link>
           <button
             onClick={signOut}
             className="mt-4 flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted"
