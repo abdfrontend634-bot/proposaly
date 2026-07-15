@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { generateProposal, getUsage } from "@/lib/ai.functions";
+import { getSubscription, createCheckout } from "@/lib/billing.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import type { User } from "@supabase/supabase-js";
@@ -20,6 +21,8 @@ import {
   FileText,
   Zap,
   Clock,
+  Crown,
+  ArrowRight,
 } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
