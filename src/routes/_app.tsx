@@ -11,6 +11,7 @@ import {
   Loader2,
   Menu,
   X,
+  Crown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
