@@ -10,13 +10,25 @@ const Input = z.object({
   tone: z.enum(["Professional", "Friendly", "Confident"]),
 });
 
+async function isPro(supabase: any, userId: string) {
+  const { data, error } = await supabase
+    .from("subscriptions")
+    .select("status")
+    .eq("user_id", userId)
+    .single();
+  if (error && error.code !== "PGRST116") throw new Error(error.message);
+  const activeStatuses = ["active", "trialing", "past_due"];
+  return !!data && activeStatuses.includes(data.status);
+}
+
 export const generateProposal = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => Input.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    const pro = await isPro(supabase, userId);
 
-    // Enforce monthly free-plan limit (calendar month)
+    // Enforce monthly free-plan limit (calendar month) for non-pro users
     const monthStart = new Date();
     monthStart.setUTCDate(1);
     monthStart.setUTCHours(0, 0, 0, 0);
@@ -27,7 +39,7 @@ export const generateProposal = createServerFn({ method: "POST" })
       .gte("created_at", monthStart.toISOString());
 
     if (countErr) throw new Error(countErr.message);
-    if ((count ?? 0) >= FREE_MONTHLY_LIMIT) {
+    if (!pro && (count ?? 0) >= FREE_MONTHLY_LIMIT) {
       throw new Error(`FREE_LIMIT_REACHED:${FREE_MONTHLY_LIMIT}`);
     }
 
@@ -93,19 +105,23 @@ Write the proposal now.`;
 
     return {
       content,
-      usage: { used: newCount ?? 0, limit: FREE_MONTHLY_LIMIT },
+      usage: { used: newCount ?? 0, limit: pro ? null : FREE_MONTHLY_LIMIT },
+      plan: pro ? "pro" : "free",
     };
   });
 
 export const getUsage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    const { supabase, userId } = context;
+    const pro = await isPro(supabase, userId);
+
     const monthStart = new Date();
     monthStart.setUTCDate(1);
     monthStart.setUTCHours(0, 0, 0, 0);
-    const { count } = await context.supabase
+    const { count } = await supabase
       .from("generations")
       .select("id", { count: "exact", head: true })
       .gte("created_at", monthStart.toISOString());
-    return { used: count ?? 0, limit: FREE_MONTHLY_LIMIT };
+    return { used: count ?? 0, limit: pro ? null : FREE_MONTHLY_LIMIT, plan: pro ? "pro" : "free" };
   });
