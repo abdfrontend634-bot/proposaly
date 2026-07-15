@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { generateProposal, getUsage } from "@/lib/ai.functions";
+import { getSubscription } from "@/lib/billing.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import type { User } from "@supabase/supabase-js";
@@ -20,6 +21,8 @@ import {
   FileText,
   Zap,
   Clock,
+  Crown,
+  ArrowRight,
 } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
@@ -57,8 +60,10 @@ function Dashboard() {
   const qc = useQueryClient();
   const genFn = useServerFn(generateProposal);
   const usageFn = useServerFn(getUsage);
+  const subFn = useServerFn(getSubscription);
 
   const usage = useQuery({ queryKey: ["usage"], queryFn: () => usageFn() });
+  const subscription = useQuery({ queryKey: ["subscription"], queryFn: () => subFn() });
 
   const generate = useMutation({
     mutationFn: () => genFn({ data: { jobDescription, platform, tone } }),
@@ -136,9 +141,10 @@ function Dashboard() {
   }
 
   const used = usage.data?.used ?? 0;
-  const limit = usage.data?.limit ?? 5;
-  const remaining = Math.max(0, limit - used);
-  const pct = Math.min(100, (used / limit) * 100);
+  const limit = usage.data?.limit ?? 10;
+  const isPro = subscription.data?.isPro ?? false;
+  const remaining = isPro ? Infinity : Math.max(0, limit - used);
+  const pct = isPro ? 0 : Math.min(100, (used / limit) * 100);
 
   return (
     <div className="space-y-8">
@@ -159,13 +165,37 @@ function Dashboard() {
         <StatCard
           icon={Zap}
           label="This month"
-          value={`${used} / ${limit}`}
-          sub={`${remaining} proposals left`}
-          progress={pct}
+          value={isPro ? "∞" : `${used} / ${limit}`}
+          sub={isPro ? "Unlimited proposals" : `${remaining} proposals left`}
+          progress={isPro ? undefined : pct}
         />
-        <StatCard icon={FileText} label="Current plan" value="Free" sub="10 proposals / month" />
+        <StatCard
+          icon={isPro ? Crown : FileText}
+          label="Current plan"
+          value={isPro ? "Pro" : "Free"}
+          sub={isPro ? "Unlimited access" : "10 proposals / month"}
+        />
         <StatCard icon={Clock} label="Avg. generation" value="~8s" sub="Powered by AI" />
       </div>
+
+      {!isPro && (
+        <div className="flex items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-4">
+          <div className="flex items-center gap-3">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
+              <Crown className="h-4 w-4" />
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-foreground">Upgrade to Pro</div>
+              <div className="text-sm text-muted-foreground">Unlimited proposals and priority AI.</div>
+            </div>
+          </div>
+          <Button asChild className="shrink-0">
+            <Link to="/upgrade">
+              Upgrade <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      )}
 
       {/* Editor */}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
@@ -384,8 +414,8 @@ function UpgradeDialog({ onClose }: { onClose: () => void }) {
           AI, and extended history.
         </p>
         <div className="mt-6 flex gap-2">
-          <Button className="flex-1" disabled>
-            Upgrade to Pro (soon)
+          <Button asChild className="flex-1">
+            <Link to="/upgrade">Upgrade to Pro</Link>
           </Button>
           <Button variant="outline" onClick={onClose}>
             Close

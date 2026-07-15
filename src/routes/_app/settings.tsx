@@ -1,11 +1,14 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
+import { getSubscription, getCustomerPortalUrl } from "@/lib/billing.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, LogOut, Mail, KeyRound, Shield } from "lucide-react";
+import { Loader2, LogOut, Mail, KeyRound, Shield, Crown, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/settings")({
@@ -18,6 +21,20 @@ function SettingsPage() {
   const [pw, setPw] = useState("");
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
+
+  const subFn = useServerFn(getSubscription);
+  const portalFn = useServerFn(getCustomerPortalUrl);
+
+  const subscription = useQuery({ queryKey: ["subscription"], queryFn: () => subFn() });
+  const portal = useMutation({
+    mutationFn: () => portalFn(),
+    onSuccess: (r) => {
+      window.location.href = r.url;
+    },
+    onError: (e: Error) => {
+      toast.error(e.message);
+    },
+  });
 
   async function changePassword(e: React.FormEvent) {
     e.preventDefault();
@@ -50,6 +67,42 @@ function SettingsPage() {
       <Section icon={Mail} title="Account" description="Your account details.">
         <div className="rounded-lg border border-border bg-[#FAFAF7] px-4 py-3 text-sm font-medium text-foreground">
           {user?.email}
+        </div>
+      </Section>
+
+      <Section
+        icon={Crown}
+        title="Subscription"
+        description="Your plan and billing details."
+      >
+        <div className="rounded-lg border border-border bg-[#FAFAF7] px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm font-semibold text-foreground">
+                {subscription.data?.isPro ? "Pro" : "Free"}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {subscription.data?.isPro
+                  ? "Unlimited proposals, priority AI, and extended history."
+                  : "10 proposals per month."}
+              </div>
+            </div>
+            {subscription.data?.isPro ? (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={portal.isPending}
+                onClick={() => portal.mutate()}
+              >
+                {portal.isPending && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
+                <ExternalLink className="mr-2 h-3.5 w-3.5" /> Manage
+              </Button>
+            ) : (
+              <Button asChild size="sm">
+                <Link to="/upgrade">Upgrade</Link>
+              </Button>
+            )}
+          </div>
         </div>
       </Section>
 
