@@ -428,8 +428,8 @@ function UpgradeDialog({ onClose }: { onClose: () => void }) {
           AI, and extended history.
         </p>
         <div className="mt-6 flex gap-2">
-          <Button className="flex-1" disabled>
-            Upgrade to Pro (soon)
+          <Button asChild className="flex-1">
+            <Link to="/upgrade">Upgrade to Pro</Link>
           </Button>
           <Button variant="outline" onClick={onClose}>
             Close
