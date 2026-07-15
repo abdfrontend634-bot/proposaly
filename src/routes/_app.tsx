@@ -85,6 +85,20 @@ function Sidebar() {
   const { user } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
+  const [planLabel, setPlanLabel] = useState("Free plan");
+
+  useEffect(() => {
+    supabase
+      .from("subscriptions")
+      .select("status")
+      .eq("user_id", user?.id ?? "")
+      .single()
+      .then(({ data, error }) => {
+        if (error || !data) return;
+        const activeStatuses = ["active", "trialing", "past_due"];
+        if (activeStatuses.includes(data.status)) setPlanLabel("Pro plan");
+      });
+  }, [user?.id]);
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -120,6 +134,17 @@ function Sidebar() {
             </Link>
           );
         })}
+        <Link
+          to="/upgrade"
+          className={`mt-1 flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
+            pathname === "/upgrade"
+              ? "bg-primary/8 text-primary"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+          }`}
+        >
+          <Crown className="h-4 w-4" />
+          Upgrade
+        </Link>
       </nav>
 
       <div className="border-t border-border p-3">
@@ -129,7 +154,7 @@ function Sidebar() {
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-xs font-medium text-foreground">{user?.email}</div>
-            <div className="text-[11px] text-muted-foreground">Free plan</div>
+            <div className="text-[11px] text-muted-foreground">{planLabel}</div>
           </div>
           <button
             onClick={signOut}
