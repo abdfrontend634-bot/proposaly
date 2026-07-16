@@ -183,25 +183,42 @@ function Sidebar() {
 function MobileSidebar({ onClose }: { onClose: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
   async function signOut() {
-    await supabase.auth.signOut();
-    onClose();
-    navigate({ to: "/auth", replace: true });
+    try {
+      await supabase.auth.signOut();
+    } finally {
+      onClose();
+      navigate({ to: "/auth", replace: true });
+    }
   }
   return (
-    <div className="fixed inset-0 z-50 lg:hidden">
-      <div className="absolute inset-0 bg-black/20" onClick={onClose} />
+    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
+      <div className="absolute inset-0 bg-black/20" onClick={onClose} aria-hidden="true" />
       <div className="absolute right-0 top-0 h-full w-72 bg-surface shadow-lg">
         <div className="flex h-14 items-center justify-between border-b border-border px-4">
           <div className="flex items-center gap-2">
             <Logo />
             <span className="text-sm font-semibold">Gigify</span>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close menu">
             <X className="h-5 w-5" />
           </Button>
         </div>
-        <nav className="space-y-0.5 p-3">
+        <nav className="space-y-0.5 p-3" aria-label="Primary">
           {NAV.map((l) => {
             const active = pathname === l.to;
             return (
@@ -209,6 +226,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
                 key={l.to}
                 to={l.to}
                 onClick={onClose}
+                aria-current={active ? "page" : undefined}
                 className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium ${
                   active ? "bg-primary/8 text-primary" : "text-muted-foreground hover:bg-muted"
                 }`}
@@ -220,6 +238,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
           <Link
             to="/upgrade"
             onClick={onClose}
+            aria-current={pathname === "/upgrade" ? "page" : undefined}
             className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium ${
               pathname === "/upgrade" ? "bg-primary/8 text-primary" : "text-muted-foreground hover:bg-muted"
             }`}
@@ -227,6 +246,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
             <Crown className="h-4 w-4" /> Upgrade
           </Link>
           <button
+            type="button"
             onClick={signOut}
             className="mt-4 flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted"
           >
