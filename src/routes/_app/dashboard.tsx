@@ -218,12 +218,17 @@ function Dashboard() {
                 onChange={(e) => setJobDescription(e.target.value)}
                 placeholder="Paste the full job posting here…"
                 className="min-h-[240px] resize-y"
+                maxLength={8000}
+                aria-describedby="job-help"
               />
-              {jobDescription.trim().length > 0 && jobDescription.trim().length < 20 && (
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  A bit more detail helps — at least 20 characters.
-                </p>
-              )}
+              <div id="job-help" className="flex items-center justify-between gap-2 text-xs leading-relaxed text-muted-foreground">
+                <span>
+                  {jobDescription.trim().length > 0 && jobDescription.trim().length < 20
+                    ? "A bit more detail helps — at least 20 characters."
+                    : "Minimum 20 characters."}
+                </span>
+                <span aria-live="polite">{jobDescription.length} / 8000</span>
+              </div>
             </div>
 
             <div className="space-y-2">
