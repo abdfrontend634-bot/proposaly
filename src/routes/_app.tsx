@@ -1,7 +1,10 @@
 import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
+import { getSubscription } from "@/lib/billing.functions";
 import {
   Sparkles,
   LayoutDashboard,
@@ -49,7 +52,7 @@ function AppShell() {
           <Logo />
           <span className="text-sm font-semibold">Gigify</span>
         </Link>
-        <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)}>
+        <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)} aria-label="Open menu" aria-expanded={mobileOpen}>
           <Menu className="h-5 w-5" />
         </Button>
       </div>
@@ -86,25 +89,28 @@ function Sidebar() {
   const { user } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
-  const [planLabel, setPlanLabel] = useState("Free plan");
+  const [signingOut, setSigningOut] = useState(false);
 
-  useEffect(() => {
-    supabase
-      .from("subscriptions")
-      .select("status")
-      .eq("user_id", user?.id ?? "")
-      .single()
-      .then(({ data, error }) => {
-        if (error || !data) return;
-        const activeStatuses = ["active", "trialing", "past_due"];
-        if (activeStatuses.includes(data.status)) setPlanLabel("Pro plan");
-      });
-  }, [user?.id]);
+  const subFn = useServerFn(getSubscription);
+  const subscription = useQuery({
+    queryKey: ["subscription"],
+    queryFn: () => subFn(),
+    staleTime: 60_000,
+  });
+  const planLabel = subscription.data?.isPro ? "Pro plan" : "Free plan";
 
   async function signOut() {
-    await supabase.auth.signOut();
-    toast.success("Signed out");
-    navigate({ to: "/auth", replace: true });
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await supabase.auth.signOut();
+      toast.success("Signed out");
+      navigate({ to: "/auth", replace: true });
+    } catch {
+      toast.error("Couldn't sign out. Try again.");
+    } finally {
+      setSigningOut(false);
+    }
   }
 
   return (
@@ -114,7 +120,7 @@ function Sidebar() {
         <span className="text-[15px] font-semibold tracking-tight">Gigify</span>
       </div>
 
-      <nav className="flex-1 space-y-0.5 px-3 py-4">
+      <nav className="flex-1 space-y-0.5 px-3 py-4" aria-label="Primary">
         <div className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
           Workspace
         </div>
@@ -124,6 +130,7 @@ function Sidebar() {
             <Link
               key={l.to}
               to={l.to}
+              aria-current={active ? "page" : undefined}
               className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 active
                   ? "bg-primary/8 text-primary"
@@ -137,6 +144,7 @@ function Sidebar() {
         })}
         <Link
           to="/upgrade"
+          aria-current={pathname === "/upgrade" ? "page" : undefined}
           className={`mt-1 flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
             pathname === "/upgrade"
               ? "bg-primary/8 text-primary"
@@ -158,11 +166,13 @@ function Sidebar() {
             <div className="text-[11px] text-muted-foreground">{planLabel}</div>
           </div>
           <button
+            type="button"
             onClick={signOut}
-            className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            disabled={signingOut}
+            className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50"
             aria-label="Sign out"
           >
-            <LogOut className="h-4 w-4" />
+            {signingOut ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
           </button>
         </div>
       </div>
@@ -173,25 +183,42 @@ function Sidebar() {
 function MobileSidebar({ onClose }: { onClose: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
   async function signOut() {
-    await supabase.auth.signOut();
-    onClose();
-    navigate({ to: "/auth", replace: true });
+    try {
+      await supabase.auth.signOut();
+    } finally {
+      onClose();
+      navigate({ to: "/auth", replace: true });
+    }
   }
   return (
-    <div className="fixed inset-0 z-50 lg:hidden">
-      <div className="absolute inset-0 bg-black/20" onClick={onClose} />
+    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
+      <div className="absolute inset-0 bg-black/20" onClick={onClose} aria-hidden="true" />
       <div className="absolute right-0 top-0 h-full w-72 bg-surface shadow-lg">
         <div className="flex h-14 items-center justify-between border-b border-border px-4">
           <div className="flex items-center gap-2">
             <Logo />
             <span className="text-sm font-semibold">Gigify</span>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close menu">
             <X className="h-5 w-5" />
           </Button>
         </div>
-        <nav className="space-y-0.5 p-3">
+        <nav className="space-y-0.5 p-3" aria-label="Primary">
           {NAV.map((l) => {
             const active = pathname === l.to;
             return (
@@ -199,6 +226,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
                 key={l.to}
                 to={l.to}
                 onClick={onClose}
+                aria-current={active ? "page" : undefined}
                 className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium ${
                   active ? "bg-primary/8 text-primary" : "text-muted-foreground hover:bg-muted"
                 }`}
@@ -210,6 +238,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
           <Link
             to="/upgrade"
             onClick={onClose}
+            aria-current={pathname === "/upgrade" ? "page" : undefined}
             className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium ${
               pathname === "/upgrade" ? "bg-primary/8 text-primary" : "text-muted-foreground hover:bg-muted"
             }`}
@@ -217,6 +246,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
             <Crown className="h-4 w-4" /> Upgrade
           </Link>
           <button
+            type="button"
             onClick={signOut}
             className="mt-4 flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted"
           >
