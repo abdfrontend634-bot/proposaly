@@ -89,25 +89,28 @@ function Sidebar() {
   const { user } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
-  const [planLabel, setPlanLabel] = useState("Free plan");
+  const [signingOut, setSigningOut] = useState(false);
 
-  useEffect(() => {
-    supabase
-      .from("subscriptions")
-      .select("status")
-      .eq("user_id", user?.id ?? "")
-      .single()
-      .then(({ data, error }) => {
-        if (error || !data) return;
-        const activeStatuses = ["active", "trialing", "past_due"];
-        if (activeStatuses.includes(data.status)) setPlanLabel("Pro plan");
-      });
-  }, [user?.id]);
+  const subFn = useServerFn(getSubscription);
+  const subscription = useQuery({
+    queryKey: ["subscription"],
+    queryFn: () => subFn(),
+    staleTime: 60_000,
+  });
+  const planLabel = subscription.data?.isPro ? "Pro plan" : "Free plan";
 
   async function signOut() {
-    await supabase.auth.signOut();
-    toast.success("Signed out");
-    navigate({ to: "/auth", replace: true });
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await supabase.auth.signOut();
+      toast.success("Signed out");
+      navigate({ to: "/auth", replace: true });
+    } catch {
+      toast.error("Couldn't sign out. Try again.");
+    } finally {
+      setSigningOut(false);
+    }
   }
 
   return (
