@@ -120,7 +120,7 @@ function Sidebar() {
         <span className="text-[15px] font-semibold tracking-tight">Gigify</span>
       </div>
 
-      <nav className="flex-1 space-y-0.5 px-3 py-4">
+      <nav className="flex-1 space-y-0.5 px-3 py-4" aria-label="Primary">
         <div className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
           Workspace
         </div>
@@ -130,6 +130,7 @@ function Sidebar() {
             <Link
               key={l.to}
               to={l.to}
+              aria-current={active ? "page" : undefined}
               className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 active
                   ? "bg-primary/8 text-primary"
@@ -143,6 +144,7 @@ function Sidebar() {
         })}
         <Link
           to="/upgrade"
+          aria-current={pathname === "/upgrade" ? "page" : undefined}
           className={`mt-1 flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
             pathname === "/upgrade"
               ? "bg-primary/8 text-primary"
