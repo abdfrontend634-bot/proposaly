@@ -52,7 +52,7 @@ function AppShell() {
           <Logo />
           <span className="text-sm font-semibold">Gigify</span>
         </Link>
-        <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)}>
+        <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)} aria-label="Open menu" aria-expanded={mobileOpen}>
           <Menu className="h-5 w-5" />
         </Button>
       </div>
