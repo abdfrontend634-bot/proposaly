@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { generateProposal, getUsage } from "@/lib/ai.functions";
@@ -407,13 +407,29 @@ function SegmentedControl<T extends string>({
 }
 
 function UpgradeDialog({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4 backdrop-blur-sm animate-fade-up">
-      <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-lg">
+    <div
+      className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4 backdrop-blur-sm animate-fade-up"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="limit-title"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-lg"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
           <Lock className="h-5 w-5" />
         </div>
-        <h2 className="text-xl font-semibold tracking-tight">You've hit the free limit</h2>
+        <h2 id="limit-title" className="text-xl font-semibold tracking-tight">You've hit the free limit</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           You've used all 10 proposals this month. Upgrade to Pro for unlimited generations, priority
           AI, and extended history.
