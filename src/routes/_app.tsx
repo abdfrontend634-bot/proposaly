@@ -166,11 +166,13 @@ function Sidebar() {
             <div className="text-[11px] text-muted-foreground">{planLabel}</div>
           </div>
           <button
+            type="button"
             onClick={signOut}
-            className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            disabled={signingOut}
+            className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50"
             aria-label="Sign out"
           >
-            <LogOut className="h-4 w-4" />
+            {signingOut ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
           </button>
         </div>
       </div>
