@@ -93,13 +93,13 @@ function UpgradePage() {
       <div className="grid gap-6 md:grid-cols-2">
         <div className="rounded-2xl border border-border bg-surface p-7 shadow-xs">
           <h3 className="text-lg font-semibold tracking-tight">Free</h3>
-          <p className="mt-1 text-sm text-muted-foreground">For occasional freelancers.</p>
+          <p className="mt-1 text-sm text-muted-foreground">Generous enough to really test it.</p>
           <div className="mt-6 flex items-baseline gap-1.5">
             <span className="text-4xl font-semibold tracking-tight">$0</span>
             <span className="text-sm text-muted-foreground">/month</span>
           </div>
           <ul className="mt-6 space-y-3 text-sm">
-            <Feature text="10 proposals / month" />
+            <Feature text="50 proposals / month" />
             <Feature text="All platforms & tones" />
             <Feature text="Save to history" />
             <Feature text="PDF export" />
@@ -117,11 +117,25 @@ function UpgradePage() {
             <span className="text-sm text-muted-foreground">/month</span>
           </div>
           <ul className="mt-6 space-y-3 text-sm">
-            <Feature text="Unlimited proposals" />
-            <Feature text="Priority AI model" />
-            <Feature text="Extended history" />
-            <Feature text="Priority support" />
+            <Feature text="Unlimited proposal generation" />
+            <Feature text="Access to all 40+ proposal styles" />
+            <Feature text="AI Proposal Rewrite" />
+            <Feature text="AI Proposal Optimizer" />
+            <Feature text="Proposal Score" />
+            <Feature text="AI Suggestions" />
+            <Feature text="Cover Letter Generator" />
+            <Feature text="Client Questions Auto Answer" />
+            <Feature text="English ↔ Urdu translator & more languages" />
+            <Feature text="English Simplifier" />
+            <Feature text="AI Freelancer Coach" />
+            <Feature text="Chat history" />
+            <Feature text="Priority AI responses" />
+            <Feature text="Faster generation speed" />
+            <Feature text="Unlimited PDF exports" />
+            <Feature text="Unlimited saved proposal history" />
+            <Feature text="Future premium AI features included" />
           </ul>
+
           <Button
             className="mt-8 w-full"
             size="lg"
