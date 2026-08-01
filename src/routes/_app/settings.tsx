@@ -137,6 +137,47 @@ function SettingsPage() {
           <LogOut className="mr-2 h-4 w-4" /> Sign out
         </Button>
       </Section>
+
+      {devMode && (
+        <Section
+          icon={Terminal}
+          title="Developer mode"
+          description="Local diagnostics for this browser only."
+        >
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline">
+              <Link to="/developer">Open developer panel</Link>
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setDevMode(false);
+                toast.success("Developer mode disabled");
+              }}
+            >
+              Turn off
+            </Button>
+          </div>
+        </Section>
+      )}
+
+      <div className="pb-2 text-center">
+        <button
+          type="button"
+          onClick={() => {
+            const next = taps + 1;
+            setTaps(next);
+            if (next >= 5 && !devMode) {
+              setDevMode(true);
+              toast.success("Developer mode enabled");
+            }
+          }}
+          className="rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          aria-label={`${BRAND.name} version ${BRAND.version}`}
+        >
+          {BRAND.name} v{BRAND.version}
+        </button>
+      </div>
     </div>
   );
 }
