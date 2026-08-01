@@ -465,7 +465,7 @@ function UpgradeDialog({ onClose }: { onClose: () => void }) {
         </div>
         <h2 id="limit-title" className="text-xl font-semibold tracking-tight">You've hit the free limit</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          You've used all 10 proposals this month. Upgrade to Pro for unlimited generations, priority
+          You've used all 50 proposals this month. Upgrade to Pro for unlimited generations, priority
           AI, and extended history.
         </p>
         <div className="mt-6 flex gap-2">
