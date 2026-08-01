@@ -84,7 +84,7 @@ function SettingsPage() {
               <div className="text-xs text-muted-foreground">
                 {subscription.data?.isPro
                   ? "Unlimited proposals, priority AI, and extended history."
-                  : "10 proposals per month."}
+                  : "50 proposals per month."}
               </div>
             </div>
             {subscription.data?.isPro ? (

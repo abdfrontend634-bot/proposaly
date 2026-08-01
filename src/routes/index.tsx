@@ -112,7 +112,7 @@ function Hero() {
             <Check className="h-3.5 w-3.5 text-[#16A34A]" /> No credit card
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> 10 free proposals / month
+            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> 50 free proposals / month
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Check className="h-3.5 w-3.5 text-[#16A34A]" /> Cancel anytime
@@ -303,9 +303,9 @@ function Pricing() {
           <PriceCard
             name="Free"
             price="$0"
-            blurb="Perfect for trying it out."
+            blurb="Generous enough to really test it."
             features={[
-              "10 proposals / month",
+              "50 proposals / month",
               "All platforms & tones",
               "Save to history",
               "PDF export",
@@ -317,14 +317,20 @@ function Pricing() {
             price="$12"
             blurb="For freelancers bidding daily."
             features={[
-              "Unlimited proposals",
-              "Priority AI model",
-              "Extended history",
-              "Priority support",
+              "Unlimited proposal generation",
+              "All 40+ proposal styles",
+              "AI Rewrite, Optimizer & Proposal Score",
+              "Cover letter & client-question answers",
+              "English ↔ Urdu translator & more languages",
+              "AI Freelancer Coach + chat history",
+              "Priority AI, faster generation",
+              "Unlimited PDF exports & history",
+              "Future premium AI features included",
             ]}
             highlighted
             cta="Get Pro"
           />
+
         </div>
       </div>
     </section>
@@ -394,7 +400,7 @@ function FAQ() {
   const items = [
     {
       q: "How does the free plan work?",
-      a: "You get 10 AI-generated proposals every calendar month. No credit card, no strings.",
+      a: "You get 50 AI-generated proposals every calendar month. No credit card, no strings.",
     },
     {
       q: "Which platforms are supported?",
