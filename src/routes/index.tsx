@@ -112,7 +112,7 @@ function Hero() {
             <Check className="h-3.5 w-3.5 text-[#16A34A]" /> No credit card
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> 10 free proposals / month
+            <Check className="h-3.5 w-3.5 text-[#16A34A]" /> 50 free proposals / month
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Check className="h-3.5 w-3.5 text-[#16A34A]" /> Cancel anytime
@@ -394,7 +394,7 @@ function FAQ() {
   const items = [
     {
       q: "How does the free plan work?",
-      a: "You get 10 AI-generated proposals every calendar month. No credit card, no strings.",
+      a: "You get 50 AI-generated proposals every calendar month. No credit card, no strings.",
     },
     {
       q: "Which platforms are supported?",
