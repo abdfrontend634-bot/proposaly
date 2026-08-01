@@ -303,9 +303,9 @@ function Pricing() {
           <PriceCard
             name="Free"
             price="$0"
-            blurb="Perfect for trying it out."
+            blurb="Generous enough to really test it."
             features={[
-              "10 proposals / month",
+              "50 proposals / month",
               "All platforms & tones",
               "Save to history",
               "PDF export",
@@ -317,14 +317,20 @@ function Pricing() {
             price="$12"
             blurb="For freelancers bidding daily."
             features={[
-              "Unlimited proposals",
-              "Priority AI model",
-              "Extended history",
-              "Priority support",
+              "Unlimited proposal generation",
+              "All 40+ proposal styles",
+              "AI Rewrite, Optimizer & Proposal Score",
+              "Cover letter & client-question answers",
+              "English ↔ Urdu translator & more languages",
+              "AI Freelancer Coach + chat history",
+              "Priority AI, faster generation",
+              "Unlimited PDF exports & history",
+              "Future premium AI features included",
             ]}
             highlighted
             cta="Get Pro"
           />
+
         </div>
       </div>
     </section>
