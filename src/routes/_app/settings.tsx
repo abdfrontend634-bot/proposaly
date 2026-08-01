@@ -8,8 +8,10 @@ import { getSubscription, getCustomerPortalUrl } from "@/lib/billing.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, LogOut, Mail, KeyRound, Shield, Crown, ExternalLink } from "lucide-react";
+import { Loader2, LogOut, Mail, KeyRound, Shield, Crown, ExternalLink, Terminal } from "lucide-react";
 import { toast } from "sonner";
+import { BRAND } from "@/lib/brand";
+import { useDeveloperMode } from "@/lib/use-developer-mode";
 
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({ meta: [{ title: "Settings — Pitchly" }] }),
@@ -21,6 +23,8 @@ function SettingsPage() {
   const [pw, setPw] = useState("");
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
+  const { enabled: devMode, set: setDevMode } = useDeveloperMode();
+  const [taps, setTaps] = useState(0);
 
   const subFn = useServerFn(getSubscription);
   const portalFn = useServerFn(getCustomerPortalUrl);
