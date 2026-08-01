@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { LogoMark, Wordmark } from "@/components/brand";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -64,10 +65,8 @@ function AuthPage() {
 
       <div className="w-full max-w-[400px] animate-fade-up">
         <Link to="/" className="mb-10 flex items-center justify-center gap-2.5">
-          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-            <Sparkles className="h-4 w-4" />
-          </div>
-          <span className="text-lg font-semibold tracking-tight">Pitchly</span>
+          <LogoMark className="h-9 w-9" />
+          <Wordmark className="text-lg" />
         </Link>
 
         <div className="rounded-2xl border border-border bg-surface p-8 shadow-sm">
