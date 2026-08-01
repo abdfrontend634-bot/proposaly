@@ -34,6 +34,21 @@ export const Route = createFileRoute("/_app/dashboard")({
 
 const PLATFORMS = ["Upwork", "Fiverr", "Freelancer"] as const;
 const TONES = ["Professional", "Friendly", "Confident"] as const;
+const PRO_FEATURES = [
+  "40+ proposal styles",
+  "AI Proposal Rewrite",
+  "AI Proposal Optimizer",
+  "Proposal Score",
+  "AI Suggestions",
+  "Cover Letter Generator",
+  "Client Questions Auto Answer",
+  "Urdu & multi-language translator",
+  "English Simplifier",
+  "AI Freelancer Coach",
+  "Chat history",
+  "Priority AI + faster generation",
+] as const;
+
 
 function firstName(user: User | null) {
   if (!user) return "there";
