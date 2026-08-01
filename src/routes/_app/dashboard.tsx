@@ -173,7 +173,7 @@ function Dashboard() {
           icon={isPro ? Crown : FileText}
           label="Current plan"
           value={isPro ? "Pro" : "Free"}
-          sub={isPro ? "Unlimited access" : "10 proposals / month"}
+          sub={isPro ? "Unlimited access" : "50 proposals / month"}
         />
         <StatCard icon={Clock} label="Avg. generation" value="~8s" sub="Powered by AI" />
       </div>
