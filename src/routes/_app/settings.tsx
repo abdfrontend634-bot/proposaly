@@ -12,7 +12,7 @@ import { Loader2, LogOut, Mail, KeyRound, Shield, Crown, ExternalLink } from "lu
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/settings")({
-  head: () => ({ meta: [{ title: "Settings — Gigify" }] }),
+  head: () => ({ meta: [{ title: "Settings — Pitchly" }] }),
   component: SettingsPage,
 });
 
@@ -60,7 +60,7 @@ function SettingsPage() {
           Settings
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Manage your Gigify account.
+          Manage your Pitchly account.
         </p>
       </div>
 

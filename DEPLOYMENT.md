@@ -1,6 +1,6 @@
 # Deployment
 
-Gigify is built with TanStack Start (Vite 7) and deploys as an edge server bundle. In Lovable, click **Publish** — the app builds and deploys automatically to the Lovable hosting edge.
+Pitchly is built with TanStack Start (Vite 7) and deploys as an edge server bundle. In Lovable, click **Publish** — the app builds and deploys automatically to the Lovable hosting edge.
 
 ## Build
 

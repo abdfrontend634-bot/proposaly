@@ -39,7 +39,7 @@ function Header() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2.5">
           <Logo />
-          <span className="text-[17px] font-semibold tracking-tight">Gigify</span>
+          <span className="text-[17px] font-semibold tracking-tight">Pitchly</span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           <a href="#how" className="transition-colors hover:text-foreground">
@@ -126,7 +126,7 @@ function Hero() {
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="ml-3 text-[11px] font-medium text-muted-foreground">
-                Gigify — Upwork proposal
+                Pitchly — Upwork proposal
               </div>
             </div>
             <div className="p-8 text-left">
@@ -179,7 +179,7 @@ function HowItWorks() {
     {
       icon: Target,
       title: "Paste the job",
-      body: "Drop any Upwork, Fiverr or Freelancer posting into Gigify.",
+      body: "Drop any Upwork, Fiverr or Freelancer posting into Pitchly.",
     },
     {
       icon: Sparkles,
@@ -462,7 +462,7 @@ function CTA() {
             Stop writing from scratch.
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-lg text-muted-foreground">
-            Join thousands of freelancers shipping better proposals with Gigify.
+            Join thousands of freelancers shipping better proposals with Pitchly.
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link to="/auth">
@@ -494,7 +494,7 @@ function Footer() {
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-2.5">
             <Logo />
-            <span className="text-sm font-semibold tracking-tight">Gigify</span>
+            <span className="text-sm font-semibold tracking-tight">Pitchly</span>
           </div>
           <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
             <a href="#how" className="hover:text-foreground">
@@ -512,7 +512,7 @@ function Footer() {
           </div>
         </div>
         <div className="mt-8 flex flex-col-reverse items-start justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">
-          <div>© {new Date().getFullYear()} Gigify. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Pitchly. All rights reserved.</div>
           <div>AI-powered proposals for freelancers.</div>
         </div>
       </div>

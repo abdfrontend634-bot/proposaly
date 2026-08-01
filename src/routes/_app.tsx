@@ -50,7 +50,7 @@ function AppShell() {
       <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-surface px-4 lg:hidden">
         <Link to="/dashboard" className="flex items-center gap-2">
           <Logo />
-          <span className="text-sm font-semibold">Gigify</span>
+          <span className="text-sm font-semibold">Pitchly</span>
         </Link>
         <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)} aria-label="Open menu" aria-expanded={mobileOpen}>
           <Menu className="h-5 w-5" />
@@ -117,7 +117,7 @@ function Sidebar() {
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border bg-surface lg:flex">
       <div className="flex h-16 items-center gap-2.5 px-6">
         <Logo />
-        <span className="text-[15px] font-semibold tracking-tight">Gigify</span>
+        <span className="text-[15px] font-semibold tracking-tight">Pitchly</span>
       </div>
 
       <nav className="flex-1 space-y-0.5 px-3 py-4" aria-label="Primary">
@@ -212,7 +212,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
         <div className="flex h-14 items-center justify-between border-b border-border px-4">
           <div className="flex items-center gap-2">
             <Logo />
-            <span className="text-sm font-semibold">Gigify</span>
+            <span className="text-sm font-semibold">Pitchly</span>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close menu">
             <X className="h-5 w-5" />
