@@ -141,7 +141,7 @@ function Dashboard() {
   }
 
   const used = usage.data?.used ?? 0;
-  const limit = usage.data?.limit ?? 10;
+  const limit = usage.data?.limit ?? 50;
   const isPro = subscription.data?.isPro ?? false;
   const remaining = isPro ? Infinity : Math.max(0, limit - used);
   const pct = isPro ? 0 : Math.min(100, (used / limit) * 100);
