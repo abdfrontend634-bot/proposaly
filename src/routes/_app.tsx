@@ -6,7 +6,7 @@ import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { getSubscription } from "@/lib/billing.functions";
 import {
-  Sparkles,
+  Terminal,
   LayoutDashboard,
   History,
   Settings as SettingsIcon,
@@ -17,6 +17,9 @@ import {
   Crown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LogoMark } from "@/components/brand";
+import { BRAND } from "@/lib/brand";
+import { useDeveloperMode } from "@/lib/use-developer-mode";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app")({
@@ -50,7 +53,7 @@ function AppShell() {
       <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-surface px-4 lg:hidden">
         <Link to="/dashboard" className="flex items-center gap-2">
           <Logo />
-          <span className="text-sm font-semibold">Pitchly</span>
+          <span className="text-sm font-semibold">{BRAND.name}</span>
         </Link>
         <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)} aria-label="Open menu" aria-expanded={mobileOpen}>
           <Menu className="h-5 w-5" />
@@ -72,11 +75,7 @@ function AppShell() {
 }
 
 function Logo() {
-  return (
-    <div className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-      <Sparkles className="h-4 w-4" />
-    </div>
-  );
+  return <LogoMark />;
 }
 
 const NAV = [
@@ -117,7 +116,7 @@ function Sidebar() {
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border bg-surface lg:flex">
       <div className="flex h-16 items-center gap-2.5 px-6">
         <Logo />
-        <span className="text-[15px] font-semibold tracking-tight">Pitchly</span>
+        <span className="text-[15px] font-semibold tracking-tight">{BRAND.name}</span>
       </div>
 
       <nav className="flex-1 space-y-0.5 px-3 py-4" aria-label="Primary">
@@ -212,7 +211,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
         <div className="flex h-14 items-center justify-between border-b border-border px-4">
           <div className="flex items-center gap-2">
             <Logo />
-            <span className="text-sm font-semibold">Pitchly</span>
+            <span className="text-sm font-semibold">{BRAND.name}</span>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close menu">
             <X className="h-5 w-5" />
