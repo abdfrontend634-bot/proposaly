@@ -28,7 +28,7 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 
 export const Route = createFileRoute("/_app/dashboard")({
-  head: () => ({ meta: [{ title: "Generate — Gigify" }] }),
+  head: () => ({ meta: [{ title: "Generate — Pitchly" }] }),
   component: Dashboard,
 });
 
@@ -201,7 +201,7 @@ function Dashboard() {
                 <Crown className="h-4 w-4" />
               </div>
               <div>
-                <div className="text-sm font-semibold text-foreground">Unlock Gigify Pro</div>
+                <div className="text-sm font-semibold text-foreground">Unlock Pitchly Pro</div>
                 <div className="text-sm text-muted-foreground">
                   Unlimited proposals plus the full premium AI toolkit.
                 </div>

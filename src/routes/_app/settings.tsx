@@ -8,11 +8,13 @@ import { getSubscription, getCustomerPortalUrl } from "@/lib/billing.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, LogOut, Mail, KeyRound, Shield, Crown, ExternalLink } from "lucide-react";
+import { Loader2, LogOut, Mail, KeyRound, Shield, Crown, ExternalLink, Terminal } from "lucide-react";
 import { toast } from "sonner";
+import { BRAND } from "@/lib/brand";
+import { useDeveloperMode } from "@/lib/use-developer-mode";
 
 export const Route = createFileRoute("/_app/settings")({
-  head: () => ({ meta: [{ title: "Settings — Gigify" }] }),
+  head: () => ({ meta: [{ title: "Settings — Pitchly" }] }),
   component: SettingsPage,
 });
 
@@ -21,6 +23,8 @@ function SettingsPage() {
   const [pw, setPw] = useState("");
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
+  const { enabled: devMode, set: setDevMode } = useDeveloperMode();
+  const [taps, setTaps] = useState(0);
 
   const subFn = useServerFn(getSubscription);
   const portalFn = useServerFn(getCustomerPortalUrl);
@@ -60,7 +64,7 @@ function SettingsPage() {
           Settings
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Manage your Gigify account.
+          Manage your Pitchly account.
         </p>
       </div>
 
@@ -137,6 +141,47 @@ function SettingsPage() {
           <LogOut className="mr-2 h-4 w-4" /> Sign out
         </Button>
       </Section>
+
+      {devMode && (
+        <Section
+          icon={Terminal}
+          title="Developer mode"
+          description="Local diagnostics for this browser only."
+        >
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline">
+              <Link to="/developer">Open developer panel</Link>
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setDevMode(false);
+                toast.success("Developer mode disabled");
+              }}
+            >
+              Turn off
+            </Button>
+          </div>
+        </Section>
+      )}
+
+      <div className="pb-2 text-center">
+        <button
+          type="button"
+          onClick={() => {
+            const next = taps + 1;
+            setTaps(next);
+            if (next >= 5 && !devMode) {
+              setDevMode(true);
+              toast.success("Developer mode enabled");
+            }
+          }}
+          className="rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          aria-label={`${BRAND.name} version ${BRAND.version}`}
+        >
+          {BRAND.name} v{BRAND.version}
+        </button>
+      </div>
     </div>
   );
 }

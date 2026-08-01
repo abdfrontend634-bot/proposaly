@@ -38,7 +38,11 @@
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-soft: var(--brand-soft);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-gold-soft: var(--gold-soft);
   --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
   --color-danger: var(--destructive);
 
   --shadow-xs: 0 1px 2px 0 rgb(17 17 17 / 0.04);
@@ -63,12 +67,16 @@
   --popover: #ffffff;
   --popover-foreground: #111111;
 
-  --brand: #2563eb;
+  --brand: #1d4ed8;
   --brand-foreground: #ffffff;
-  --brand-soft: rgb(37 99 235 / 0.08);
+  --brand-soft: rgb(29 78 216 / 0.08);
 
-  --primary: #2563eb;
+  --primary: #1d4ed8;
   --primary-foreground: #ffffff;
+
+  --gold: #c8952a;
+  --gold-foreground: #1a1206;
+  --gold-soft: rgb(200 149 42 / 0.12);
 
   --secondary: #f3f4f2;
   --secondary-foreground: #111111;
@@ -79,13 +87,14 @@
   --accent: #f3f4f2;
   --accent-foreground: #111111;
 
-  --success: #16a34a;
-  --destructive: #dc2626;
+  --success: #059669;
+  --success-soft: rgb(5 150 105 / 0.1);
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: rgb(37 99 235 / 0.35);
+  --ring: rgb(29 78 216 / 0.35);
 }
 
 @layer base {
