@@ -1,12 +1,12 @@
 {
   "name": "Pitchly — AI proposals for freelancers",
   "short_name": "Pitchly",
-  "description": "Generate winning Upwork, Fiverr and Freelancer proposals in seconds with AI.",
+  "description": "Turn any job posting into a polished, client-ready proposal in seconds with Pitchly.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#2563EB",
+  "theme_color": "#1D4ED8",
   "background_color": "#FAFAF7",
   "categories": ["productivity", "business"],
   "icons": [
