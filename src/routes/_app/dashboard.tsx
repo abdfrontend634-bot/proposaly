@@ -179,23 +179,42 @@ function Dashboard() {
       </div>
 
       {!isPro && (
-        <div className="flex items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
-              <Crown className="h-4 w-4" />
+        <div className="space-y-4 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-5">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
+                <Crown className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="text-sm font-semibold text-foreground">Unlock Gigify Pro</div>
+                <div className="text-sm text-muted-foreground">
+                  Unlimited proposals plus the full premium AI toolkit.
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="text-sm font-semibold text-foreground">Upgrade to Pro</div>
-              <div className="text-sm text-muted-foreground">Unlimited proposals and priority AI.</div>
-            </div>
+            <Button asChild className="shrink-0">
+              <Link to="/upgrade">
+                Upgrade <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
-          <Button asChild className="shrink-0">
-            <Link to="/upgrade">
-              Upgrade <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
+          <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {PRO_FEATURES.map((f) => (
+              <li
+                key={f}
+                className="flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs text-muted-foreground"
+              >
+                <Lock className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                <span className="truncate">{f}</span>
+                <span className="ml-auto shrink-0 rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                  Pro
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
+
 
       {/* Editor */}
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
