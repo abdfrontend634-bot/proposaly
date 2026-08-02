@@ -40,14 +40,25 @@ function applyResponseHardening(request: Request, response: Response): Response 
   const path = url.pathname;
 
   if (!headers.has("Cache-Control")) {
-    if (path.startsWith("/assets/") && IMMUTABLE_ASSET_RE.test(path)) {
+    if (
+      path === "/sw.js" ||
+      path === "/sw-skip-waiting.js" ||
+      path.startsWith("/workbox-")
+    ) {
+      // Control files must always revalidate so new releases are detected.
+      headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+    } else if (path.startsWith("/assets/") && IMMUTABLE_ASSET_RE.test(path)) {
       headers.set("Cache-Control", "public, max-age=31536000, immutable");
+    } else if (
+      path === "/manifest.webmanifest" ||
+      path === "/manifest.json"
+    ) {
+      headers.set("Cache-Control", "public, max-age=0, must-revalidate");
     } else if (
       path === "/favicon.ico" ||
       path.startsWith("/favicon-") ||
       path === "/apple-touch-icon.png" ||
       path.startsWith("/icon-") ||
-      path === "/manifest.webmanifest" ||
       path === "/robots.txt"
     ) {
       headers.set("Cache-Control", "public, max-age=86400");
