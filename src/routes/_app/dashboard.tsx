@@ -28,7 +28,7 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 
 export const Route = createFileRoute("/_app/dashboard")({
-  head: () => ({ meta: [{ title: "Generate — Pitchly" }] }),
+  head: () => ({ meta: [{ title: "Generate — Proposly AI" }] }),
   component: Dashboard,
 });
 
@@ -152,7 +152,7 @@ function Dashboard() {
       doc.text(line, margin, y);
       y += 16;
     });
-    doc.save(`gigify-${platform.toLowerCase()}-proposal.pdf`);
+    doc.save(`proposly-ai-${platform.toLowerCase()}-proposal.pdf`);
   }
 
   const used = usage.data?.used ?? 0;
@@ -201,7 +201,7 @@ function Dashboard() {
                 <Crown className="h-4 w-4" />
               </div>
               <div>
-                <div className="text-sm font-semibold text-foreground">Unlock Pitchly Pro</div>
+                <div className="text-sm font-semibold text-foreground">Unlock Proposly AI Pro</div>
                 <div className="text-sm text-muted-foreground">
                   Unlimited proposals plus the full premium AI toolkit.
                 </div>

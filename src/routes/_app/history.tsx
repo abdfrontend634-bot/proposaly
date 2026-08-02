@@ -17,7 +17,7 @@ type Proposal = {
 };
 
 export const Route = createFileRoute("/_app/history")({
-  head: () => ({ meta: [{ title: "History — Pitchly" }] }),
+  head: () => ({ meta: [{ title: "History — Proposly AI" }] }),
   component: HistoryPage,
 });
 

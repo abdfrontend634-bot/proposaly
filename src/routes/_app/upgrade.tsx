@@ -8,7 +8,7 @@ import { Check, Loader2, ArrowLeft, Sparkles, Zap, ShieldCheck } from "lucide-re
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/upgrade")({
-  head: () => ({ meta: [{ title: "Upgrade — Pitchly" }] }),
+  head: () => ({ meta: [{ title: "Upgrade — Proposly AI" }] }),
   component: UpgradePage,
 });
 

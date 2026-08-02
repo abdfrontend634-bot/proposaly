@@ -14,7 +14,7 @@ import { BRAND } from "@/lib/brand";
 import { useDeveloperMode } from "@/lib/use-developer-mode";
 
 export const Route = createFileRoute("/_app/settings")({
-  head: () => ({ meta: [{ title: "Settings — Pitchly" }] }),
+  head: () => ({ meta: [{ title: "Settings — Proposly AI" }] }),
   component: SettingsPage,
 });
 
@@ -64,7 +64,7 @@ function SettingsPage() {
           Settings
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Manage your Pitchly account.
+          Manage your Proposly AI account.
         </p>
       </div>
 

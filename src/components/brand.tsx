@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
 
 /**
- * Pitchly logo mark — a rising pitch arrow with a gold accent.
+ * Proposly AI logo mark — a royal-blue tile with a "P" monogram and a gold AI spark.
  * Purely presentational; pair with <Wordmark /> for the full lockup.
  */
 export function LogoMark({ className }: { className?: string }) {
@@ -14,13 +14,20 @@ export function LogoMark({ className }: { className?: string }) {
         className ?? "h-8 w-8",
       )}
     >
-      <svg viewBox="0 0 24 24" fill="none" className="h-[58%] w-[58%]">
-        <path d="M12 3.5 L20.5 20.5 L12 16 L3.5 20.5 Z" fill="currentColor" />
+      <svg viewBox="0 0 512 512" fill="none" className="h-[70%] w-[70%]">
+        <path
+          d="M168 132h122c52 0 88 34 88 84s-36 86-88 86h-56v78h-66V132zm66 56v58h48c20 0 33-11 33-29s-13-29-33-29h-48z"
+          fill="currentColor"
+        />
+        <path
+          d="M352 330l13 33 33 13-33 13-13 33-13-33-33-13 33-13 13-33z"
+          fill="var(--gold)"
+        />
       </svg>
-      <span className="absolute right-[3px] top-[3px] h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_0_1.5px_var(--primary)]" />
     </span>
   );
 }
+
 
 export function Wordmark({ className }: { className?: string }) {
   return <span className={cn("font-semibold tracking-tight", className)}>{BRAND.name}</span>;
