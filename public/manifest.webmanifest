@@ -1,4 +1,5 @@
 {
+  "id": "/?source=pwa&v=3",
   "name": "Proposly AI — AI proposals for freelancers",
   "short_name": "Proposly AI",
   "description": "Turn any job posting into a polished, client-ready proposal in seconds with Proposly AI.",
@@ -10,8 +11,8 @@
   "background_color": "#FAFAF7",
   "categories": ["productivity", "business"],
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "/icon-192-v3.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512-v3.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512-v3.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
