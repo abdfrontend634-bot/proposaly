@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
-const KEY = "pitchly:developer-mode";
-const EVENT = "pitchly:developer-mode-change";
+const KEY = "proposly:developer-mode";
+const EVENT = "proposly:developer-mode-change";
 
 function read(): boolean {
   if (typeof window === "undefined") return false;

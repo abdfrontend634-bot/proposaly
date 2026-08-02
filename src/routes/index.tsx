@@ -124,7 +124,7 @@ function Hero() {
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="ml-3 text-[11px] font-medium text-muted-foreground">
-                Pitchly — Upwork proposal
+                Proposly AI — Upwork proposal
               </div>
             </div>
             <div className="p-8 text-left">
@@ -177,7 +177,7 @@ function HowItWorks() {
     {
       icon: Target,
       title: "Paste the job",
-      body: "Drop any Upwork, Fiverr or Freelancer posting into Pitchly.",
+      body: "Drop any Upwork, Fiverr or Freelancer posting into Proposly AI.",
     },
     {
       icon: Sparkles,
@@ -460,7 +460,7 @@ function CTA() {
             Stop writing from scratch.
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-lg text-muted-foreground">
-            Join thousands of freelancers shipping better proposals with Pitchly.
+            Join thousands of freelancers shipping better proposals with Proposly AI.
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link to="/auth">

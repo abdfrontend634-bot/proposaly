@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
 
 /**
- * Pitchly logo mark — a rising pitch arrow with a gold accent.
+ * Proposly AI logo mark — a rising pitch arrow with a gold accent.
  * Purely presentational; pair with <Wordmark /> for the full lockup.
  */
 export function LogoMark({ className }: { className?: string }) {

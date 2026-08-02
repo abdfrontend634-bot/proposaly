@@ -11,8 +11,8 @@ import { LogoMark, Wordmark } from "@/components/brand";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Pitchly" },
-      { name: "description", content: "Sign in or create your Pitchly account." },
+      { title: "Sign in — Proposly AI" },
+      { name: "description", content: "Sign in or create your Proposly AI account." },
     ],
   }),
   component: AuthPage,
