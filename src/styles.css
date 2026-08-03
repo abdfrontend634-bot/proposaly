@@ -175,3 +175,27 @@
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;
 }
+
+@keyframes typing-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+@utility animate-typing-dot {
+  animation: typing-dot 1.2s ease-in-out infinite;
+}
+
+/* Chat transcript: smooth, non-jumpy scrolling on mobile and desktop */
+@utility chat-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}

@@ -9,6 +9,7 @@ import {
   Terminal,
   LayoutDashboard,
   History,
+  MessageSquare,
   Settings as SettingsIcon,
   LogOut,
   Loader2,
@@ -80,6 +81,7 @@ function Logo() {
 
 const NAV = [
   { to: "/dashboard", label: "Generate", icon: LayoutDashboard },
+  { to: "/chat", label: "Chat", icon: MessageSquare },
   { to: "/history", label: "History", icon: History },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ] as const;
