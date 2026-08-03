@@ -19,6 +19,7 @@ import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppHistoryRouteImport } from './routes/_app/history'
 import { Route as AppDeveloperRouteImport } from './routes/_app/developer'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppChatRouteImport } from './routes/_app/chat'
 import { Route as ApiPublicWebhooksLemonSqueezyRouteImport } from './routes/api/public/webhooks/lemon-squeezy'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -70,6 +71,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppChatRoute = AppChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AppRoute,
+} as any)
 const ApiPublicWebhooksLemonSqueezyRoute =
   ApiPublicWebhooksLemonSqueezyRouteImport.update({
     id: '/api/public/webhooks/lemon-squeezy',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/chat': typeof AppChatRoute
   '/dashboard': typeof AppDashboardRoute
   '/developer': typeof AppDeveloperRoute
   '/history': typeof AppHistoryRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/chat': typeof AppChatRoute
   '/dashboard': typeof AppDashboardRoute
   '/developer': typeof AppDeveloperRoute
   '/history': typeof AppHistoryRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_app/chat': typeof AppChatRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/developer': typeof AppDeveloperRoute
   '/_app/history': typeof AppHistoryRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/sitemap.xml'
+    | '/chat'
     | '/dashboard'
     | '/developer'
     | '/history'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/sitemap.xml'
+    | '/chat'
     | '/dashboard'
     | '/developer'
     | '/history'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/sitemap.xml'
+    | '/_app/chat'
     | '/_app/dashboard'
     | '/_app/developer'
     | '/_app/history'
@@ -236,6 +248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/chat': {
+      id: '/_app/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AppChatRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/api/public/webhooks/lemon-squeezy': {
       id: '/api/public/webhooks/lemon-squeezy'
       path: '/api/public/webhooks/lemon-squeezy'
@@ -247,6 +266,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppChatRoute: typeof AppChatRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppDeveloperRoute: typeof AppDeveloperRoute
   AppHistoryRoute: typeof AppHistoryRoute
@@ -255,6 +275,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppChatRoute: AppChatRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppDeveloperRoute: AppDeveloperRoute,
   AppHistoryRoute: AppHistoryRoute,
@@ -275,13 +296,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
