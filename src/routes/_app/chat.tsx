@@ -101,15 +101,21 @@ function ChatPage() {
     staleTime: 30_000,
   });
 
+  const activityRef = useRef(false);
+
   useEffect(() => {
     if (!chat.data) return;
-    setMessages(chat.data.messages);
+    if (!activityRef.current) setMessages(chat.data.messages);
     if (!convId && chat.data.conversationId) {
       setConvId(chat.data.conversationId);
       if (typeof window !== "undefined")
         window.localStorage.setItem(STORAGE_KEY, chat.data.conversationId);
     }
   }, [chat.data, convId]);
+
+  const appendMessage = useCallback((m: ChatMessage) => {
+    setMessages((prev) => (prev.some((x) => x.id === m.id) ? prev : [...prev, m]));
+  }, []);
 
   const ensureConversation = useCallback(() => {
     if (convId) return convId;
@@ -168,13 +174,14 @@ function ChatPage() {
       return sendFn({ data: { conversationId: id, content: text } });
     },
     onMutate: (text: string) => {
+      activityRef.current = true;
       setPendingUser(text);
     },
     onSuccess: async (res) => {
       setPendingUser(null);
-      setMessages((prev) => [...prev, res.userMessage]);
+      appendMessage(res.userMessage);
       await revealReply(res.assistantMessage.content, () =>
-        setMessages((prev) => [...prev, res.assistantMessage]),
+        appendMessage(res.assistantMessage),
       );
     },
     onError: (e: Error, text: string) => {
@@ -190,6 +197,7 @@ function ChatPage() {
       return regenFn({ data: { conversationId: id } });
     },
     onMutate: () => {
+      activityRef.current = true;
       setMessages((prev) => {
         const next = [...prev];
         while (next.length && next[next.length - 1].role === "assistant") next.pop();
@@ -198,7 +206,7 @@ function ChatPage() {
     },
     onSuccess: async (res) => {
       await revealReply(res.assistantMessage.content, () =>
-        setMessages((prev) => [...prev, res.assistantMessage]),
+        appendMessage(res.assistantMessage),
       );
     },
     onError: (e: Error) => {
