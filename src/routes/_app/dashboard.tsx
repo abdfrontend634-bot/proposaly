@@ -23,6 +23,7 @@ import {
   Clock,
   Crown,
   ArrowRight,
+  MessageSquare,
 } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
@@ -174,6 +175,28 @@ function Dashboard() {
           Paste the job, pick your angle, ship it.
         </p>
       </div>
+
+      {/* AI Assistant */}
+      <Link
+        to="/chat"
+        className="group flex items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 px-5 py-4 transition-all hover:border-primary/30 hover:bg-primary/8 sm:px-6 sm:py-5"
+      >
+        <div className="flex items-center gap-3.5">
+          <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <MessageSquare className="h-5 w-5" />
+          </div>
+          <div className="min-w-0">
+            <div className="text-sm font-semibold text-foreground">AI Assistant</div>
+            <div className="text-sm text-muted-foreground">
+              Ask follow-ups, refine your proposal, or get freelance advice.
+            </div>
+          </div>
+        </div>
+        <div className="flex shrink-0 items-center gap-1 text-sm font-medium text-primary">
+          Open chat
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </div>
+      </Link>
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-3">
