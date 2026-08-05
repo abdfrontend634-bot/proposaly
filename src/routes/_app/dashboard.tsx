@@ -23,6 +23,7 @@ import {
   Clock,
   Crown,
   ArrowRight,
+  MessageSquare,
 } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
