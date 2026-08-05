@@ -15,9 +15,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   ArrowDown,
+  ArrowUp,
   Check,
   Copy,
-  CornerDownLeft,
+
   Loader2,
   MessageSquarePlus,
   RefreshCw,
