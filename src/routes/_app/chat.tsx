@@ -15,9 +15,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   ArrowDown,
+  ArrowUp,
   Check,
   Copy,
-  CornerDownLeft,
+
   Loader2,
   MessageSquarePlus,
   RefreshCw,
@@ -145,6 +146,15 @@ function ChatPage() {
   useEffect(() => {
     if (atBottom) scrollToBottom("smooth");
   }, [messages, pendingUser, streaming, atBottom, scrollToBottom]);
+
+  // Auto-grow the composer as the user types (capped by max-height).
+  useLayoutEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 152)}px`;
+  }, [input]);
+
 
   /** Reveals a finished reply progressively so it reads like live typing. */
   const revealReply = useCallback(
@@ -277,105 +287,125 @@ function ChatPage() {
     lastAssistant.content.length > 700;
 
   return (
-    <div className="flex h-[calc(100dvh-8.5rem)] flex-col lg:h-[calc(100dvh-6.5rem)]">
-      <header className="flex flex-wrap items-center justify-between gap-3 pb-4">
-        <div>
-          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
-            AI assistant
+    <div className="flex h-full min-h-0 flex-col bg-background">
+      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border/70 bg-surface/80 px-4 py-2.5 backdrop-blur lg:px-8 lg:py-3">
+        <div className="flex min-w-0 items-center gap-2">
+          <div className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary/8 text-primary">
+            <Sparkles className="h-3.5 w-3.5" />
           </div>
-          <h1 className="mt-1.5 text-xl font-semibold tracking-tight sm:text-2xl">Chat</h1>
+          <h1 className="truncate text-[15px] font-semibold tracking-tight">AI Assistant</h1>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
+            className="h-8 px-2"
             onClick={() => clear.mutate()}
             disabled={clear.isPending || busy || messages.length === 0}
+            aria-label="Clear chat"
           >
             {clear.isPending ? (
-              <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              <Trash2 className="mr-1.5 h-3.5 w-3.5" />
+              <Trash2 className="h-4 w-4" />
             )}
-            Clear
+            <span className="ml-1.5 hidden sm:inline">Clear</span>
           </Button>
-          <Button variant="outline" size="sm" onClick={newChat} disabled={busy}>
-            <MessageSquarePlus className="mr-1.5 h-3.5 w-3.5" />
-            New chat
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 px-2"
+            onClick={newChat}
+            disabled={busy}
+            aria-label="New chat"
+          >
+            <MessageSquarePlus className="h-4 w-4" />
+            <span className="ml-1.5 hidden sm:inline">New chat</span>
           </Button>
         </div>
       </header>
 
-      <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-xs">
+      <div className="relative flex min-h-0 flex-1 flex-col">
         <div
           ref={scrollerRef}
           onScroll={onScroll}
-          className="chat-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6"
+          className="chat-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain scroll-smooth [-webkit-overflow-scrolling:touch]"
           aria-live="polite"
           aria-label="Conversation"
         >
-          {chat.isLoading ? (
-            <div className="space-y-4">
-              <div className="ml-auto h-12 w-2/3 rounded-2xl shimmer" />
-              <div className="h-20 w-5/6 rounded-2xl shimmer" />
-              <div className="ml-auto h-10 w-1/2 rounded-2xl shimmer" />
-            </div>
-          ) : messages.length === 0 && !pendingUser ? (
-            <EmptyState
-              onPick={(s) => {
-                setInput(s);
-                inputRef.current?.focus();
-              }}
-            />
-          ) : (
-            <ol className="space-y-5">
-              {messages.map((m, i) => {
-                const showDay = i === 0 || dayLabel(m.created_at) !== dayLabel(messages[i - 1].created_at);
-                return (
-                  <li key={m.id} className="space-y-5">
-                    {showDay && (
-                      <div className="flex justify-center">
-                        <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
-                          {dayLabel(m.created_at)}
-                        </span>
-                      </div>
-                    )}
-                    <Bubble message={m} />
+          <div className="mx-auto w-full max-w-3xl px-4 py-4 lg:px-8 lg:py-6">
+            {chat.isLoading ? (
+              <div className="space-y-5">
+                <div className="ml-auto h-11 w-2/3 rounded-2xl shimmer" />
+                <div className="h-20 w-full rounded-2xl shimmer" />
+                <div className="ml-auto h-10 w-1/2 rounded-2xl shimmer" />
+              </div>
+            ) : messages.length === 0 && !pendingUser ? (
+              <EmptyState
+                onPick={(s) => {
+                  setInput(s);
+                  inputRef.current?.focus();
+                }}
+              />
+            ) : (
+              <ol className="space-y-4">
+                {messages.map((m, i) => {
+                  const showDay =
+                    i === 0 || dayLabel(m.created_at) !== dayLabel(messages[i - 1].created_at);
+                  const isLastAssistant = !!lastAssistant && m.id === lastAssistant.id;
+                  return (
+                    <li key={m.id} className="space-y-4">
+                      {showDay && (
+                        <div className="flex justify-center pt-1">
+                          <span className="rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
+                            {dayLabel(m.created_at)}
+                          </span>
+                        </div>
+                      )}
+                      <Bubble
+                        message={m}
+                        onRegenerate={
+                          isLastAssistant && canRegenerate ? () => regenerate.mutate() : undefined
+                        }
+                        onContinue={isLastAssistant && canContinue ? () => continueReply.mutate() : undefined}
+                        continuing={continueReply.isPending}
+                      />
+                    </li>
+                  );
+                })}
+                {pendingUser && (
+                  <li>
+                    <Bubble
+                      message={{
+                        id: "pending-user",
+                        conversation_id: convId ?? "",
+                        role: "user",
+                        content: pendingUser,
+                        created_at: new Date().toISOString(),
+                      }}
+                      pending
+                    />
                   </li>
-                );
-              })}
-              {pendingUser && (
-                <li>
-                  <Bubble
-                    message={{
-                      id: "pending-user",
-                      conversation_id: convId ?? "",
-                      role: "user",
-                      content: pendingUser,
-                      created_at: new Date().toISOString(),
-                    }}
-                    pending
-                  />
-                </li>
-              )}
-              {streaming !== null && (
-                <li>
-                  <Bubble
-                    message={{
-                      id: "streaming",
-                      conversation_id: convId ?? "",
-                      role: "assistant",
-                      content: streaming,
-                      created_at: new Date().toISOString(),
-                    }}
-                    streaming
-                  />
-                </li>
-              )}
-              {(send.isPending || regenerate.isPending) && streaming === null && <Typing />}
-            </ol>
-          )}
-          <div ref={bottomRef} className="h-1" />
+                )}
+                {streaming !== null && (
+                  <li>
+                    <Bubble
+                      message={{
+                        id: "streaming",
+                        conversation_id: convId ?? "",
+                        role: "assistant",
+                        content: streaming,
+                        created_at: new Date().toISOString(),
+                      }}
+                      streaming
+                    />
+                  </li>
+                )}
+                {(send.isPending || regenerate.isPending) && streaming === null && <Typing />}
+              </ol>
+            )}
+            <div ref={bottomRef} className="h-2" />
+          </div>
         </div>
 
         {!atBottom && (
@@ -385,40 +415,17 @@ function ChatPage() {
               setAtBottom(true);
               scrollToBottom("smooth");
             }}
-            className="absolute bottom-[6.5rem] left-1/2 z-10 -translate-x-1/2 rounded-full border border-border bg-surface p-2 text-muted-foreground shadow-md transition-all hover:text-foreground animate-fade-up"
+            className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full border border-border bg-surface p-2 text-muted-foreground shadow-md transition-all hover:text-foreground animate-fade-up"
             aria-label="Scroll to newest message"
           >
             <ArrowDown className="h-4 w-4" />
           </button>
         )}
+      </div>
 
-        <div className="border-t border-border bg-surface px-3 py-3 sm:px-4">
-          {(canRegenerate || canContinue) && (
-            <div className="mb-2 flex flex-wrap items-center gap-1.5">
-              {canRegenerate && (
-                <Button variant="ghost" size="sm" onClick={() => regenerate.mutate()}>
-                  <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-                  Regenerate
-                </Button>
-              )}
-              {canContinue && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => continueReply.mutate()}
-                  disabled={continueReply.isPending}
-                >
-                  {continueReply.isPending ? (
-                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                  ) : (
-                    <TextQuote className="mr-1.5 h-3.5 w-3.5" />
-                  )}
-                  Continue response
-                </Button>
-              )}
-            </div>
-          )}
-          <div className="flex items-end gap-2">
+      <div className="sticky bottom-0 shrink-0 border-t border-border bg-surface/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
+        <div className="mx-auto w-full max-w-3xl px-3 py-2.5 lg:px-8 lg:py-3">
+          <div className="flex items-end gap-2 rounded-[22px] border border-border bg-background px-2 py-1.5 transition-shadow focus-within:border-primary/40 focus-within:shadow-xs">
             <Textarea
               ref={inputRef}
               value={input}
@@ -429,15 +436,15 @@ function ChatPage() {
                   submit();
                 }
               }}
-              placeholder="Ask anything — the whole conversation stays here…"
+              placeholder="Message Proposly AI…"
               rows={1}
               maxLength={8000}
-              className="max-h-40 min-h-[46px] resize-none bg-background text-[15px] leading-relaxed"
+              className="max-h-[9.5rem] min-h-[38px] resize-none overflow-y-auto border-0 bg-transparent px-2 py-2 text-[16px] leading-relaxed shadow-none focus-visible:ring-0"
               aria-label="Message"
             />
             <Button
               size="icon"
-              className="h-[46px] w-[46px] shrink-0"
+              className="h-9 w-9 shrink-0 rounded-full"
               onClick={submit}
               disabled={busy || input.trim().length === 0}
               aria-label="Send message"
@@ -445,11 +452,11 @@ function ChatPage() {
               {busy ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <CornerDownLeft className="h-4 w-4" />
+                <ArrowUp className="h-4 w-4" />
               )}
             </Button>
           </div>
-          <p className="mt-2 hidden text-[11px] text-muted-foreground sm:block">
+          <p className="mt-1.5 hidden text-center text-[11px] text-muted-foreground sm:block">
             Enter to send · Shift + Enter for a new line
           </p>
         </div>
@@ -461,7 +468,7 @@ function ChatPage() {
 function Typing() {
   return (
     <li className="flex justify-start">
-      <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-border bg-[#FAFAF7] px-4 py-3">
+      <div className="flex items-center gap-1.5 py-2">
         {[0, 1, 2].map((i) => (
           <span
             key={i}
@@ -478,10 +485,16 @@ function Bubble({
   message,
   pending,
   streaming,
+  onRegenerate,
+  onContinue,
+  continuing,
 }: {
   message: ChatMessage;
   pending?: boolean;
   streaming?: boolean;
+  onRegenerate?: () => void;
+  onContinue?: () => void;
+  continuing?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   const isUser = message.role === "user";
@@ -489,58 +502,91 @@ function Bubble({
   function copy() {
     navigator.clipboard.writeText(message.content);
     setCopied(true);
+    toast.success("Copied");
     window.setTimeout(() => setCopied(false), 1400);
   }
 
   return (
     <div
-      className={`group flex flex-col gap-1 animate-fade-up ${isUser ? "items-end" : "items-start"}`}
+      className={`flex flex-col gap-1.5 animate-message-in ${isUser ? "items-end" : "items-start"}`}
     >
       <div
-        className={`max-w-[88%] break-words text-[15px] leading-[1.7] sm:max-w-[78%] ${
+        className={`break-words text-[15px] leading-[1.7] ${
           isUser
-            ? "whitespace-pre-wrap rounded-2xl rounded-br-md bg-primary px-4 py-3 text-primary-foreground"
-            : "rounded-2xl rounded-bl-md border border-border bg-[#FAFAF7] px-4 py-3 text-foreground"
+            ? "max-w-[85%] whitespace-pre-wrap rounded-[20px] rounded-br-md bg-primary px-3.5 py-2.5 text-primary-foreground shadow-xs"
+            : "w-full text-foreground"
         } ${pending ? "opacity-70" : ""}`}
       >
         {isUser ? (
           message.content
         ) : (
-          <div className="space-y-3 [&_a]:text-primary [&_a]:underline [&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[13px] [&_li]:leading-[1.7] [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:bg-muted [&_pre]:p-3 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
+          <div className="space-y-3 [&_a]:text-primary [&_a]:underline [&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[13px] [&_li]:leading-[1.7] [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_p]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:bg-muted [&_pre]:p-3 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         )}
-        {streaming && <span className="ml-0.5 inline-block h-4 w-[2px] animate-pulse bg-current align-middle" />}
+        {streaming && (
+          <span className="ml-0.5 inline-block h-4 w-[2px] animate-pulse bg-current align-middle" />
+        )}
       </div>
-      <div
-        className={`flex items-center gap-2 px-1 text-[11px] text-muted-foreground ${
-          isUser ? "flex-row-reverse" : ""
-        }`}
-      >
-        <span>{pending ? "Sending…" : timeLabel(message.created_at)}</span>
-        {!pending && !streaming && (
+
+      {!pending && !streaming && (
+        <div
+          className={`flex items-center gap-1 text-[11px] text-muted-foreground ${
+            isUser ? "flex-row-reverse pr-1" : ""
+          }`}
+        >
           <button
             type="button"
             onClick={copy}
-            className="rounded p-0.5 opacity-0 transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
+            className="inline-flex items-center gap-1 rounded-md px-1.5 py-1 transition-colors hover:bg-muted hover:text-foreground"
             aria-label="Copy message"
           >
             {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+            <span className="hidden sm:inline">{copied ? "Copied" : "Copy"}</span>
           </button>
-        )}
-      </div>
+          {onRegenerate && (
+            <button
+              type="button"
+              onClick={onRegenerate}
+              className="inline-flex items-center gap-1 rounded-md px-1.5 py-1 transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Regenerate response"
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Regenerate</span>
+            </button>
+          )}
+          {onContinue && (
+            <button
+              type="button"
+              onClick={onContinue}
+              disabled={continuing}
+              className="inline-flex items-center gap-1 rounded-md px-1.5 py-1 transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50"
+              aria-label="Continue response"
+            >
+              {continuing ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <TextQuote className="h-3.5 w-3.5" />
+              )}
+              <span className="hidden sm:inline">Continue</span>
+            </button>
+          )}
+          <span className="px-1 opacity-70">{timeLabel(message.created_at)}</span>
+        </div>
+      )}
+      {pending && <span className="px-1 text-[11px] text-muted-foreground">Sending…</span>}
     </div>
   );
 }
 
 function EmptyState({ onPick }: { onPick: (s: string) => void }) {
   return (
-    <div className="grid h-full place-items-center py-8">
-      <div className="max-w-md text-center">
+    <div className="grid min-h-[50vh] place-items-center">
+      <div className="w-full max-w-md text-center">
         <div className="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
           <Sparkles className="h-5 w-5" />
         </div>
-        <div className="text-sm font-semibold text-foreground">Start the conversation</div>
+        <div className="text-base font-semibold text-foreground">Start the conversation</div>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
           Everything you send stays in this one thread — ask follow-ups any time.
         </p>
@@ -560,3 +606,4 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
     </div>
   );
 }
+

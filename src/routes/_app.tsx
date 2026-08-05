@@ -35,6 +35,8 @@ function AppShell() {
   const { session, loading } = useAuth();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isChat = pathname === "/chat";
 
   useEffect(() => {
     if (!loading && !session) navigate({ to: "/auth", replace: true });
@@ -65,15 +67,26 @@ function AppShell() {
         <Sidebar />
         {mobileOpen && <MobileSidebar onClose={() => setMobileOpen(false)} />}
 
-        <main className="min-h-[calc(100vh-3.5rem)] flex-1 lg:min-h-screen">
-          <div className="mx-auto max-w-5xl px-6 pb-10 pt-8 lg:px-10 lg:pb-14 lg:pt-10">
+        <main
+          className={
+            isChat
+              ? "h-[calc(100dvh-3.5rem)] min-w-0 flex-1 lg:h-dvh"
+              : "min-h-[calc(100vh-3.5rem)] flex-1 lg:min-h-screen"
+          }
+        >
+          {isChat ? (
             <Outlet />
-          </div>
+          ) : (
+            <div className="mx-auto max-w-5xl px-6 pb-10 pt-8 lg:px-10 lg:pb-14 lg:pt-10">
+              <Outlet />
+            </div>
+          )}
         </main>
       </div>
     </div>
   );
 }
+
 
 function Logo() {
   return <LogoMark />;
