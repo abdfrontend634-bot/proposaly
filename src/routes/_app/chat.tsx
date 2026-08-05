@@ -147,6 +147,15 @@ function ChatPage() {
     if (atBottom) scrollToBottom("smooth");
   }, [messages, pendingUser, streaming, atBottom, scrollToBottom]);
 
+  // Auto-grow the composer as the user types (capped by max-height).
+  useLayoutEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 152)}px`;
+  }, [input]);
+
+
   /** Reveals a finished reply progressively so it reads like live typing. */
   const revealReply = useCallback(
     (full: string, commit: () => void) =>
