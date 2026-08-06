@@ -6,6 +6,7 @@ import { generateProposal, getUsage } from "@/lib/ai.functions";
 import { getSubscription } from "@/lib/billing.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
+import { useFounder } from "@/lib/use-founder";
 import type { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -169,14 +170,17 @@ function Dashboard() {
           Generate a proposal
         </div>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight leading-snug sm:text-3xl">
-          Welcome back, {firstName(user)} 👋 Ready to win your next client?
+          {isFounder
+            ? "Welcome back, Founder Abdullah."
+            : `Welcome back, ${firstName(user)} 👋 Ready to win your next client?`}
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           Paste the job, pick your angle, ship it.
         </p>
       </div>
 
-      {/* AI Assistant */}
+      {/* AI Assistant — founder only */}
+      {isFounder && (
       <Link
         to="/chat"
         className="group flex items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 px-5 py-4 transition-all hover:border-primary/30 hover:bg-primary/8 sm:px-6 sm:py-5"
@@ -197,6 +201,7 @@ function Dashboard() {
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </div>
       </Link>
+      )}
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-3">
