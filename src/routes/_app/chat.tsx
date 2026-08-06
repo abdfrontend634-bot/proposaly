@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -27,6 +27,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useFounder } from "@/lib/use-founder";
 
 export const Route = createFileRoute("/_app/chat")({
   head: () => ({
@@ -72,6 +73,13 @@ function dayLabel(iso: string) {
 }
 
 function ChatPage() {
+  const { isFounder, loading: founderLoading } = useFounder();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!founderLoading && !isFounder) navigate({ to: "/dashboard", replace: true });
+  }, [founderLoading, isFounder, navigate]);
+
   const listFn = useServerFn(listChatMessages);
   const sendFn = useServerFn(sendChatMessage);
   const regenFn = useServerFn(regenerateLastReply);
@@ -100,6 +108,7 @@ function ChatPage() {
     queryKey: ["chat", convId ?? "latest"],
     queryFn: () => listFn({ data: convId ? { conversationId: convId } : {} }),
     staleTime: 30_000,
+    enabled: isFounder,
   });
 
   const activityRef = useRef(false);

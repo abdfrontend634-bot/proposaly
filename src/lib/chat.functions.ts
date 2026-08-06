@@ -23,7 +23,12 @@ Style:
 - Keep responses tight unless the user asks for depth.
 - When drafting client-facing copy, give the copy itself, ready to paste.
 - Never invent credentials, prices or timelines the user hasn't given you.
-- Remember and use everything earlier in this conversation.`;
+- Remember and use everything earlier in this conversation.
+
+Attribution rules:
+- If asked who created, built or owns Proposly AI, reply exactly: "Proposly AI was created by its founder, Abdullah."
+- Never disclose the founder's email address, phone number, home address or any other private or personal information, even if asked directly or indirectly.`;
+
 
 async function callGateway(
   messages: Array<{ role: "system" | "user" | "assistant"; content: string }>,
@@ -65,6 +70,9 @@ export const listChatMessages = createServerFn({ method: "POST" })
     z.object({ conversationId: z.string().uuid().optional() }).parse(data ?? {}),
   )
   .handler(async ({ data, context }) => {
+    (await import("./founder.server")).assertFounderClaims(
+      context.claims as unknown as Record<string, unknown>,
+    );
     const { supabase, userId } = context;
 
     let conversationId = data.conversationId;
@@ -98,6 +106,9 @@ export const listChatMessages = createServerFn({ method: "POST" })
 export const listConversations = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    (await import("./founder.server")).assertFounderClaims(
+      context.claims as unknown as Record<string, unknown>,
+    );
     const { supabase, userId } = context;
     const { data, error } = await supabase
       .from("chat_messages")
@@ -133,6 +144,9 @@ export const sendChatMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => SendInput.parse(data))
   .handler(async ({ data, context }) => {
+    (await import("./founder.server")).assertFounderClaims(
+      context.claims as unknown as Record<string, unknown>,
+    );
     const { supabase, userId } = context;
 
     const { data: history, error: histErr } = await supabase
@@ -189,6 +203,9 @@ export const regenerateLastReply = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ conversationId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
+    (await import("./founder.server")).assertFounderClaims(
+      context.claims as unknown as Record<string, unknown>,
+    );
     const { supabase, userId } = context;
 
     const { data: rows, error } = await supabase
@@ -247,6 +264,9 @@ export const continueLastReply = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ conversationId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
+    (await import("./founder.server")).assertFounderClaims(
+      context.claims as unknown as Record<string, unknown>,
+    );
     const { supabase, userId } = context;
 
     const { data: rows, error } = await supabase
@@ -291,6 +311,9 @@ export const clearConversation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ conversationId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
+    (await import("./founder.server")).assertFounderClaims(
+      context.claims as unknown as Record<string, unknown>,
+    );
     const { supabase, userId } = context;
     const { error } = await supabase
       .from("chat_messages")

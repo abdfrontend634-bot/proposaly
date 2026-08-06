@@ -12,6 +12,7 @@ import { Loader2, LogOut, Mail, KeyRound, Shield, Crown, ExternalLink, Terminal 
 import { toast } from "sonner";
 import { BRAND } from "@/lib/brand";
 import { useDeveloperMode } from "@/lib/use-developer-mode";
+import { useFounder } from "@/lib/use-founder";
 
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({ meta: [{ title: "Settings — Proposly AI" }] }),
@@ -24,6 +25,7 @@ function SettingsPage() {
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
   const { enabled: devMode, set: setDevMode } = useDeveloperMode();
+  const { isFounder } = useFounder();
   const [taps, setTaps] = useState(0);
 
   const subFn = useServerFn(getSubscription);
@@ -142,7 +144,7 @@ function SettingsPage() {
         </Button>
       </Section>
 
-      {devMode && (
+      {devMode && isFounder && (
         <Section
           icon={Terminal}
           title="Developer mode"
@@ -169,6 +171,7 @@ function SettingsPage() {
         <button
           type="button"
           onClick={() => {
+            if (!isFounder) return;
             const next = taps + 1;
             setTaps(next);
             if (next >= 5 && !devMode) {

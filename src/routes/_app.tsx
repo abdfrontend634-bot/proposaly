@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/brand";
 import { BRAND } from "@/lib/brand";
 import { useDeveloperMode } from "@/lib/use-developer-mode";
+import { useFounder } from "@/lib/use-founder";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app")({
@@ -37,10 +38,19 @@ function AppShell() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isChat = pathname === "/chat";
+  const { isFounder, loading: founderLoading } = useFounder();
+  const { enabled: devMode, set: setDevMode } = useDeveloperMode();
 
   useEffect(() => {
     if (!loading && !session) navigate({ to: "/auth", replace: true });
   }, [loading, session, navigate]);
+
+  // Founder accounts get developer mode automatically after login.
+  useEffect(() => {
+    if (founderLoading) return;
+    if (isFounder && !devMode) setDevMode(true);
+    if (!isFounder && devMode) setDevMode(false);
+  }, [isFounder, founderLoading, devMode, setDevMode]);
 
   if (loading || !session) {
     return (
@@ -94,10 +104,16 @@ function Logo() {
 
 const NAV = [
   { to: "/dashboard", label: "Generate", icon: LayoutDashboard },
-  { to: "/chat", label: "Chat", icon: MessageSquare },
   { to: "/history", label: "History", icon: History },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ] as const;
+
+const FOUNDER_NAV = [{ to: "/chat", label: "AI Assistant", icon: MessageSquare }] as const;
+
+function useNavItems() {
+  const { isFounder } = useFounder();
+  return isFounder ? [NAV[0], ...FOUNDER_NAV, ...NAV.slice(1)] : [...NAV];
+}
 
 function Sidebar() {
   const { user } = useAuth();
@@ -105,6 +121,8 @@ function Sidebar() {
   const navigate = useNavigate();
   const [signingOut, setSigningOut] = useState(false);
   const { enabled: devMode } = useDeveloperMode();
+  const { isFounder } = useFounder();
+  const navItems = useNavItems();
 
   const subFn = useServerFn(getSubscription);
   const subscription = useQuery({
@@ -139,7 +157,7 @@ function Sidebar() {
         <div className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
           Workspace
         </div>
-        {NAV.map((l) => {
+        {navItems.map((l) => {
           const active = pathname === l.to;
           return (
             <Link
@@ -169,7 +187,7 @@ function Sidebar() {
           <Crown className="h-4 w-4" />
           Upgrade
         </Link>
-        {devMode && (
+        {devMode && isFounder && (
           <Link
             to="/developer"
             aria-current={pathname === "/developer" ? "page" : undefined}
@@ -210,6 +228,7 @@ function Sidebar() {
 }
 
 function MobileSidebar({ onClose }: { onClose: () => void }) {
+  const navItems = useNavItems();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
 
@@ -248,7 +267,7 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
           </Button>
         </div>
         <nav className="space-y-0.5 p-3" aria-label="Primary">
-          {NAV.map((l) => {
+          {navItems.map((l) => {
             const active = pathname === l.to;
             return (
               <Link
