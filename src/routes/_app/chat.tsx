@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -27,6 +27,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useFounder } from "@/lib/use-founder";
 
 export const Route = createFileRoute("/_app/chat")({
   head: () => ({

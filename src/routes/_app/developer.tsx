@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { getUsage } from "@/lib/ai.functions";
 import { getSubscription } from "@/lib/billing.functions";
 import { useDeveloperMode } from "@/lib/use-developer-mode";
+import { useFounder } from "@/lib/use-founder";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { Terminal, CheckCircle2, XCircle, RefreshCw, Copy } from "lucide-react";
@@ -18,7 +19,13 @@ export const Route = createFileRoute("/_app/developer")({
 
 function DeveloperPage() {
   const { enabled, set } = useDeveloperMode();
+  const { isFounder, loading: founderLoading } = useFounder();
+  const navigate = useNavigate();
   const { user, session } = useAuth();
+
+  useEffect(() => {
+    if (!founderLoading && !isFounder) navigate({ to: "/dashboard", replace: true });
+  }, [founderLoading, isFounder, navigate]);
   const usageFn = useServerFn(getUsage);
   const subFn = useServerFn(getSubscription);
 

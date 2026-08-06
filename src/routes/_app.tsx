@@ -38,7 +38,7 @@ function AppShell() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isChat = pathname === "/chat";
-  const { isFounder } = useFounder();
+  const { isFounder, loading: founderLoading } = useFounder();
   const { enabled: devMode, set: setDevMode } = useDeveloperMode();
 
   useEffect(() => {
@@ -47,9 +47,10 @@ function AppShell() {
 
   // Founder accounts get developer mode automatically after login.
   useEffect(() => {
+    if (founderLoading) return;
     if (isFounder && !devMode) setDevMode(true);
     if (!isFounder && devMode) setDevMode(false);
-  }, [isFounder, devMode, setDevMode]);
+  }, [isFounder, founderLoading, devMode, setDevMode]);
 
   if (loading || !session) {
     return (

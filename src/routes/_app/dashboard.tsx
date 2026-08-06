@@ -68,6 +68,7 @@ function firstName(user: User | null) {
 
 function Dashboard() {
   const { user } = useAuth();
+  const { isFounder } = useFounder();
   const [jobDescription, setJobDescription] = useState("");
   const [platform, setPlatform] = useState<(typeof PLATFORMS)[number]>("Upwork");
   const [tone, setTone] = useState<(typeof TONES)[number]>("Professional");
