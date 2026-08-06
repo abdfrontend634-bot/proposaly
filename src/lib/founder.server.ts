@@ -9,3 +9,10 @@ export const FOUNDER_DISPLAY_NAME = "Founder Abdullah";
 export function isFounderEmail(email: unknown): boolean {
   return typeof email === "string" && email.trim().toLowerCase() === FOUNDER_EMAIL;
 }
+
+/** Throws unless the given JWT claims belong to the founder. */
+export function assertFounderClaims(claims: Record<string, unknown>): void {
+  if (!isFounderEmail(claims["email"])) {
+    throw new Error("The AI Assistant is not available on your account.");
+  }
+}
