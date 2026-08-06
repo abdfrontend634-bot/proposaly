@@ -108,6 +108,7 @@ function ChatPage() {
     queryKey: ["chat", convId ?? "latest"],
     queryFn: () => listFn({ data: convId ? { conversationId: convId } : {} }),
     staleTime: 30_000,
+    enabled: isFounder,
   });
 
   const activityRef = useRef(false);
