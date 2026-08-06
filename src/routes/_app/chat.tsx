@@ -73,6 +73,13 @@ function dayLabel(iso: string) {
 }
 
 function ChatPage() {
+  const { isFounder, loading: founderLoading } = useFounder();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!founderLoading && !isFounder) navigate({ to: "/dashboard", replace: true });
+  }, [founderLoading, isFounder, navigate]);
+
   const listFn = useServerFn(listChatMessages);
   const sendFn = useServerFn(sendChatMessage);
   const regenFn = useServerFn(regenerateLastReply);
