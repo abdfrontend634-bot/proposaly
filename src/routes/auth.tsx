@@ -19,10 +19,11 @@ export const Route = createFileRoute("/auth")({
 });
 
 function AuthPage() {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,7 +37,14 @@ function AuthPage() {
     if (busy) return;
     setBusy(true);
     try {
-      if (mode === "signup") {
+      if (mode === "forgot") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+          redirectTo: window.location.origin + "/reset-password",
+        });
+        if (error) throw error;
+        setSent(true);
+        toast.success("Reset link sent — check your inbox.");
+      } else if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email, password,
           options: { emailRedirectTo: window.location.origin + "/dashboard" },
@@ -56,6 +64,7 @@ function AuthPage() {
       setBusy(false);
     }
   }
+
 
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-background px-4 py-12">
