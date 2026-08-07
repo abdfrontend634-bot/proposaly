@@ -80,29 +80,58 @@ function AuthPage() {
 
         <div className="rounded-2xl border border-border bg-surface p-8 shadow-sm">
           <h1 className="text-2xl font-semibold tracking-tight">
-            {mode === "signin" ? "Welcome back" : "Create your account"}
+            {mode === "signin" ? "Welcome back" : mode === "signup" ? "Create your account" : "Reset your password"}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {mode === "signin" ? "Sign in to keep winning gigs." : "Free forever — 50 proposals per month."}
+            {mode === "signin"
+              ? "Sign in to keep winning gigs."
+              : mode === "signup"
+                ? "Free forever — 50 proposals per month."
+                : "We'll email you a secure link to set a new password."}
           </p>
 
-          <form onSubmit={onSubmit} className="mt-8 space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-foreground">Email address</Label>
-              <Input id="email" type="email" required value={email}
-                onChange={(e) => setEmail(e.target.value)} placeholder="you@work.com" autoComplete="email" />
+          {mode === "forgot" && sent ? (
+            <div className="mt-8 space-y-5">
+              <div className="rounded-lg border border-border bg-[#FAFAF7] px-4 py-3 text-sm text-muted-foreground">
+                If an account exists for <span className="font-medium text-foreground">{email}</span>, a reset link is on
+                its way. The link expires shortly — request a new one if it does.
+              </div>
+              <Button variant="outline" className="h-11 w-full" onClick={() => { setSent(false); setMode("signin"); }}>
+                Back to sign in
+              </Button>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-foreground">Password</Label>
-              <Input id="password" type="password" required minLength={6} value={password}
-                onChange={(e) => setPassword(e.target.value)} placeholder="At least 6 characters"
-                autoComplete={mode === "signin" ? "current-password" : "new-password"} />
-            </div>
-            <Button type="submit" className="h-11 w-full" disabled={busy}>
-              {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {mode === "signin" ? "Sign in" : "Create account"}
-            </Button>
-          </form>
+          ) : (
+            <form onSubmit={onSubmit} className="mt-8 space-y-5">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-medium text-foreground">Email address</Label>
+                <Input id="email" type="email" required value={email}
+                  onChange={(e) => setEmail(e.target.value)} placeholder="you@work.com" autoComplete="email" />
+              </div>
+              {mode !== "forgot" && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password" className="text-sm font-medium text-foreground">Password</Label>
+                    {mode === "signin" && (
+                      <button
+                        type="button"
+                        onClick={() => { setMode("forgot"); setSent(false); }}
+                        className="text-xs font-medium text-primary hover:underline"
+                      >
+                        Forgot password?
+                      </button>
+                    )}
+                  </div>
+                  <Input id="password" type="password" required minLength={6} value={password}
+                    onChange={(e) => setPassword(e.target.value)} placeholder="At least 6 characters"
+                    autoComplete={mode === "signin" ? "current-password" : "new-password"} />
+                </div>
+              )}
+              <Button type="submit" className="h-11 w-full" disabled={busy}>
+                {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {mode === "signin" ? "Sign in" : mode === "signup" ? "Create account" : "Send reset link"}
+              </Button>
+            </form>
+          )}
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
             {mode === "signin" ? (
@@ -111,10 +140,11 @@ function AuthPage() {
               </>
             ) : (
               <>Already have an account?{" "}
-                <button className="font-medium text-primary hover:underline" onClick={() => setMode("signin")}>Sign in</button>
+                <button className="font-medium text-primary hover:underline" onClick={() => { setMode("signin"); setSent(false); }}>Sign in</button>
               </>
             )}
           </div>
+
         </div>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
