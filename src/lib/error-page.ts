@@ -27,7 +27,7 @@ export function renderErrorPage(status: 404 | 500 = 500): string {
       a, button { padding: 0.55rem 1rem; border-radius: 0.5rem; font: inherit; font-weight: 500; cursor: pointer; text-decoration: none; border: 1px solid transparent; }
       .primary { background: #FF4D88; color: #fff; }
       .primary:hover { background: #E91E63; }
-      .secondary { background: #fff; color: #111; border-color: #E5E7EB; }
+      .secondary { background: #fff; color: #111; border-color: #F7CDD9; }
     </style>
   </head>
   <body>
