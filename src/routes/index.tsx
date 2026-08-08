@@ -119,7 +119,7 @@ function Hero() {
 
         <div className="animate-fade-up mx-auto mt-20 max-w-3xl">
           <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-lg">
-            <div className="flex items-center gap-1.5 border-b border-border bg-[#FAFAF7] px-4 py-3">
+            <div className="flex items-center gap-1.5 border-b border-border bg-[#FFF5F8] px-4 py-3">
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
               <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
