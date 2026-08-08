@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
 
 /**
- * Proposly AI logo mark — a royal-blue tile with a "P" monogram and a gold AI spark.
+ * Proposly AI logo mark — a pink tile with a "P" monogram and a gold AI spark.
  * Purely presentational; pair with <Wordmark /> for the full lockup.
  */
 export function LogoMark({ className }: { className?: string }) {

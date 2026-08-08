@@ -145,7 +145,7 @@
 }
 
 @utility bg-dot {
-  background-image: radial-gradient(rgb(17 17 17 / 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgb(233 30 99 / 0.14) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -172,7 +172,7 @@
   }
 }
 @utility shimmer {
-  background: linear-gradient(90deg, #f3f4f2, #e9eae6, #f3f4f2);
+  background: linear-gradient(90deg, #fadadd, #ffeef3, #fadadd);
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;
 }

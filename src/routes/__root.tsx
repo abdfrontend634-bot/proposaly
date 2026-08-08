@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#1D4ED8" },
+      { name: "theme-color", content: "#FF4D88" },
       { title: "Proposly AI — AI Proposal Generator for Freelancers" },
       { name: "description", content: "Proposly AI turns any job posting into a polished, client-ready proposal in seconds. Built for freelancers on Upwork, Fiverr and Freelancer." },
       { name: "author", content: "Proposly AI" },
