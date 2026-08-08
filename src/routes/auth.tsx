@@ -92,7 +92,7 @@ function AuthPage() {
 
           {mode === "forgot" && sent ? (
             <div className="mt-8 space-y-5">
-              <div className="rounded-lg border border-border bg-[#FAFAF7] px-4 py-3 text-sm text-muted-foreground">
+              <div className="rounded-lg border border-border bg-[#FFF5F8] px-4 py-3 text-sm text-muted-foreground">
                 If an account exists for <span className="font-medium text-foreground">{email}</span>, a reset link is on
                 its way. The link expires shortly — request a new one if it does.
               </div>

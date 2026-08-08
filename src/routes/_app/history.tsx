@@ -155,7 +155,7 @@ function HistoryPage() {
               const open = openId === p.id;
               return (
                 <li key={p.id}>
-                  <div className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#FAFAF7] sm:gap-4 sm:px-6 sm:py-5">
+                  <div className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#FFF5F8] sm:gap-4 sm:px-6 sm:py-5">
                     <button
                       type="button"
                       onClick={() => setOpenId(open ? null : p.id)}
@@ -210,7 +210,7 @@ function HistoryPage() {
                   {open && (
                     <div
                       id={`proposal-${p.id}`}
-                      className="border-t border-border bg-[#FAFAF7] px-4 py-5 text-[15px] leading-[1.7] text-foreground whitespace-pre-wrap sm:px-6 sm:py-6"
+                      className="border-t border-border bg-[#FFF5F8] px-4 py-5 text-[15px] leading-[1.7] text-foreground whitespace-pre-wrap sm:px-6 sm:py-6"
                     >
                       {p.content}
                     </div>

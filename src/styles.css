@@ -45,57 +45,58 @@
   --color-success-soft: var(--success-soft);
   --color-danger: var(--destructive);
 
-  --shadow-xs: 0 1px 2px 0 rgb(17 17 17 / 0.04);
-  --shadow-sm: 0 1px 2px 0 rgb(17 17 17 / 0.05), 0 1px 3px 0 rgb(17 17 17 / 0.04);
-  --shadow-md: 0 4px 12px -2px rgb(17 17 17 / 0.06), 0 2px 4px -2px rgb(17 17 17 / 0.04);
-  --shadow-lg: 0 12px 32px -8px rgb(17 17 17 / 0.08), 0 4px 8px -4px rgb(17 17 17 / 0.04);
-  --shadow-card: 0 1px 2px 0 rgb(17 17 17 / 0.04), 0 1px 3px 0 rgb(17 17 17 / 0.03);
-  --shadow-elevated: 0 1px 2px 0 rgb(17 17 17 / 0.04), 0 8px 24px -12px rgb(17 17 17 / 0.1);
+  --shadow-xs: 0 1px 2px 0 rgb(190 24 93 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(190 24 93 / 0.06), 0 1px 3px 0 rgb(190 24 93 / 0.05);
+  --shadow-md: 0 4px 14px -2px rgb(190 24 93 / 0.09), 0 2px 4px -2px rgb(190 24 93 / 0.05);
+  --shadow-lg: 0 14px 36px -10px rgb(190 24 93 / 0.14), 0 4px 10px -4px rgb(190 24 93 / 0.06);
+  --shadow-card: 0 1px 2px 0 rgb(190 24 93 / 0.05), 0 2px 8px -4px rgb(190 24 93 / 0.06);
+  --shadow-elevated: 0 1px 2px 0 rgb(190 24 93 / 0.05), 0 12px 30px -14px rgb(190 24 93 / 0.18);
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.875rem;
 
-  --background: #fafaf7;
-  --foreground: #111111;
+  --background: #ffe8f0;
+  --foreground: #1a1a1a;
 
   --surface: #ffffff;
-  --surface-hi: #ffffff;
+  --surface-hi: #fdfdfd;
 
   --card: #ffffff;
-  --card-foreground: #111111;
+  --card-foreground: #1a1a1a;
   --popover: #ffffff;
-  --popover-foreground: #111111;
+  --popover-foreground: #1a1a1a;
 
-  --brand: #1d4ed8;
+  --brand: #ff4d88;
   --brand-foreground: #ffffff;
-  --brand-soft: rgb(29 78 216 / 0.08);
+  --brand-soft: rgb(255 77 136 / 0.1);
 
-  --primary: #1d4ed8;
+  --primary: #ff4d88;
   --primary-foreground: #ffffff;
 
-  --gold: #c8952a;
-  --gold-foreground: #1a1206;
-  --gold-soft: rgb(200 149 42 / 0.12);
+  --gold: #e91e63;
+  --gold-foreground: #ffffff;
+  --gold-soft: rgb(233 30 99 / 0.1);
 
-  --secondary: #f3f4f2;
-  --secondary-foreground: #111111;
+  --secondary: #fadadd;
+  --secondary-foreground: #1a1a1a;
 
-  --muted: #f3f4f2;
-  --muted-foreground: #6b7280;
+  --muted: #fadadd;
+  --muted-foreground: #8a7079;
 
-  --accent: #f3f4f2;
-  --accent-foreground: #111111;
+  --accent: #fadadd;
+  --accent-foreground: #1a1a1a;
 
-  --success: #059669;
-  --success-soft: rgb(5 150 105 / 0.1);
-  --destructive: #ef4444;
+  --success: #0f9d70;
+  --success-soft: rgb(15 157 112 / 0.1);
+  --destructive: #e11d48;
   --destructive-foreground: #ffffff;
 
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: rgb(29 78 216 / 0.35);
+  --border: #f7cdd9;
+  --input: #f2c3d1;
+  --ring: rgb(255 77 136 / 0.4);
 }
+
 
 @layer base {
   * {
@@ -144,7 +145,7 @@
 }
 
 @utility bg-dot {
-  background-image: radial-gradient(rgb(17 17 17 / 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgb(233 30 99 / 0.14) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -171,7 +172,7 @@
   }
 }
 @utility shimmer {
-  background: linear-gradient(90deg, #f3f4f2, #e9eae6, #f3f4f2);
+  background: linear-gradient(90deg, #fadadd, #ffeef3, #fadadd);
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;
 }

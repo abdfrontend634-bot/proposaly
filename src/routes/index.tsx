@@ -37,7 +37,7 @@ function Landing() {
 
 function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-surface/90 backdrop-blur-md shadow-xs">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2.5">
           <Logo />
@@ -77,9 +77,17 @@ function Logo() {
 function Hero() {
   return (
     <section className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-[-14rem] h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,77,136,0.28),rgba(255,77,136,0)_70%)] blur-2xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[38rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0))]"
+      />
       <div className="relative mx-auto max-w-5xl px-6 pb-24 pt-24 text-center sm:pt-32">
         <div className="animate-fade-up mx-auto inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-muted-foreground shadow-xs">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#16A34A]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-success" />
           New — Claude-powered proposal engine
         </div>
         <h1 className="animate-fade-up mt-7 text-5xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
@@ -92,7 +100,7 @@ function Hero() {
           seconds.
         </p>
         <div className="animate-fade-up mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button asChild size="lg" className="group">
+          <Button asChild size="lg" className="group shadow-[0_10px_30px_-10px_rgba(255,77,136,0.65)] hover:shadow-[0_14px_36px_-10px_rgba(233,30,99,0.6)]">
             <Link to="/auth">
               Start free
               <ArrowRight className="ml-0.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -119,10 +127,10 @@ function Hero() {
 
         <div className="animate-fade-up mx-auto mt-20 max-w-3xl">
           <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-lg">
-            <div className="flex items-center gap-1.5 border-b border-border bg-[#FAFAF7] px-4 py-3">
-              <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
-              <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
-              <div className="h-2.5 w-2.5 rounded-full bg-[#E5E7EB]" />
+            <div className="flex items-center gap-1.5 border-b border-border bg-[#FFF5F8] px-4 py-3">
+              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
+              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
+              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
               <div className="ml-3 text-[11px] font-medium text-muted-foreground">
                 Proposly AI — Upwork proposal
               </div>
