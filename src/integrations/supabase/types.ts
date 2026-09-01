@@ -62,35 +62,152 @@ export type Database = {
         }
         Relationships: []
       }
+      portfolio_items: {
+        Row: {
+          created_at: string
+          description: string
+          github_url: string | null
+          id: string
+          name: string
+          notes: string
+          results: string
+          role: string
+          services: string[]
+          technologies: string[]
+          updated_at: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          github_url?: string | null
+          id?: string
+          name: string
+          notes?: string
+          results?: string
+          role?: string
+          services?: string[]
+          technologies?: string[]
+          updated_at?: string
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          github_url?: string | null
+          id?: string
+          name?: string
+          notes?: string
+          results?: string
+          role?: string
+          services?: string[]
+          technologies?: string[]
+          updated_at?: string
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          availability: string
+          bio: string
+          created_at: string
+          display_name: string
+          experience: string
+          onboarded: boolean
+          preferred_length: string
+          preferred_tone: string
+          professional_title: string
+          services: string[]
+          signature: string
+          skills: string[]
+          technologies: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          availability?: string
+          bio?: string
+          created_at?: string
+          display_name?: string
+          experience?: string
+          onboarded?: boolean
+          preferred_length?: string
+          preferred_tone?: string
+          professional_title?: string
+          services?: string[]
+          signature?: string
+          skills?: string[]
+          technologies?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          availability?: string
+          bio?: string
+          created_at?: string
+          display_name?: string
+          experience?: string
+          onboarded?: boolean
+          preferred_length?: string
+          preferred_tone?: string
+          professional_title?: string
+          services?: string[]
+          signature?: string
+          skills?: string[]
+          technologies?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       proposals: {
         Row: {
+          analysis: Json | null
           content: string
           created_at: string
           id: string
           job_description: string
+          length: string
+          matched_portfolio: Json | null
           platform: string
+          score: Json | null
+          status: string
           title: string
           tone: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          analysis?: Json | null
           content: string
           created_at?: string
           id?: string
           job_description: string
+          length?: string
+          matched_portfolio?: Json | null
           platform: string
+          score?: Json | null
+          status?: string
           title?: string
           tone: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          analysis?: Json | null
           content?: string
           created_at?: string
           id?: string
           job_description?: string
+          length?: string
+          matched_portfolio?: Json | null
           platform?: string
+          score?: Json | null
+          status?: string
           title?: string
           tone?: string
           updated_at?: string
