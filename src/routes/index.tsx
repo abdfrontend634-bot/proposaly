@@ -3,11 +3,14 @@ import {
   ArrowRight,
   Check,
   Sparkles,
-  Zap,
   Target,
   ShieldCheck,
-  Clock,
-  FileText,
+  ClipboardList,
+  FolderOpen,
+  PenLine,
+  Gauge,
+  MessageSquare,
+  History as HistoryIcon,
   ChevronDown,
 } from "lucide-react";
 import { useState } from "react";
@@ -15,7 +18,21 @@ import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/brand";
 import { BRAND } from "@/lib/brand";
 
+const TITLE = "Proposly AI — Write proposals that fit the job";
+const DESCRIPTION =
+  "Paste a freelance job posting, let Proposly AI analyse what the client actually wants, match it to your saved projects, and write a proposal in your own voice.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Landing,
 });
 
@@ -23,13 +40,14 @@ function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
-      <Hero />
-      <LogoBar />
-      <HowItWorks />
-      <Testimonials />
-      <Pricing />
-      <FAQ />
-      <CTA />
+      <main>
+        <Hero />
+        <Flow />
+        <Capabilities />
+        <Pricing />
+        <FAQ />
+        <CTA />
+      </main>
       <Footer />
     </div>
   );
@@ -40,12 +58,15 @@ function Header() {
     <header className="sticky top-0 z-40 border-b border-border/70 bg-surface/90 backdrop-blur-md shadow-xs">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <Logo />
+          <LogoMark />
           <span className="text-[17px] font-semibold tracking-tight">{BRAND.name}</span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           <a href="#how" className="transition-colors hover:text-foreground">
             How it works
+          </a>
+          <a href="#features" className="transition-colors hover:text-foreground">
+            Features
           </a>
           <a href="#pricing" className="transition-colors hover:text-foreground">
             Pricing
@@ -70,219 +91,236 @@ function Header() {
   );
 }
 
-function Logo() {
-  return <LogoMark />;
-}
-
 function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-14rem] h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,77,136,0.28),rgba(255,77,136,0)_70%)] blur-2xl"
+        className="pointer-events-none absolute left-1/2 top-[-14rem] h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,77,136,0.26),rgba(255,77,136,0)_70%)] blur-2xl"
       />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-[38rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0))]"
       />
-      <div className="relative mx-auto max-w-5xl px-6 pb-24 pt-24 text-center sm:pt-32">
+      <div className="relative mx-auto max-w-5xl px-6 pb-20 pt-20 text-center sm:pt-28">
         <div className="animate-fade-up mx-auto inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-muted-foreground shadow-xs">
-          <span className="h-1.5 w-1.5 rounded-full bg-success" />
-          New — Claude-powered proposal engine
+          <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+          Job analysis · portfolio matching · quality score
         </div>
-        <h1 className="animate-fade-up mt-7 text-5xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
-          Win more gigs.
+        <h1 className="animate-fade-up mt-7 text-4xl font-semibold leading-[1.06] tracking-tight text-foreground sm:text-6xl md:text-7xl">
+          Write proposals that
           <br />
-          <span className="text-muted-foreground">Write fewer proposals.</span>
+          <span className="bg-gradient-rose bg-clip-text text-transparent">fit the job.</span>
         </h1>
-        <p className="animate-fade-up mx-auto mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
-          Paste the job post, pick your platform and tone, and ship a tailored proposal in under 10
-          seconds.
+        <p className="animate-fade-up mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Paste the posting. Proposly AI reads what the client is actually asking for, pulls the
+          projects from your vault that genuinely match, and writes a proposal in your voice — no
+          invented experience.
         </p>
         <div className="animate-fade-up mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button asChild size="lg" className="group shadow-[0_10px_30px_-10px_rgba(255,77,136,0.65)] hover:shadow-[0_14px_36px_-10px_rgba(233,30,99,0.6)]">
+          <Button asChild size="lg" className="group rose-glow">
             <Link to="/auth">
               Start free
               <ArrowRight className="ml-0.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
-          <a
-            href="#how"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            See how it works →
-          </a>
+          <Button asChild variant="outline" size="lg">
+            <a href="#how">See how it works</a>
+          </Button>
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 text-success" /> No credit card
+            <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" /> No credit card
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 text-success" /> 50 free proposals / month
+            <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" /> 50 free proposals /
+            month
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 text-success" /> Cancel anytime
+            <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" /> Cancel anytime
           </span>
         </div>
 
-        <div className="animate-fade-up mx-auto mt-20 max-w-3xl">
+        <div className="animate-fade-up mx-auto mt-16 max-w-3xl text-left">
           <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-lg">
-            <div className="flex items-center gap-1.5 border-b border-border bg-[#FFF5F8] px-4 py-3">
-              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
-              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
-              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
-              <div className="ml-3 text-[11px] font-medium text-muted-foreground">
-                Proposly AI — Upwork proposal
+            <div className="flex items-center gap-2 border-b border-border bg-surface-soft px-4 py-3">
+              <ClipboardList className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+              <div className="text-[11px] font-medium text-muted-foreground">
+                What Proposly AI extracts from a posting
               </div>
             </div>
-            <div className="p-8 text-left">
-              <p className="text-[15px] leading-[1.7] text-foreground">
-                Hi there — I saw your project and it aligns perfectly with what I do best. I
-                specialize in delivering high-quality work with clear communication, fast
-                turnaround, and a{" "}
-                <span className="font-medium text-primary">results-driven approach</span> that helps
-                clients move forward with confidence.
-              </p>
-              <div className="mt-6 flex items-center gap-2 border-t border-border pt-5">
-                <div className="rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
-                  Upwork
-                </div>
-                <div className="rounded-md bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-                  Professional
-                </div>
-                <div className="ml-auto text-[11px] text-muted-foreground">Generated in 8.2s</div>
-              </div>
+            <div className="grid gap-4 p-6 sm:grid-cols-2 sm:p-8">
+              <MiniPanel
+                label="Client needs"
+                items={["Fix a slow checkout", "Reduce cart abandonment", "Handoff documentation"]}
+              />
+              <MiniPanel
+                label="Required skills"
+                items={["Performance profiling", "Frontend optimisation", "Analytics review"]}
+              />
+              <MiniPanel
+                label="Likely concerns"
+                items={["Past devs missed deadlines", "Wants weekly updates"]}
+              />
+              <MiniPanel
+                label="Matched from your vault"
+                items={["Only projects you saved yourself"]}
+                accent
+              />
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function LogoBar() {
-  const items = ["Upwork", "Fiverr", "Freelancer", "Contra", "Toptal"];
-  return (
-    <section className="border-y border-border/70 bg-surface/40 py-10">
-      <div className="mx-auto max-w-5xl px-6">
-        <p className="text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
-          Trusted by freelancers on
-        </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
-          {items.map((n) => (
-            <div key={n} className="text-lg font-semibold tracking-tight text-muted-foreground/70">
-              {n}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HowItWorks() {
-  const steps = [
-    {
-      icon: Target,
-      title: "Paste the job",
-      body: "Drop any Upwork, Fiverr or Freelancer posting into Proposly AI.",
-    },
-    {
-      icon: Sparkles,
-      title: "Pick tone & platform",
-      body: "Professional, Friendly, or Confident — tuned to each marketplace.",
-    },
-    {
-      icon: Zap,
-      title: "Generate & send",
-      body: "A tailored proposal in seconds. Edit inline, copy, or export as PDF.",
-    },
-  ];
-  return (
-    <section id="how" className="py-28">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Workflow
-          </div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Three steps. Zero busywork.
-          </h2>
-          <p className="mt-5 text-lg text-muted-foreground">
-            Built for freelancers who bid all day.
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            Illustration of the analysis structure — your results come from your own posting and
+            saved projects.
           </p>
         </div>
-        <div className="mt-16 grid gap-6 sm:grid-cols-3">
-          {steps.map((s, i) => (
-            <div
-              key={s.title}
-              className="group rounded-2xl border border-border bg-surface p-8 shadow-xs transition-all hover:shadow-md hover:-translate-y-0.5"
-            >
-              <div className="mb-6 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
-                <s.icon className="h-5 w-5" />
-              </div>
-              <div className="font-mono text-xs text-muted-foreground">0{i + 1}</div>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight">{s.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{s.body}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
 }
 
-function Testimonials() {
-  const quotes = [
+function MiniPanel({
+  label,
+  items,
+  accent,
+}: {
+  label: string;
+  items: string[];
+  accent?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-xl border p-4 ${
+        accent ? "border-primary/25 bg-primary/5" : "border-border bg-surface-soft"
+      }`}
+    >
+      <div className="text-[11px] font-semibold uppercase tracking-wide text-primary">{label}</div>
+      <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+        {items.map((i) => (
+          <li key={i} className="flex items-start gap-2">
+            <span
+              className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/50"
+              aria-hidden="true"
+            />
+            {i}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Flow() {
+  const steps = [
     {
-      name: "Sarah Chen",
-      role: "Full-stack Developer",
-      quote: "I went from writing 3 proposals a day to 15. My response rate doubled.",
+      icon: ClipboardList,
+      title: "Job description",
+      body: "Paste the full posting — Upwork, Fiverr, Freelancer, LinkedIn, or a direct client brief.",
     },
     {
-      name: "Marcus Reid",
-      role: "Brand Designer",
-      quote: "The tone controls actually work. My Fiverr proposals sound like me — but sharper.",
+      icon: Target,
+      title: "AI analysis",
+      body: "Proposly extracts the deliverables, required skills, priorities, and the client's likely concerns.",
     },
     {
-      name: "Priya Patel",
-      role: "SEO Consultant",
-      quote: "Landed two retainers in the first week. This paid for itself instantly.",
+      icon: FolderOpen,
+      title: "Portfolio match",
+      body: "It picks the saved projects that genuinely fit, and tells you why each one matches.",
+    },
+    {
+      icon: PenLine,
+      title: "Personalized proposal",
+      body: "You get a proposal grounded in your real profile and projects — then refine it in one click.",
     },
   ];
   return (
-    <section className="border-t border-border/70 bg-surface/40 py-28">
+    <section id="how" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <div className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Loved by freelancers
+            How it works
           </div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Real proposals. Real wins.
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+            Four steps, one continuous flow.
+          </h2>
+          <p className="mt-5 text-base text-muted-foreground sm:text-lg">
+            Nothing is invented along the way. Every claim traces back to something you wrote or
+            saved.
+          </p>
+        </div>
+        <ol className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((s, i) => (
+            <li
+              key={s.title}
+              className="rounded-2xl border border-border bg-surface p-7 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <div className="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
+                <s.icon className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <div className="text-xs font-semibold text-muted-foreground">Step {i + 1}</div>
+              <h3 className="mt-1.5 text-base font-semibold tracking-tight">{s.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function Capabilities() {
+  const items = [
+    {
+      icon: Sparkles,
+      title: "Staged generator",
+      body: "Analyse, review the matches, choose tone and length, then generate — instead of one blind prompt.",
+    },
+    {
+      icon: FolderOpen,
+      title: "Portfolio Vault",
+      body: "Store your projects once: role, technologies, outcomes, links. The AI may only reference these.",
+    },
+    {
+      icon: Gauge,
+      title: "Quality score",
+      body: "Score any proposal across nine dimensions and get concrete edits, not compliments.",
+    },
+    {
+      icon: PenLine,
+      title: "One-click refinements",
+      body: "Improve the opening, make it more convincing, shorten, expand, simplify, or add a project.",
+    },
+    {
+      icon: HistoryIcon,
+      title: "Workspace history",
+      body: "Search, filter, reopen, edit, duplicate, copy, or export anything you've saved.",
+    },
+    {
+      icon: MessageSquare,
+      title: "AI assistant",
+      body: "Ask follow-ups in your own language, English or Urdu, with your current work as context.",
+    },
+  ];
+  return (
+    <section id="features" className="border-t border-border/70 bg-surface/40 py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Inside Proposly AI
+          </div>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+            Built for people who bid every day.
           </h2>
         </div>
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
-          {quotes.map((q) => (
-            <figure
-              key={q.name}
-              className="rounded-2xl border border-border bg-surface p-8 shadow-xs"
-            >
-              <blockquote className="text-[15px] leading-relaxed text-foreground">
-                "{q.quote}"
-              </blockquote>
-              <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
-                <div className="grid h-10 w-10 place-items-center rounded-full bg-muted text-sm font-semibold text-foreground">
-                  {q.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-foreground">{q.name}</div>
-                  <div className="text-xs text-muted-foreground">{q.role}</div>
-                </div>
-              </figcaption>
-            </figure>
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((f) => (
+            <div key={f.title} className="rounded-2xl border border-border bg-surface p-7 shadow-xs">
+              <div className="mb-5 grid h-10 w-10 place-items-center rounded-xl bg-primary/8 text-primary">
+                <f.icon className="h-4.5 w-4.5" aria-hidden="true" />
+              </div>
+              <h3 className="text-base font-semibold tracking-tight">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -292,28 +330,24 @@ function Testimonials() {
 
 function Pricing() {
   return (
-    <section id="pricing" className="py-28">
+    <section id="pricing" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Pricing
-          </div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Simple, transparent pricing.
+          <div className="text-xs font-semibold uppercase tracking-widest text-primary">Pricing</div>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+            Start free. Upgrade when it pays for itself.
           </h2>
-          <p className="mt-5 text-lg text-muted-foreground">
-            Start free. Upgrade when you're winning.
-          </p>
         </div>
-        <div className="mx-auto mt-16 grid max-w-3xl gap-6 md:grid-cols-2">
+        <div className="mx-auto mt-14 grid max-w-3xl gap-6 md:grid-cols-2">
           <PriceCard
             name="Free"
             price="$0"
-            blurb="Generous enough to really test it."
+            blurb="Enough to run it on real jobs."
             features={[
-              "50 proposals / month",
-              "All platforms & tones",
-              "Save to history",
+              "50 proposals per month",
+              "Job analysis and portfolio matching",
+              "All platforms, tones, and lengths",
+              "Portfolio Vault and saved history",
               "PDF export",
             ]}
             cta="Start free"
@@ -324,19 +358,14 @@ function Pricing() {
             blurb="For freelancers bidding daily."
             features={[
               "Unlimited proposal generation",
-              "All 40+ proposal styles",
-              "AI Rewrite, Optimizer & Proposal Score",
-              "Cover letter & client-question answers",
-              "English ↔ Urdu translator & more languages",
-              "AI Freelancer Coach + chat history",
-              "Priority AI, faster generation",
-              "Unlimited PDF exports & history",
-              "Future premium AI features included",
+              "Unlimited refinements and quality scoring",
+              "Priority AI processing",
+              "Extended proposal history",
+              "New premium features as they ship",
             ]}
             highlighted
             cta="Get Pro"
           />
-
         </div>
       </div>
     </section>
@@ -350,7 +379,6 @@ function PriceCard({
   features,
   cta,
   highlighted,
-  disabled,
 }: {
   name: string;
   price: string;
@@ -358,7 +386,6 @@ function PriceCard({
   features: string[];
   cta: string;
   highlighted?: boolean;
-  disabled?: boolean;
 }) {
   return (
     <div
@@ -370,7 +397,7 @@ function PriceCard({
     >
       {highlighted && (
         <div className="absolute -top-3 left-8 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary-foreground">
-          Popular
+          Most complete
         </div>
       )}
       <h3 className="text-lg font-semibold tracking-tight">{name}</h3>
@@ -382,21 +409,15 @@ function PriceCard({
       <ul className="mt-8 space-y-3.5 text-sm">
         {features.map((f) => (
           <li key={f} className="flex items-start gap-2.5">
-            <div className="mt-0.5 grid h-4 w-4 place-items-center rounded-full bg-primary/10">
-              <Check className="h-3 w-3 text-primary" strokeWidth={3} />
+            <div className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/10">
+              <Check className="h-3 w-3 text-primary" strokeWidth={3} aria-hidden="true" />
             </div>
             <span className="text-foreground">{f}</span>
           </li>
         ))}
       </ul>
-      <Button
-        asChild
-        className="mt-10 w-full"
-        variant={highlighted ? "default" : "outline"}
-        disabled={disabled}
-        size="lg"
-      >
-        {disabled ? <span>{cta}</span> : <Link to="/auth">{cta}</Link>}
+      <Button asChild className="mt-10 w-full" variant={highlighted ? "default" : "outline"} size="lg">
+        <Link to="/auth">{cta}</Link>
       </Button>
     </div>
   );
@@ -406,47 +427,55 @@ function FAQ() {
   const items = [
     {
       q: "How does the free plan work?",
-      a: "You get 50 AI-generated proposals every calendar month. No credit card, no strings.",
+      a: "You get 50 AI generations every calendar month — that covers proposals and refinements. No credit card required.",
+    },
+    {
+      q: "Can the AI invent experience I don't have?",
+      a: "No. It may only reference the profile and projects you save yourself. If nothing in your vault fits a job, it says so instead of making something up.",
     },
     {
       q: "Which platforms are supported?",
-      a: "Upwork, Fiverr, and Freelancer are tuned in. Any generated proposal works everywhere.",
+      a: "Upwork, Fiverr, Freelancer, LinkedIn, and direct client briefs. The output is plain text, so it works anywhere.",
     },
     {
-      q: "Can I edit the generated proposal?",
-      a: "Yes — every proposal is editable inline before you copy, save, or export as PDF.",
+      q: "Can I edit what it writes?",
+      a: "Yes. Every proposal is editable inline, and one-click refinements handle the common rewrites before you copy, save, or export.",
     },
     {
       q: "Is my data private?",
-      a: "Your proposals and job descriptions are only visible to you. We never share your data.",
+      a: "Your profile, portfolio, job descriptions, and proposals are visible only to your account.",
     },
   ];
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="border-t border-border/70 bg-surface/40 py-28">
+    <section id="faq" className="border-t border-border/70 bg-surface/40 py-24">
       <div className="mx-auto max-w-3xl px-6">
         <div className="text-center">
           <div className="text-xs font-semibold uppercase tracking-widest text-primary">FAQ</div>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Frequently asked questions
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+            Questions, answered.
           </h2>
         </div>
-        <div className="mt-14 divide-y divide-border rounded-2xl border border-border bg-surface">
+        <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
           {items.map((it, i) => {
             const isOpen = open === i;
             return (
               <div key={it.q}>
                 <button
+                  type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-muted/40"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-${i}`}
+                  className="flex min-h-11 w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-surface-soft"
                 >
                   <span className="text-[15px] font-medium text-foreground">{it.q}</span>
                   <ChevronDown
                     className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    aria-hidden="true"
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">
+                  <div id={`faq-${i}`} className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">
                     {it.a}
                   </div>
                 )}
@@ -461,30 +490,28 @@ function FAQ() {
 
 function CTA() {
   return (
-    <section className="py-28">
+    <section className="py-24">
       <div className="mx-auto max-w-4xl px-6">
-        <div className="rounded-3xl border border-border bg-surface px-8 py-16 text-center shadow-sm sm:px-16">
-          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        <div className="rounded-3xl border border-border bg-surface px-8 py-14 text-center shadow-sm sm:px-16">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Stop writing from scratch.
           </h2>
-          <p className="mx-auto mt-5 max-w-lg text-lg text-muted-foreground">
-            Join thousands of freelancers shipping better proposals with Proposly AI.
+          <p className="mx-auto mt-5 max-w-lg text-base text-muted-foreground sm:text-lg">
+            Set up your profile and portfolio once, then let every proposal start from the job in
+            front of you.
           </p>
-          <Button asChild size="lg" className="mt-8">
+          <Button asChild size="lg" className="mt-8 rose-glow">
             <Link to="/auth">
               Get started free
-              <ArrowRight className="ml-0.5 h-4 w-4" />
+              <ArrowRight className="ml-0.5 h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
-          <div className="mt-6 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5" /> Secure & private
+              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Private to your account
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5" /> Setup in 30 seconds
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <FileText className="h-3.5 w-3.5" /> PDF export
+              <Check className="h-3.5 w-3.5" aria-hidden="true" /> No invented experience
             </span>
           </div>
         </div>
@@ -499,12 +526,15 @@ function Footer() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-2.5">
-            <Logo />
+            <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{BRAND.name}</span>
           </div>
           <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
             <a href="#how" className="hover:text-foreground">
               How it works
+            </a>
+            <a href="#features" className="hover:text-foreground">
+              Features
             </a>
             <a href="#pricing" className="hover:text-foreground">
               Pricing
@@ -521,7 +551,9 @@ function Footer() {
           </div>
         </div>
         <div className="mt-8 flex flex-col-reverse items-start justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">
-          <div>© {new Date().getFullYear()} {BRAND.legalName}. All rights reserved. v{BRAND.version}</div>
+          <div>
+            © {new Date().getFullYear()} {BRAND.legalName}. All rights reserved. v{BRAND.version}
+          </div>
           <div>AI-powered proposals for freelancers.</div>
         </div>
       </div>

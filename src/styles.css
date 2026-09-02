@@ -35,6 +35,8 @@
 
   --color-surface: var(--surface);
   --color-surface-hi: var(--surface-hi);
+  --color-surface-soft: var(--surface-soft);
+  --color-rose: var(--rose-surface);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-soft: var(--brand-soft);
@@ -42,30 +44,40 @@
   --color-gold-foreground: var(--gold-foreground);
   --color-gold-soft: var(--gold-soft);
   --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
   --color-danger: var(--destructive);
+  --color-danger-soft: var(--destructive-soft);
 
   --shadow-xs: 0 1px 2px 0 rgb(190 24 93 / 0.05);
   --shadow-sm: 0 1px 2px 0 rgb(190 24 93 / 0.06), 0 1px 3px 0 rgb(190 24 93 / 0.05);
   --shadow-md: 0 4px 14px -2px rgb(190 24 93 / 0.09), 0 2px 4px -2px rgb(190 24 93 / 0.05);
   --shadow-lg: 0 14px 36px -10px rgb(190 24 93 / 0.14), 0 4px 10px -4px rgb(190 24 93 / 0.06);
+  --shadow-glow: 0 10px 30px -10px rgb(255 77 136 / 0.55);
   --shadow-card: 0 1px 2px 0 rgb(190 24 93 / 0.05), 0 2px 8px -4px rgb(190 24 93 / 0.06);
   --shadow-elevated: 0 1px 2px 0 rgb(190 24 93 / 0.05), 0 12px 30px -14px rgb(190 24 93 / 0.18);
 }
+
 
 :root {
   --radius: 0.875rem;
 
   --background: #ffe8f0;
-  --foreground: #1a1a1a;
+  --background-alt: #fff0f5;
+  --foreground: #3a2630;
 
   --surface: #ffffff;
   --surface-hi: #fdfdfd;
+  --surface-soft: #fff5f8;
+  --rose-surface: #fadadd;
+  --highlight: #ffb6c9;
 
   --card: #ffffff;
-  --card-foreground: #1a1a1a;
+  --card-foreground: #3a2630;
   --popover: #ffffff;
-  --popover-foreground: #1a1a1a;
+  --popover-foreground: #3a2630;
 
   --brand: #ff4d88;
   --brand-foreground: #ffffff;
@@ -79,23 +91,31 @@
   --gold-soft: rgb(233 30 99 / 0.1);
 
   --secondary: #fadadd;
-  --secondary-foreground: #1a1a1a;
+  --secondary-foreground: #3a2630;
 
   --muted: #fadadd;
-  --muted-foreground: #8a7079;
+  --muted-foreground: #7a5a66;
 
   --accent: #fadadd;
-  --accent-foreground: #1a1a1a;
+  --accent-foreground: #3a2630;
 
-  --success: #0f9d70;
-  --success-soft: rgb(15 157 112 / 0.1);
-  --destructive: #e11d48;
+  --success: #0b8a62;
+  --success-foreground: #ffffff;
+  --success-soft: rgb(11 138 98 / 0.12);
+  --warning: #b45309;
+  --warning-soft: rgb(180 83 9 / 0.12);
+  --destructive: #d01843;
   --destructive-foreground: #ffffff;
+  --destructive-soft: rgb(208 24 67 / 0.1);
 
   --border: #f7cdd9;
   --input: #f2c3d1;
-  --ring: rgb(255 77 136 / 0.4);
+  --ring: #ff4d88;
+
+  --gradient-rose: linear-gradient(135deg, #ff4d88 0%, #e91e63 100%);
+  --gradient-soft: linear-gradient(180deg, #ffffff 0%, #fff5f8 100%);
 }
+
 
 
 @layer base {
@@ -130,6 +150,19 @@
     background: var(--brand-soft);
     color: var(--foreground);
   }
+  /* Visible, consistent focus ring on every interactive element */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-md);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -223,3 +256,19 @@
   }
 }
 
+
+/* Premium rose surfaces */
+@utility bg-gradient-rose {
+  background-image: var(--gradient-rose);
+}
+@utility bg-gradient-soft {
+  background-image: var(--gradient-soft);
+}
+@utility glass-card {
+  background: color-mix(in oklab, var(--surface) 82%, transparent);
+  backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+}
+@utility rose-glow {
+  box-shadow: var(--shadow-glow);
+}
