@@ -71,7 +71,7 @@ function SettingsPage() {
       </div>
 
       <Section icon={Mail} title="Account" description="Your account details.">
-        <div className="rounded-lg border border-border bg-[#FFF5F8] px-4 py-3 text-sm font-medium text-foreground">
+        <div className="rounded-lg border border-border bg-surface-soft px-4 py-3 text-sm font-medium text-foreground">
           {user?.email}
         </div>
       </Section>
@@ -81,7 +81,7 @@ function SettingsPage() {
         title="Subscription"
         description="Your plan and billing details."
       >
-        <div className="rounded-lg border border-border bg-[#FFF5F8] px-4 py-3">
+        <div className="rounded-lg border border-border bg-surface-soft px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm font-semibold text-foreground">

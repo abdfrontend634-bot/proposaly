@@ -378,7 +378,7 @@ function Dashboard() {
               className="min-h-[360px] resize-y bg-background text-[15px] leading-[1.7]"
             />
           ) : (
-            <div className="grid min-h-[360px] place-items-center rounded-xl border border-dashed border-border bg-[#FFF5F8] text-center">
+            <div className="grid min-h-[360px] place-items-center rounded-xl border border-dashed border-border bg-surface-soft text-center">
               <div className="max-w-xs px-6">
                 <div className="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-primary/8 text-primary">
                   <Sparkles className="h-5 w-5" />
@@ -447,7 +447,7 @@ function SegmentedControl<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-1 rounded-lg border border-border bg-[#FFF5F8] p-1">
+    <div className="grid grid-cols-3 gap-1 rounded-lg border border-border bg-surface-soft p-1">
       {options.map((o) => {
         const active = value === o;
         return (

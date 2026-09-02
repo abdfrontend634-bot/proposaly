@@ -256,3 +256,19 @@
   }
 }
 
+
+/* Premium rose surfaces */
+@utility bg-gradient-rose {
+  background-image: var(--gradient-rose);
+}
+@utility bg-gradient-soft {
+  background-image: var(--gradient-soft);
+}
+@utility glass-card {
+  background: color-mix(in oklab, var(--surface) 82%, transparent);
+  backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+}
+@utility rose-glow {
+  box-shadow: var(--shadow-glow);
+}

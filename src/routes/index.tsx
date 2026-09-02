@@ -127,10 +127,10 @@ function Hero() {
 
         <div className="animate-fade-up mx-auto mt-20 max-w-3xl">
           <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-lg">
-            <div className="flex items-center gap-1.5 border-b border-border bg-[#FFF5F8] px-4 py-3">
-              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
-              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
-              <div className="h-2.5 w-2.5 rounded-full bg-[#FADADD]" />
+            <div className="flex items-center gap-1.5 border-b border-border bg-surface-soft px-4 py-3">
+              <div className="h-2.5 w-2.5 rounded-full bg-rose" />
+              <div className="h-2.5 w-2.5 rounded-full bg-rose" />
+              <div className="h-2.5 w-2.5 rounded-full bg-rose" />
               <div className="ml-3 text-[11px] font-medium text-muted-foreground">
                 Proposly AI — Upwork proposal
               </div>
