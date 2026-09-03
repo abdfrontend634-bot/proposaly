@@ -104,6 +104,7 @@ function Logo() {
 
 const NAV = [
   { to: "/dashboard", label: "Generate", icon: LayoutDashboard },
+  { to: "/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/history", label: "History", icon: History },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ] as const;
