@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   Crown,
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/brand";
