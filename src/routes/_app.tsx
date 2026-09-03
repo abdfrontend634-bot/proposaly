@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   Crown,
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/brand";
@@ -104,6 +105,7 @@ function Logo() {
 
 const NAV = [
   { to: "/dashboard", label: "Generate", icon: LayoutDashboard },
+  { to: "/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/history", label: "History", icon: History },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ] as const;
