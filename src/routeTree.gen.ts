@@ -22,6 +22,7 @@ import { Route as AppHistoryRouteImport } from './routes/_app/history'
 import { Route as AppDeveloperRouteImport } from './routes/_app/developer'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppChatRouteImport } from './routes/_app/chat'
+import { Route as AppProposalIdRouteImport } from './routes/_app/proposal.$id'
 import { Route as ApiPublicWebhooksLemonSqueezyRouteImport } from './routes/api/public/webhooks/lemon-squeezy'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -88,6 +89,11 @@ const AppChatRoute = AppChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProposalIdRoute = AppProposalIdRouteImport.update({
+  id: '/proposal/$id',
+  path: '/proposal/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 const ApiPublicWebhooksLemonSqueezyRoute =
   ApiPublicWebhooksLemonSqueezyRouteImport.update({
     id: '/api/public/webhooks/lemon-squeezy',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/portfolio': typeof AppPortfolioRoute
   '/settings': typeof AppSettingsRoute
   '/upgrade': typeof AppUpgradeRoute
+  '/proposal/$id': typeof AppProposalIdRoute
   '/api/public/webhooks/lemon-squeezy': typeof ApiPublicWebhooksLemonSqueezyRoute
 }
 export interface FileRoutesByTo {
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/portfolio': typeof AppPortfolioRoute
   '/settings': typeof AppSettingsRoute
   '/upgrade': typeof AppUpgradeRoute
+  '/proposal/$id': typeof AppProposalIdRoute
   '/api/public/webhooks/lemon-squeezy': typeof ApiPublicWebhooksLemonSqueezyRoute
 }
 export interface FileRoutesById {
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/_app/portfolio': typeof AppPortfolioRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/upgrade': typeof AppUpgradeRoute
+  '/_app/proposal/$id': typeof AppProposalIdRoute
   '/api/public/webhooks/lemon-squeezy': typeof ApiPublicWebhooksLemonSqueezyRoute
 }
 export interface FileRouteTypes {
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/settings'
     | '/upgrade'
+    | '/proposal/$id'
     | '/api/public/webhooks/lemon-squeezy'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/settings'
     | '/upgrade'
+    | '/proposal/$id'
     | '/api/public/webhooks/lemon-squeezy'
   id:
     | '__root__'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/_app/portfolio'
     | '/_app/settings'
     | '/_app/upgrade'
+    | '/_app/proposal/$id'
     | '/api/public/webhooks/lemon-squeezy'
   fileRoutesById: FileRoutesById
 }
@@ -294,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/proposal/$id': {
+      id: '/_app/proposal/$id'
+      path: '/proposal/$id'
+      fullPath: '/proposal/$id'
+      preLoaderRoute: typeof AppProposalIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/api/public/webhooks/lemon-squeezy': {
       id: '/api/public/webhooks/lemon-squeezy'
       path: '/api/public/webhooks/lemon-squeezy'
@@ -312,6 +331,7 @@ interface AppRouteChildren {
   AppPortfolioRoute: typeof AppPortfolioRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppUpgradeRoute: typeof AppUpgradeRoute
+  AppProposalIdRoute: typeof AppProposalIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -322,6 +342,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPortfolioRoute: AppPortfolioRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppUpgradeRoute: AppUpgradeRoute,
+  AppProposalIdRoute: AppProposalIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
