@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 import { PLATFORMS, TONES, LENGTHS } from "./ai.functions";
+import type { JobAnalysis, PortfolioMatch, ProposalScore } from "./ai.functions";
 
 export const STATUSES = ["draft", "sent", "won", "lost"] as const;
 export type ProposalStatus = (typeof STATUSES)[number];
