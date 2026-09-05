@@ -70,6 +70,86 @@ function SettingsPage() {
     navigate({ to: "/auth", replace: true });
   }
 
+  const qc = useQueryClient();
+  const profileFn = useServerFn(getProfile);
+  const saveProfileFn = useServerFn(saveProfile);
+  const profileQuery = useQuery({ queryKey: ["profile"], queryFn: () => profileFn() });
+
+  const [form, setForm] = useState({
+    display_name: "",
+    professional_title: "",
+    bio: "",
+    skills: "",
+    services: "",
+    technologies: "",
+    experience: "",
+    preferred_tone: "Professional",
+    preferred_length: "Standard",
+    signature: "",
+    availability: "",
+  });
+  const [loadedProfile, setLoadedProfile] = useState(false);
+
+  useEffect(() => {
+    if (loadedProfile || profileQuery.data === undefined) return;
+    const p = profileQuery.data;
+    if (p) {
+      setForm({
+        display_name: p.display_name ?? "",
+        professional_title: p.professional_title ?? "",
+        bio: p.bio ?? "",
+        skills: (p.skills ?? []).join(", "),
+        services: (p.services ?? []).join(", "),
+        technologies: (p.technologies ?? []).join(", "),
+        experience: p.experience ?? "",
+        preferred_tone: p.preferred_tone ?? "Professional",
+        preferred_length: p.preferred_length ?? "Standard",
+        signature: p.signature ?? "",
+        availability: p.availability ?? "",
+      });
+    }
+    setLoadedProfile(true);
+  }, [profileQuery.data, loadedProfile]);
+
+  const toList = (s: string) =>
+    s
+      .split(",")
+      .map((v) => v.trim())
+      .filter(Boolean)
+      .slice(0, 40);
+
+  const saveProfileMutation = useMutation({
+    mutationFn: () =>
+      saveProfileFn({
+        data: {
+          display_name: form.display_name.trim(),
+          professional_title: form.professional_title.trim(),
+          bio: form.bio.trim(),
+          skills: toList(form.skills),
+          services: toList(form.services),
+          technologies: toList(form.technologies),
+          experience: form.experience.trim(),
+          preferred_tone: form.preferred_tone as (typeof TONES)[number],
+          preferred_length: form.preferred_length as (typeof LENGTHS)[number],
+          signature: form.signature.trim(),
+          availability: form.availability.trim(),
+          onboarded: true,
+        },
+      }),
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: ["profile"] });
+      toast.success("Profile saved");
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const field = (k: keyof typeof form) => ({
+    value: form[k],
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm((f) => ({ ...f, [k]: e.target.value })),
+  });
+
+
   return (
     <div className="mx-auto max-w-2xl space-y-8">
       <div>
