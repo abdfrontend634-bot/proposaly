@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 import { PLATFORMS, TONES, LENGTHS } from "./ai.functions";
+import type { JobAnalysis, PortfolioMatch, ProposalScore } from "./ai.functions";
 
 export const STATUSES = ["draft", "sent", "won", "lost"] as const;
 export type ProposalStatus = (typeof STATUSES)[number];
@@ -18,9 +19,9 @@ export type ProposalRow = {
   status: string;
   content: string;
   job_description: string;
-  analysis: unknown;
-  matched_portfolio: unknown;
-  score: unknown;
+  analysis: JobAnalysis | null;
+  matched_portfolio: PortfolioMatch[] | null;
+  score: ProposalScore | null;
   created_at: string;
   updated_at: string;
 };
