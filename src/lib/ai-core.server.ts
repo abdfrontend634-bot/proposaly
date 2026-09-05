@@ -18,7 +18,7 @@ export async function callAI(
     method: "POST",
     headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey },
     body: JSON.stringify({
-      model: opts.model ?? "google/gemini-3-flash-preview",
+      model: opts.model ?? "google/gemini-3.7-flash",
       ...(opts.temperature !== undefined ? { temperature: opts.temperature } : {}),
       messages,
     }),
