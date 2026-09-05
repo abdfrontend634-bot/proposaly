@@ -30,6 +30,8 @@ export type JobAnalysis = {
   concerns: string[];
   keywords: string[];
   decisionFactors: string[];
+  /** Which of the user's saved skills/technologies genuinely fit, and what the posting asks for that they haven't saved. */
+  skillMatch?: { strengths: string[]; gaps: string[] };
 };
 
 export type PortfolioMatch = { id: string; name: string; reason: string };
