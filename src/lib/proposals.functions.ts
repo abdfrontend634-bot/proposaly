@@ -19,9 +19,9 @@ export type ProposalRow = {
   status: string;
   content: string;
   job_description: string;
-  analysis: unknown;
-  matched_portfolio: unknown;
-  score: unknown;
+  analysis: JobAnalysis | null;
+  matched_portfolio: PortfolioMatch[] | null;
+  score: ProposalScore | null;
   created_at: string;
   updated_at: string;
 };
