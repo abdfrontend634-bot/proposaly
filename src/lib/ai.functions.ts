@@ -30,6 +30,8 @@ export type JobAnalysis = {
   concerns: string[];
   keywords: string[];
   decisionFactors: string[];
+  /** Which of the user's saved skills/technologies genuinely fit, and what the posting asks for that they haven't saved. */
+  skillMatch?: { strengths: string[]; gaps: string[] };
 };
 
 export type PortfolioMatch = { id: string; name: string; reason: string };
@@ -142,11 +144,14 @@ export const analyzeJob = createServerFn({ method: "POST" })
           content: `You analyze freelance job postings for a proposal tool. Return ONLY valid JSON, no prose.
 
 Schema:
-{"projectType":string,"summary":string,"clientNeeds":string[],"requiredSkills":string[],"technologies":string[],"deliverables":string[],"priorities":string[],"concerns":string[],"keywords":string[],"decisionFactors":string[],"matches":[{"id":string,"reason":string}]}
+{"projectType":string,"summary":string,"clientNeeds":string[],"requiredSkills":string[],"technologies":string[],"deliverables":string[],"priorities":string[],"concerns":string[],"keywords":string[],"decisionFactors":string[],"skillMatch":{"strengths":string[],"gaps":string[]},"matches":[{"id":string,"reason":string}]}
 
 Rules:
 - "summary" is one sentence describing what the client actually wants.
 - "concerns" are the client's likely worries, inferred from the posting only.
+- "keywords" are the client's own words/phrases worth echoing in a proposal.
+- "skillMatch.strengths": items copied verbatim from the freelancer's SAVED skills/services/technologies that this posting actually asks for. Never list a skill they have not saved.
+- "skillMatch.gaps": things the posting asks for that appear nowhere in their saved profile or portfolio. Empty array if none.
 - "matches": pick at most 3 portfolio items by their exact id, most relevant first. "reason" must cite only facts present in that item's stored description/tech/outcome and connect them to the posting. If nothing genuinely fits, return an empty array.
 ${HONESTY_RULES}`,
         },
