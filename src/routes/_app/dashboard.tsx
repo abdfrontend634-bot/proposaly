@@ -17,6 +17,7 @@ import {
   type ProposalScore,
 } from "@/lib/ai.functions";
 import { getSubscription } from "@/lib/billing.functions";
+import { getProfile } from "@/lib/profile.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { useFounder } from "@/lib/use-founder";
@@ -122,6 +123,20 @@ function Dashboard() {
 
   const usage = useQuery({ queryKey: ["usage"], queryFn: () => usageFn() });
   const subscription = useQuery({ queryKey: ["subscription"], queryFn: () => subFn() });
+
+  // Start each draft from the writing style saved in Settings.
+  const profileFn = useServerFn(getProfile);
+  const profile = useQuery({ queryKey: ["profile"], queryFn: () => profileFn() });
+  const [prefsApplied, setPrefsApplied] = useState(false);
+  useEffect(() => {
+    if (prefsApplied || !profile.data) return;
+    const p = profile.data as { preferred_tone?: string; preferred_length?: string };
+    if (p.preferred_tone && (TONES as readonly string[]).includes(p.preferred_tone))
+      setTone(p.preferred_tone as (typeof TONES)[number]);
+    if (p.preferred_length && (LENGTHS as readonly string[]).includes(p.preferred_length))
+      setLength(p.preferred_length as (typeof LENGTHS)[number]);
+    setPrefsApplied(true);
+  }, [profile.data, prefsApplied]);
 
   function onError(e: Error) {
     if (e.message.startsWith("FREE_LIMIT_REACHED")) {
@@ -479,6 +494,11 @@ function Dashboard() {
                 <TagList title="Deliverables" items={analysis.deliverables} />
                 <TagList title="Priorities" items={analysis.priorities} />
                 <TagList title="Likely concerns" items={analysis.concerns} />
+                <TagList
+                  title="Your matching skills"
+                  items={analysis.skillMatch?.strengths ?? []}
+                />
+                <TagList title="Not in your profile" items={analysis.skillMatch?.gaps ?? []} />
               </div>
 
               <div>
