@@ -188,6 +188,10 @@ ${HONESTY_RULES}`,
       concerns: arr(parsed.concerns),
       keywords: arr(parsed.keywords),
       decisionFactors: arr(parsed.decisionFactors),
+      skillMatch: {
+        strengths: arr(parsed.skillMatch?.strengths),
+        gaps: arr(parsed.skillMatch?.gaps),
+      },
     };
 
     return { analysis, matches, hasPortfolio: portfolio.length > 0 };
