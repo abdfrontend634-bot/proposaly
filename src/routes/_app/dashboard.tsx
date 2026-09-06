@@ -17,6 +17,7 @@ import {
   type ProposalScore,
 } from "@/lib/ai.functions";
 import { getSubscription } from "@/lib/billing.functions";
+import { getProfile } from "@/lib/profile.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { useFounder } from "@/lib/use-founder";
