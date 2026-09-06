@@ -479,6 +479,11 @@ function Dashboard() {
                 <TagList title="Deliverables" items={analysis.deliverables} />
                 <TagList title="Priorities" items={analysis.priorities} />
                 <TagList title="Likely concerns" items={analysis.concerns} />
+                <TagList
+                  title="Your matching skills"
+                  items={analysis.skillMatch?.strengths ?? []}
+                />
+                <TagList title="Not in your profile" items={analysis.skillMatch?.gaps ?? []} />
               </div>
 
               <div>
