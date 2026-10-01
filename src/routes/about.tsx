@@ -18,9 +18,9 @@ export const Route = createFileRoute("/about")({
         content: `Meet the developer behind ${BRAND.name}, the AI proposal generator built for freelancers.`,
       },
       { property: "og:type", content: "profile" },
-      { property: "og:url", content: "/about" },
+      { property: "og:url", content: "https://proposaly.lovable.app/about" },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: "https://proposaly.lovable.app/about" }],
   }),
   component: AboutPage,
 });
