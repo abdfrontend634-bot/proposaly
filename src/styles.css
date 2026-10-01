@@ -275,8 +275,22 @@
 @utility rose-glow {
   box-shadow: var(--shadow-glow);
 }
-
-/* Hide Lovable Badge */
-a[href*="lovable.dev"], [data-lovable-badge], #lovable-badge {
+/* Hide Lovable Badge - FINAL FIX */
+#lovable-badge,
+#lovable-badge-root,
+[data-lovable-badge],
+a[href*="lovable.dev"],
+a[href*="lovable.app"],
+a[href*="lovable"],
+div[id*="lovable"],
+iframe[src*="lovable"] {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  z-index: -9999 !important;
 }
+
