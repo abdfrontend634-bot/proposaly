@@ -4,5 +4,11 @@ Disallow: /dashboard
 Disallow: /history
 Disallow: /settings
 Disallow: /auth
+Disallow: /reset-password
+Disallow: /portfolio
+Disallow: /chat
+Disallow: /proposal
+Disallow: /upgrade
+Disallow: /developer
 
-Sitemap: /sitemap.xml
+Sitemap: https://proposaly.lovable.app/sitemap.xml

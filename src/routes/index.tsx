@@ -18,9 +18,10 @@ import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/brand";
 import { BRAND } from "@/lib/brand";
 
-const TITLE = "Proposly AI — Write proposals that fit the job";
+const TITLE = "Proposly AI — AI Proposal Generator for Freelancers";
 const DESCRIPTION =
-  "Paste a freelance job posting, let Proposly AI analyse what the client actually wants, match it to your saved projects, and write a proposal in your own voice.";
+  "Proposly AI is an AI proposal generator for freelancers on Upwork, Fiverr and Freelancer. Paste a job posting, get a client-focused proposal written from your real skills and portfolio — free to start.";
+const SITE_URL = "https://proposaly.lovable.app";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,8 +31,12 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
   }),
   component: Landing,
 });
